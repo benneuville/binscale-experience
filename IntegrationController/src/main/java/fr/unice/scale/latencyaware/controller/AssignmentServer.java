@@ -59,7 +59,7 @@ public class AssignmentServer implements Runnable {
         public void getAssignment(AssignmentRequest request, StreamObserver<AssignmentResponse> responseObserver) {
             if (BinPackLag.assignment.size() == 0) {
                 List<ConsumerGrpc> assignmentReply = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
                     List<PartitionGrpc> pgrpclist = new ArrayList<>();
                     PartitionGrpc pgrpc = PartitionGrpc.newBuilder().setId(i).build();
                     pgrpclist.add(pgrpc);

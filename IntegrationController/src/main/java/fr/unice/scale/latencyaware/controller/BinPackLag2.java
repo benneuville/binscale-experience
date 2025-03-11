@@ -45,9 +45,9 @@ public class BinPackLag2 {
 
         log.info("Currently we have this number of consumers group {} {}","testgroup1", BinPackState2.size );
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
             ArrivalProducer.topicpartitions.get(i).setLag(ArrivalProducer.topicpartitions.get(i).getLag()
-                    + (long) ((ArrivalProducer.totalArrivalrate * rebTime)/5.0));
+                    + (long) ((ArrivalProducer.totalArrivalrate * rebTime)/(ArrivalProducer.numberpartitions * 1.0)));
         }
 
         if (BinPackState2.action.equals("up") || BinPackState2.action.equals("REASS")) {

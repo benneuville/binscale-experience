@@ -12,6 +12,8 @@ public class ArrivalProducer {
     private static final Logger log = LogManager.getLogger(ArrivalProducer.class);
     static float totalArrivalrate;
 
+    static int numberpartitions = Integer.parseInt(System.getenv("NUMBER_PARTITIONS"), 5);
+
     public static void callForArrivals(ConsumerGroup g) {
         ManagedChannel managedChannel = ManagedChannelBuilder.forAddress("arrivalservice",
                         5002)
@@ -24,7 +26,7 @@ public class ArrivalProducer {
         ArrivalResponse reply = arrivalServiceBlockingStub.arrivalRate(request);
         log.info("Arrival from the producer is {}", reply);
         totalArrivalrate = reply.getArrival();
-        double partitionArrival = reply.getArrival()/5.0;
+        double partitionArrival = reply.getArrival()/(numberpartitions * 1.0);
         log.info("Arrival into each partition is {}", partitionArrival);
         g.setTotalArrivalRate(totalArrivalrate);
         managedChannel.shutdown();

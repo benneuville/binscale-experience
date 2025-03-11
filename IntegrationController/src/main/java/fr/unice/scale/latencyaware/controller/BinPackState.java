@@ -13,7 +13,7 @@ import java.util.List;
 public class BinPackState {
     //TODO give fup and fdown as paramters to the functions.
     private static final Logger log = LogManager.getLogger(BinPackState.class);
-    public static   int size = 1;
+    public static int size = Integer.valueOf(System.getenv("INIT_SIZE"));
     public Instant LastUpScaleDecision = Instant.now();
     
     static double wsla = Double.valueOf(System.getenv("WSLA"));

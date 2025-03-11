@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
@@ -7,6 +6,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/ControllerWithAssignment/pom.xml" />
         <option value="$PROJECT_DIR$/variableconsumer/pom.xml" />
+        <option value="$PROJECT_DIR$/graphcontroller2/pom.xml" />
       </list>
     </option>
   </component>

@@ -60,7 +60,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>Main</mainClass>
+                  <mainClass>fr.unice.scale.latencyaware.controller.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>

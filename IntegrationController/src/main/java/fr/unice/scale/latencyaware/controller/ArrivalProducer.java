@@ -16,9 +16,11 @@ public class ArrivalProducer {
     static ArrayList<Partition> topicpartitions;
     static double totalArrivalrate;
 
+    static int numberpartitions = Integer.valueOf(System.getenv("NUMBER_PARTITIONS"));
+
     static {
         topicpartitions = new ArrayList<>();
-        for (int i = 0; i <= 4; i++) {
+        for (int i = 0; i < numberpartitions; i++) {
             topicpartitions.add(new Partition(i, 0, 0));
         }
     }
@@ -30,6 +32,8 @@ public class ArrivalProducer {
         ArrivalServiceGrpc.ArrivalServiceBlockingStub arrivalServiceBlockingStub = ArrivalServiceGrpc.newBlockingStub(managedChannel);
 
         try {
+
+            log.info("number of partition set : {}", numberpartitions);
             log.info("Requesting arrival rate...");
             ArrivalRequest request = ArrivalRequest.newBuilder()
                 .setArrivalrequest("Give me the arrival rate plz").build();
@@ -38,10 +42,10 @@ public class ArrivalProducer {
             totalArrivalrate = reply.getArrival();
             log.info("Arrival from the producer is {}", totalArrivalrate);
 
-            double partitionArrival = totalArrivalrate / 5.0;
+            double partitionArrival = totalArrivalrate / (numberpartitions * 1.0);
             log.info("Arrival into each partition is {}", partitionArrival);
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < numberpartitions; i++) {
                 topicpartitions.get(i).setArrivalRate(partitionArrival);
             }
         } catch (Exception e) {

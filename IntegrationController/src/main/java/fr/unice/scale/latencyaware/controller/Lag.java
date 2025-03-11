@@ -32,7 +32,7 @@ public class Lag {
         Properties props = new Properties();
         props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         admin = AdminClient.create(props);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
             //ArrivalProducer.topicpartitions.get(i).setLag(0L);
             Partition p = new Partition(i,0L,0.0);
             partitions.add(p);
@@ -45,14 +45,14 @@ public class Lag {
         committedOffsets = admin.listConsumerGroupOffsets(CONSUMER_GROUP)
                 .partitionsToOffsetAndMetadata().get();
         Map<TopicPartition, OffsetSpec> requestLatestOffsets = new HashMap<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
             requestLatestOffsets.put(new TopicPartition(topic, i), OffsetSpec.latest());
         }
         Map<TopicPartition, ListOffsetsResult.ListOffsetsResultInfo> latestOffsets =
                 admin.listOffsets(requestLatestOffsets).all().get();
          totalLag=0L;
          
-         for (int i = 0; i < 5; i++) {
+         for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
             TopicPartition t = new TopicPartition(topic, i);
             Long latestOffset = latestOffsets.get(t) != null ? latestOffsets.get(t).offset() : 0L;
             Long committedOffset = committedOffsets.get(t) != null ? committedOffsets.get(t).offset() : 0L;

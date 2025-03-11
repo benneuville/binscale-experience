@@ -9,11 +9,9 @@
         <module name="i3s" />
         <module name="graphcontroller2" />
         <module name="variableconsumer" />
+        <module name="IntegrationController" />
         <module name="controllerassign" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="IntegrationController" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -44,7 +44,7 @@ public class Lag {
                 .partitionsToOffsetAndMetadata().get();
 
         Map<TopicPartition, OffsetSpec> requestLatestOffsets = new HashMap<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
             requestLatestOffsets.put(new TopicPartition(topic, i), OffsetSpec.latest());
         }
 
@@ -53,7 +53,7 @@ public class Lag {
                 admin.listOffsets(requestLatestOffsets).all().get();
         totalLag=0L;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
             TopicPartition t = new TopicPartition(topic, i);
             long latestOffset = latestOffsets.get(t).offset();
             long committedoffset = committedOffsets.get(t).offset();
