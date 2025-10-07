@@ -14,27 +14,20 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Create or update pull request
-        uses: devops-infra/action-pull-request@v0.6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${{ github.ref_name }}
-          target_branch: main
-          title: "PR: ${{ github.ref_name }}"
-          body: |
-            auto PR for branch **${{ github.ref_name }}**.
-          label: automatic
-          allow_no_diff: true
-
-      - name: Link to issue if branch name contains issue number
-        if: startsWith(github.ref_name, 'issue/') || contains(github.ref_name, 'fix/')
-        run: |
-          issue_number=$(echo "${GITHUB_REF_NAME}" | grep -oE '[0-9]+')
-          gh pr edit --add-linked-issue $issue_number
+      - name: Create Pull Request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_REF: ${{ github.ref }}
+        run: |
+          gh pr create \
+          --repo=${GITHUB_REPO} \
+          --head=staging \
+          --base=main \
+          --title="Pulling ${GITHUB_REF} into main" \
+          --body=":crown: *An automated PR*" \
+          --draft  
