@@ -1,4 +1,5 @@
 package fr.unice.scale.latencyaware.consumer;
+import fr.unice.scale.latencyaware.consumer.config.CompleteKafkaConsumerConfig;
 import org.apache.commons.math3.distribution.ParetoDistribution;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -16,8 +17,6 @@ import java.util.Properties;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.TimeZone;
 import java.time.Instant;
 
@@ -48,9 +47,9 @@ public class ConsumerMain {
 
     public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException {
         PrometheusUtils.initPrometheus();
-        KafkaConsumerConfig config = KafkaConsumerConfig.fromEnv();
-        log.info(KafkaConsumerConfig.class.getName() + ": {}", config.toString());
-        Properties props = KafkaConsumerConfig.createProperties(config);
+        CompleteKafkaConsumerConfig config = CompleteKafkaConsumerConfig.fromEnv();
+        log.info(CompleteKafkaConsumerConfig.class.getName() + ": {}", config.toString());
+        Properties props = CompleteKafkaConsumerConfig.createProperties(config);
 
         props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, StickyAssignor.class.getName());
 
