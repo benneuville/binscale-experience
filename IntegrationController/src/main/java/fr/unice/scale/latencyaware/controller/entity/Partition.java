@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.controller;
+package fr.unice.scale.latencyaware.controller.entity;
 public class Partition implements Comparable<Partition> {
 
     private int id;

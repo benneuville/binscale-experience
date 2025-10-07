@@ -1,4 +1,7 @@
 package fr.unice.scale.latencyaware.controller;
+import fr.unice.scale.latencyaware.controller.bin_pack.BinPackLag;
+import fr.unice.scale.latencyaware.controller.bin_pack.BinPackState;
+import fr.unice.scale.latencyaware.controller.bin_pack.Lag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

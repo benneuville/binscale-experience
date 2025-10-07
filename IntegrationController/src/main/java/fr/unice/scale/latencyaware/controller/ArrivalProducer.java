@@ -1,4 +1,5 @@
 package fr.unice.scale.latencyaware.controller;
+import fr.unice.scale.latencyaware.controller.entity.Partition;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -13,10 +14,10 @@ import fr.unice.scale.latencyaware.producer.ArrivalResponse;
 
 public class ArrivalProducer {
     private static final Logger log = LogManager.getLogger(ArrivalProducer.class);
-    static ArrayList<Partition> topicpartitions;
-    static double totalArrivalrate;
+    public static ArrayList<Partition> topicpartitions;
+    public static double totalArrivalrate;
 
-    static int numberpartitions = Integer.valueOf(System.getenv("NUMBER_PARTITIONS"));
+    public static int numberpartitions = Integer.valueOf(System.getenv("NUMBER_PARTITIONS"));
 
     static {
         topicpartitions = new ArrayList<>();

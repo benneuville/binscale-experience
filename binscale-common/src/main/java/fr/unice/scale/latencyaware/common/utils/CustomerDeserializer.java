@@ -1,4 +1,5 @@
-package fr.unice.scale.latencyaware.consumer;
+package fr.unice.scale.latencyaware.common.utils;
+import fr.unice.scale.latencyaware.common.entity.Customer;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 

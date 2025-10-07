@@ -1,4 +1,6 @@
-package fr.unice.scale.latencyaware.controller;
+package fr.unice.scale.latencyaware.controller.bin_pack;
+import fr.unice.scale.latencyaware.controller.ArrivalProducer;
+import fr.unice.scale.latencyaware.controller.entity.Partition;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.KafkaFuture;

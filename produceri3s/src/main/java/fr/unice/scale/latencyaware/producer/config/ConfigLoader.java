@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.producer;
+package fr.unice.scale.latencyaware.producer.config;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,12 +1,13 @@
 package fr.unice.scale.latencyaware.consumer.config;
 import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
-import fr.unice.scale.latencyaware.consumer.CustomerDeserializer;
+import fr.unice.scale.latencyaware.common.utils.CustomerDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-public class CompleteKafkaConsumerConfig extends KafkaConsumerConfig {
+public class VariableKafkaConsumerConfig extends KafkaConsumerConfig {
+
     private final String autoOffsetReset = "earliest";
     private final String enableAutoCommit = "false";
     private final String clientRack;
@@ -15,7 +16,7 @@ public class CompleteKafkaConsumerConfig extends KafkaConsumerConfig {
     private final String additionalConfig;
     private static final long DEFAULT_MESSAGES_COUNT = 10;
 
-    public CompleteKafkaConsumerConfig(String bootstrapServers, String topic, String groupId,
+    public VariableKafkaConsumerConfig(String bootstrapServers, String topic, String groupId,
                                        String clientRack, Long messageCount, String sleep,
                                        String additionalConfig) {
         super(bootstrapServers, topic, groupId);
@@ -25,7 +26,7 @@ public class CompleteKafkaConsumerConfig extends KafkaConsumerConfig {
         this.additionalConfig = additionalConfig;
     }
 
-    public static CompleteKafkaConsumerConfig fromEnv() {
+    public static VariableKafkaConsumerConfig fromEnv() {
         String bootstrapServers = System.getenv("BOOTSTRAP_SERVERS");
         String topic = System.getenv("TOPIC");
         String sleep = System.getenv("SLEEP");
@@ -40,11 +41,11 @@ public class CompleteKafkaConsumerConfig extends KafkaConsumerConfig {
         String additionalConfig = System.getenv()
                 .getOrDefault("ADDITIONAL_CONFIG", "");
 
-        return new CompleteKafkaConsumerConfig(bootstrapServers, topic, groupId, clientRack,
+        return new VariableKafkaConsumerConfig(bootstrapServers, topic, groupId, clientRack,
                 messageCount, sleep, additionalConfig);
     }
 
-    public static Properties createProperties(CompleteKafkaConsumerConfig config) {
+    public static Properties createProperties(VariableKafkaConsumerConfig config) {
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getGroupId());
