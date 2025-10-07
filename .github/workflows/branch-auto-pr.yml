@@ -1,44 +1,33 @@
-name: Auto PR from branch
+name: Auto PR on branch creation
 
 on:
-  push:
-    branches-ignore:
-      - main
-      - master
+  create:
+    branches:
+      - '**'
 
 jobs:
-  auto-pr:
+  create_pr:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
-          fetch-depth: 0
-
-      - name: Export short branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        env:
-          GITHUB_REF: ${{ github.ref }}
-
-      - name: Fetch main branch
-        run: |
-          git fetch origin main:main
 
       - name: Create Pull Request
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_REF: ${{ github.ref }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          BRANCH_NAME="${GITHUB_REF##*/}"
+          BASE_BRANCH="main"
+          
+          git checkout -b $BRANCH_NAME
+          git commit --allow-empty -m "init branch"
+          git push origin $BRANCH_NAME
+          
+          # Crée la PR même si aucune différence n'existe
           gh pr create \
-          --repo=${GITHUB_REPO} \
-          --head=staging \
-          --base=main \
-          --title="Pulling ${GITHUB_REF} into main" \
-          --body=":crown: *An automated PR*" \
-          --draft  
+            --base "$BASE_BRANCH" \
+            --head "$BRANCH_NAME" \
+            --title "Auto PR: $BRANCH_NAME" \
+            --body "Cette PR a été automatiquement créée à partir de la branche $BRANCH_NAME." \
+            || echo "PR already exists or no changes detected."
