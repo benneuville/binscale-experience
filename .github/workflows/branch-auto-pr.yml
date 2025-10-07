@@ -13,21 +13,39 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Ensure gh CLI is available
+        run: sudo apt-get install -y gh
+
+      - name: Create empty commit if no diff with main
+        run: |
+          BASE_BRANCH="main"
+          BRANCH_NAME="${GITHUB_REF##*/}"
+
+          git fetch origin $BASE_BRANCH
+
+          if git diff --quiet origin/$BASE_BRANCH; then
+            echo "No difference with main — adding empty commit..."
+            git commit --allow-empty -m "init empty commit for auto PR" || true
+            git push origin HEAD
+          else
+            echo "Branch has differences with main"
+          fi
+
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BRANCH_NAME="${GITHUB_REF##*/}"
           BASE_BRANCH="main"
-          
-          git checkout -b $BRANCH_NAME
-          git commit --allow-empty -m "init branch"
-          git push origin $BRANCH_NAME
-          
-          # Crée la PR même si aucune différence n'existe
+          BRANCH_NAME="${GITHUB_REF##*/}"
+
+          # Vérifie si une PR existe déjà
+          if gh pr view "$BRANCH_NAME" >/dev/null 2>&1; then
+            echo "PR already exists for branch $BRANCH_NAME"
+            exit 0
+          fi
+
           gh pr create \
             --base "$BASE_BRANCH" \
             --head "$BRANCH_NAME" \
             --title "Auto PR: $BRANCH_NAME" \
-            --body "Cette PR a été automatiquement créée à partir de la branche $BRANCH_NAME." \
-            || echo "PR already exists or no changes detected."
+            --body "Cette PR a été automatiquement créée à partir de la branche $BRANCH_NAME."
