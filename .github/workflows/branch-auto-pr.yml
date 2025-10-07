@@ -17,11 +17,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Create PR via GitHub API
-        run: |
-          gh pr create --base main --head ${{ github.ref_name }} \
-            --title "PR: ${{ github.ref_name }}" \
-            --body "PR automatique créée, même sans différence."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: main
+          branch: ${{ github.ref_name }}
+          title: "PR: ${{ github.ref_name }}"
+          body: "Créée automatiquement."
+          draft: false
+          skip-commit: true
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
