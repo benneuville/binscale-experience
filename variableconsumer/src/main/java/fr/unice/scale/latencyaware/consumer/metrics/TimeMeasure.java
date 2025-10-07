@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.consumer;
+package fr.unice.scale.latencyaware.consumer.metrics;
 
 public class TimeMeasure {
     double duration;

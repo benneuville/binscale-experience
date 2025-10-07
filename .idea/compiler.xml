@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="i3s" />
         <module name="graphcontroller2" />
         <module name="variableconsumer" />
         <module name="IntegrationController" />
-        <module name="i3s" />
         <module name="controllerassign" />
+        <module name="binscale-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

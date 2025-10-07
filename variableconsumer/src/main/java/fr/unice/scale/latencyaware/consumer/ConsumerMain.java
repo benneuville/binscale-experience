@@ -1,5 +1,7 @@
 package fr.unice.scale.latencyaware.consumer;
-import fr.unice.scale.latencyaware.consumer.config.CompleteKafkaConsumerConfig;
+import fr.unice.scale.latencyaware.common.entity.Customer;
+import fr.unice.scale.latencyaware.consumer.config.VariableKafkaConsumerConfig;
+import fr.unice.scale.latencyaware.consumer.metrics.PrometheusUtils;
 import org.apache.commons.math3.distribution.ParetoDistribution;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -23,33 +25,33 @@ import java.time.Instant;
 public class ConsumerMain {
     private static final Logger log = LogManager.getLogger(ConsumerMain.class);
     public static KafkaConsumer<String, Customer> consumer = null;
-    static double eventsViolating = 0;
-    static double eventsNonViolating = 0;
-    static double totalEvents = 0;
-    static float maxConsumptionRatePerConsumer = 0.0f;
-    static float ConsumptionRatePerConsumerInThisPoll = 0.0f;
-    static float averageRatePerConsumerForGrpc = 0.0f;
-    static long pollsSoFar = 0;
+    public static double eventsViolating = 0;
+    public static double eventsNonViolating = 0;
+    public static double totalEvents = 0;
+    public static float maxConsumptionRatePerConsumer = 0.0f;
+    public static float ConsumptionRatePerConsumerInThisPoll = 0.0f;
+    public static float averageRatePerConsumerForGrpc = 0.0f;
+    public static long pollsSoFar = 0;
 
-    static ArrayList<TopicPartition> tps;
-    static KafkaProducer<String, Customer> producer;
-    static Double maxConsumptionRatePerConsumer1 = 0.0d;
+    public static ArrayList<TopicPartition> tps;
+    public static KafkaProducer<String, Customer> producer;
+    public static Double maxConsumptionRatePerConsumer1 = 0.0d;
 
-    static double scale = Double.valueOf(System.getenv("SCALE"));
-    static double time_to_commit = Double.valueOf(System.getenv("TIME_TO_COMMIT"));
-    static double shape = Double.valueOf(System.getenv("SHAPE"));
-    static ParetoDistribution dist = new ParetoDistribution(scale, shape);
-    static double wsla_s = Double.valueOf(System.getenv("WSLA"));
-    static boolean async_commit = Boolean.valueOf(System.getenv("ASYNC_COMMIT"));
+    public static double scale = Double.valueOf(System.getenv("SCALE"));
+    public static double time_to_commit = Double.valueOf(System.getenv("TIME_TO_COMMIT"));
+    public static double shape = Double.valueOf(System.getenv("SHAPE"));
+    public static ParetoDistribution dist = new ParetoDistribution(scale, shape);
+    public static double wsla_s = Double.valueOf(System.getenv("WSLA"));
+    public static boolean async_commit = Boolean.valueOf(System.getenv("ASYNC_COMMIT"));
 
     public ConsumerMain() throws IOException, URISyntaxException, InterruptedException {
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException {
         PrometheusUtils.initPrometheus();
-        CompleteKafkaConsumerConfig config = CompleteKafkaConsumerConfig.fromEnv();
-        log.info(CompleteKafkaConsumerConfig.class.getName() + ": {}", config.toString());
-        Properties props = CompleteKafkaConsumerConfig.createProperties(config);
+        VariableKafkaConsumerConfig config = VariableKafkaConsumerConfig.fromEnv();
+        log.info(VariableKafkaConsumerConfig.class.getName() + ": {}", config.toString());
+        Properties props = VariableKafkaConsumerConfig.createProperties(config);
 
         props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, StickyAssignor.class.getName());
 

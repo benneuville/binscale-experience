@@ -1,4 +1,5 @@
-package fr.unice.scale.latencyaware.consumer;
+package fr.unice.scale.latencyaware.consumer.assignor;
+import fr.unice.scale.latencyaware.consumer.ConsumerMain;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.apache.kafka.clients.consumer.ConsumerGroupMetadata;

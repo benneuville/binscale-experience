@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.producer;
+package fr.unice.scale.latencyaware.common.entity;
 
 public class Customer {
 

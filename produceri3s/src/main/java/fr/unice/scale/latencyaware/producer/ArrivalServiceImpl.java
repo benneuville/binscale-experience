@@ -1,4 +1,5 @@
 package fr.unice.scale.latencyaware.producer;
+import fr.unice.scale.latencyaware.producer.workload.BiasedWorkload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

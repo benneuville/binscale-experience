@@ -1,10 +1,8 @@
-package fr.unice.scale.latencyaware.controller;
+package fr.unice.scale.latencyaware.controller.bin_pack;
 
-import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientBuilder;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import fr.unice.scale.latencyaware.controller.ArrivalProducer;
+import fr.unice.scale.latencyaware.controller.entity.Consumer;
+import fr.unice.scale.latencyaware.controller.entity.Partition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,92 +10,57 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
-public class BinPackLag {
+
+public class BinPackState {
     //TODO give fup and fdown as paramters to the functions.
-
-    private static final Logger log = LogManager.getLogger(BinPackLag.class);
-
-    static Instant LastUpScaleDecision = Instant.now();
+    private static final Logger log = LogManager.getLogger(BinPackState.class);
+    public static int size = Integer.valueOf(System.getenv("INIT_SIZE"));
+    public Instant LastUpScaleDecision = Instant.now();
     
     static double wsla = Double.valueOf(System.getenv("WSLA"));
 
-    static double rebTime= Double.valueOf(System.getenv("REB_TIME"));
+    static double mu = Double.valueOf(System.getenv("MU"));
+
+    static String action = "none";
 
     static List<Consumer> assignment = new ArrayList<Consumer>();
     static List<Consumer> currentAssignment = assignment;
+    static List<Consumer> tempAssignment = assignment;
 
-    private static KafkaConsumer<byte[], byte[]> metadataConsumer;
+    public  static void scaleAsPerBinPack() {
+        action = "none";
+        log.info("Currently we have this number of consumers group {} {}","testgroup1", size );
+        int neededsize = binPackAndScale();
+        log.info("We currently need the following consumers for group1 (as per the bin pack) {}", neededsize);
+        int replicasForscale = neededsize - size;
+        if (replicasForscale > 0) {
+            action = "up";
+            //TODO IF and Else IF can be in the same logic
+            log.info("We have to upscale  group1 by {}", replicasForscale);
+            //currentAssignment = assignment;
+            return;
 
-    static double mu = Double.valueOf(System.getenv("MU"));
-
-    static {
-        float fup = Float.valueOf(System.getenv("FUP"));
-        currentAssignment.add(new Consumer("0", (long) (mu * wsla * fup),
-                mu * fup));
-        for (Partition p : ArrivalProducer.topicpartitions) {
-            currentAssignment.get(0).assignPartition(p);
-        }
-    }
-
-
-    public static  void scaleAsPerBinPack() {
-
-        log.info("Currently we have this number of consumers group {} {}","testgroup1", BinPackState.size );
-
-        for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
-            ArrivalProducer.topicpartitions.get(i).setLag(ArrivalProducer.topicpartitions.get(i).getLag()
-                    + (long) ((ArrivalProducer.totalArrivalrate * rebTime)/(ArrivalProducer.numberpartitions * 1.0)));
-        }
-
-        if (BinPackState.action.equals("up") || BinPackState.action.equals("REASS")) {
-            int neededsize = binPackAndScale();
-            log.info("We currently need the following consumers for group1 (as per the bin pack) {}", neededsize);
-            int replicasForscale = neededsize - BinPackState.size;
-            if (replicasForscale > 0) {
-                //TODO IF and Else IF can be in the same logic
-                log.info("We have to upscale  group1 by {}", replicasForscale);
-                BinPackState.size = neededsize;
-                LastUpScaleDecision = Instant.now();
-                currentAssignment = assignment;
-                try (final KubernetesClient k8s = new KubernetesClientBuilder().build() ) {
-                k8s.apps().deployments().inNamespace("default").withName("latency").scale(neededsize);
-                log.info("I have Upscaled group {} you should have {}", "testgroup1", neededsize);
-            }
-            } else if (replicasForscale == 0) {
-                if (metadataConsumer == null) {
-                    KafkaConsumerConfig config = KafkaConsumerConfig.fromEnv();
-                    Properties props = KafkaConsumerConfig.createProperties(config);
-                    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                            "org.apache.kafka.common.serialization.StringDeserializer");
-                    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                            "org.apache.kafka.common.serialization.StringDeserializer");
-                    metadataConsumer = new KafkaConsumer<>(props);
-                    metadataConsumer.enforceRebalance();
-                }
-                currentAssignment = assignment;
-                metadataConsumer.enforceRebalance();
-            }
-        } else if (BinPackState.action.equals("down")) {
+        } else {
             int neededsized = binPackAndScaled();
-            int replicasForscaled =  BinPackState.size - neededsized;
-            if (replicasForscaled <  BinPackState.size ) {
+            int replicasForscaled = size - neededsized;
+            if (replicasForscaled > 0) {
+               action = "down";
                 log.info("We have to downscale  group by {} {}", "testgroup1", replicasForscaled);
-                BinPackState.size = neededsized;
-                LastUpScaleDecision = Instant.now();
-                try (final KubernetesClient k8s = new KubernetesClientBuilder().build()) {
-                    k8s.apps().deployments().inNamespace("default").withName("latency").scale(neededsized);
-                    log.info("I have downscaled group {} you should have {}", "testgroup1", neededsized);
-                }
-                currentAssignment = assignment;
+                //currentAssignment = assignment;
+                return;
             }
+        }
+
+
+        if (assignmentViolatesTheSLA2()) {
+            action = "REASS";
         }
         log.info("===================================");
     }
 
 
-    private  static int binPackAndScale() {
+    private static int binPackAndScale() {
         log.info(" shall we upscale group {}", "testgroup1");
         List<Consumer> consumers = new ArrayList<>();
         int consumerCount = 1;
@@ -109,18 +72,18 @@ public class BinPackLag {
             if (partition.getLag() > mu*wsla*fup) {
                 log.info("Since partition {} has lag {} higher than consumer capacity times wsla {}" +
                         " we are truncating its lag", partition.getId(), partition.getLag(), mu*wsla*fup);
-                partition.setLag((long)(mu*wsla*fup));
+                partition.setLag((long)(mu*wsla*fup/*dynamicAverageMaxConsumptionRate*wsla*/));
             }
         }
         //if a certain partition has an arrival rate  higher than R  set its arrival rate  to R
         //that should not happen in a well partionned topic
         for (Partition partition : parts) {
-            if (partition.getArrivalRate() > mu*fup) {
+            if (partition.getArrivalRate() > mu*fup/*dynamicAverageMaxConsumptionRate*wsla*/) {
                 log.info("Since partition {} has arrival rate {} higher than consumer service rate {}" +
                                 " we are truncating its arrival rate", partition.getId(),
                         String.format("%.2f", partition.getArrivalRate()),
-                        String.format("%.2f", mu*fup ));
-                partition.setArrivalRate(mu*fup );
+                        String.format("%.2f", mu*fup /*dynamicAverageMaxConsumptionRate*wsla*/));
+                partition.setArrivalRate(mu*fup /*dynamicAverageMaxConsumptionRate*wsla*/);
             }
         }
         //start the bin pack FFD with sort
@@ -131,7 +94,7 @@ public class BinPackLag {
             consumers.clear();
             for (int t = 0; t < consumerCount; t++) {
                 consumers.add(new Consumer((String.valueOf(t)),  (long)(mu*wsla*fup),
-                        mu*fup/*dynamicAverageMaxConsumptionRate*wsla*/));
+                        mu*fup));
             }
 
             for (j = 0; j < parts.size(); j++) {
@@ -152,16 +115,18 @@ public class BinPackLag {
             if (j == parts.size())
                 break;
         }
+        assignment = consumers;
+        tempAssignment = consumers;
         log.info(" The BP up scaler recommended for group {} {}", "testgroup1", consumers.size());
         return consumers.size();
     }
 
-    private static  int binPackAndScaled() {
+    static  int binPackAndScaled() {
         log.info(" shall we down scale group {} ", "testgroup1");
         List<Consumer> consumers = new ArrayList<>();
         int consumerCount = 1;
-        float fdown = Float.valueOf(System.getenv("FDOWN"));
         List<Partition> parts = new ArrayList<>(ArrivalProducer.topicpartitions);
+        float fdown = Float.valueOf(System.getenv("FDOWN"));
         double fractiondynamicAverageMaxConsumptionRate = mu*fdown;
         for (Partition partition : parts) {
             if (partition.getLag() > fractiondynamicAverageMaxConsumptionRate*wsla) {
@@ -213,22 +178,14 @@ public class BinPackLag {
             if (j == parts.size())
                 break;
         }
+
+        assignment = consumers;
         log.info(" The BP down scaler recommended  for group {} {}", "testgroup1", consumers.size());
         return consumers.size();
     }
 
-   /* private static  boolean assignmentViolatesTheSLA() {
-        for (Consumer cons : currentAssignment) {
-            if (cons.getRemainingLagCapacity() <  (long) (wsla*200*.9f)||
-                    cons.getRemainingArrivalCapacity() < 200f*0.9f){
-                return true;
-            }
-        }
-        return false;
-    }*/
-
-   /* private static boolean assignmentViolatesTheSLA2() {
-
+    private static boolean assignmentViolatesTheSLA2() {
+        float fup = Float.valueOf(System.getenv("FUP"));
         List<Partition> partsReset = new ArrayList<>(ArrivalProducer.topicpartitions);
         for (Consumer cons : currentAssignment) {
             double sumPartitionsArrival = 0;
@@ -238,12 +195,12 @@ public class BinPackLag {
                 sumPartitionsLag += partsReset.get(p.getId()).getLag();
             }
 
-            if (sumPartitionsLag  > ( wsla * 200  * .9f)
-                    || sumPartitionsArrival > 200* 0.9f) {
+            if (sumPartitionsLag  > ( wsla*mu*fup)
+                    || sumPartitionsArrival > mu*fup) {
                 return true;
             }
         }
         return false;
-    }*/
+    }
 
 }

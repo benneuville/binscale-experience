@@ -4,6 +4,9 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.Random;
 
+import fr.unice.scale.latencyaware.common.entity.Customer;
+import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
+import fr.unice.scale.latencyaware.producer.workload.BiasedWorkload;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +15,8 @@ import org.apache.logging.log4j.Logger;
 public class KafkaProducerExample {
     private static final Logger log = LogManager.getLogger(KafkaProducerExample.class);
 
-    static KafkaProducerConfig config;
-    static KafkaProducer<String, Customer> producer;
+    public static KafkaProducerConfig config;
+    public static KafkaProducer<String, Customer> producer;
     //générateur de nombres aléatoires
     static Random rnd;
 
@@ -34,7 +37,7 @@ public class KafkaProducerExample {
     }
 
     private static void startServer() {
-        Thread server = new Thread  (new ServerThread());
+        Thread server = new Thread(new ServerThread());
         server.start();
         
     }

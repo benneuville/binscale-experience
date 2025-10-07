@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.consumer;
+package fr.unice.scale.latencyaware.consumer.metrics;
 import com.sun.net.httpserver.HttpServer;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.Timer;

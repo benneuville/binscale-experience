@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.producer;
+package fr.unice.scale.latencyaware.producer.workload;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import fr.unice.scale.latencyaware.common.entity.Customer;
+import fr.unice.scale.latencyaware.producer.config.ConfigLoader;
+import fr.unice.scale.latencyaware.producer.KafkaProducerExample;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class BiasedWorkload {
-    static float ArrivalRate;
+    public static float ArrivalRate;
 
     public static void startWorkload() throws IOException, URISyntaxException, InterruptedException {
         final Logger log = LogManager.getLogger(BiasedWorkload.class);

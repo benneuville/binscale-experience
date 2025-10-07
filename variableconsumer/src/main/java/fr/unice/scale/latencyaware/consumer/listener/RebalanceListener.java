@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.consumer;
+package fr.unice.scale.latencyaware.consumer.listener;
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.logging.log4j.LogManager;
