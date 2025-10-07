@@ -10,12 +10,13 @@
 
     <modules>
         <module>IntegrationController</module>
-        <!--module>multipleConsumers</module-->
+<!--        <module>multipleConsumers</module>-->
         <module>variableconsumer</module>
         <module>produceri3s</module>
         <module>ControllerWithAssignment</module>
-        <!--module>graphcontroller2</module-->
-        <!--module>restructure</module-->
+        <module>graphcontroller2</module>
+        <module>binscale-common</module>
+        <!--        <module>restructuredbinpack</module>-->
     </modules>
 
     <properties>

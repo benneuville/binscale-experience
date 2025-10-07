@@ -1,3 +1,4 @@
+import fr.unice.scale.latencyaware.producer.*;
 import group.ConsumerGroup;
 import group.Partition;
 import io.grpc.ManagedChannel;

@@ -1,33 +1,31 @@
-package fr.unice.scale.latencyaware.consumer;
+package fr.unice.scale.latencyaware.consumer.config;
+import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
+import fr.unice.scale.latencyaware.consumer.CustomerDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-public class KafkaConsumerConfig {
-    private static final long DEFAULT_MESSAGES_COUNT = 10;
-    private final String bootstrapServers;
-    private final String topic;
-    private final String groupId;
+public class CompleteKafkaConsumerConfig extends KafkaConsumerConfig {
     private final String autoOffsetReset = "earliest";
     private final String enableAutoCommit = "false";
     private final String clientRack;
     private final String sleep;
     private final Long messageCount;
     private final String additionalConfig;
+    private static final long DEFAULT_MESSAGES_COUNT = 10;
 
-    public KafkaConsumerConfig(String bootstrapServers, String topic, String groupId,
-                               String clientRack, Long messageCount, String sleep,
-                               String additionalConfig) {
-        this.bootstrapServers = bootstrapServers;
-        this.topic = topic;
-        this.groupId = groupId;
+    public CompleteKafkaConsumerConfig(String bootstrapServers, String topic, String groupId,
+                                       String clientRack, Long messageCount, String sleep,
+                                       String additionalConfig) {
+        super(bootstrapServers, topic, groupId);
         this.clientRack = clientRack;
         this.messageCount = messageCount;
         this.sleep = sleep;
         this.additionalConfig = additionalConfig;
     }
-    public static KafkaConsumerConfig fromEnv() {
+
+    public static CompleteKafkaConsumerConfig fromEnv() {
         String bootstrapServers = System.getenv("BOOTSTRAP_SERVERS");
         String topic = System.getenv("TOPIC");
         String sleep = System.getenv("SLEEP");
@@ -42,11 +40,11 @@ public class KafkaConsumerConfig {
         String additionalConfig = System.getenv()
                 .getOrDefault("ADDITIONAL_CONFIG", "");
 
-        return new KafkaConsumerConfig(bootstrapServers, topic, groupId, clientRack,
+        return new CompleteKafkaConsumerConfig(bootstrapServers, topic, groupId, clientRack,
                 messageCount, sleep, additionalConfig);
     }
 
-    public static Properties createProperties(KafkaConsumerConfig config) {
+    public static Properties createProperties(CompleteKafkaConsumerConfig config) {
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getGroupId());
@@ -80,15 +78,6 @@ public class KafkaConsumerConfig {
         return props;
     }
 
-    public String getBootstrapServers() {
-        return bootstrapServers;
-    }
-    public String getTopic() {
-        return topic;
-    }
-    public String getGroupId() {
-        return groupId;
-    }
     public String getSleep() {
         return sleep;
     }
@@ -112,9 +101,9 @@ public class KafkaConsumerConfig {
     @Override
     public String toString() {
         return "KafkaConsumerConfig{" +
-            "bootstrapServers='" + bootstrapServers + '\'' +
-            ", topic='" + topic + '\'' +
-            ", groupId='" + groupId + '\'' +
+            "bootstrapServers='" + getBootstrapServers() + '\'' +
+            ", topic='" + getTopic() + '\'' +
+            ", groupId='" + getGroupId() + '\'' +
             ", autoOffsetReset='" + autoOffsetReset + '\'' +
             ", enableAutoCommit='" + enableAutoCommit + '\'' +
             ", clientRack='" + clientRack + '\'' +
