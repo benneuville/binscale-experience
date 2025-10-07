@@ -17,7 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref }}
           fetch-depth: 0
+
+      - name: Export short branch name
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        env:
+          GITHUB_REF: ${{ github.ref }}
 
       - name: Fetch main branch
         run: |
