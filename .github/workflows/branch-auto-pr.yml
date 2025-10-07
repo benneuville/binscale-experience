@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: diff
+        run: |
+          echo "No difference with main — adding empty commit..."
+          git commit --allow-empty -m "init"
+          git push origin HEAD
       - name: pull-request
         uses: diillson/auto-pull-request@v1.0.1
         with:
