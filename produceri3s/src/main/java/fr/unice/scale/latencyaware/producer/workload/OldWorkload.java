@@ -1,6 +1,7 @@
 package fr.unice.scale.latencyaware.producer.workload;
 import fr.unice.scale.latencyaware.common.entity.Customer;
 import fr.unice.scale.latencyaware.producer.KafkaProducerExample;
+import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,10 +13,9 @@ import java.util.UUID;
 
 //The ArrivalRate variable represents the size of the current batch of messages.
 
-public class OldWorkload {
-
-    static float ArrivalRate;
-    public static void  startWorkload() throws IOException, URISyntaxException, InterruptedException {
+public class OldWorkload extends AbstractWorkload {
+    @Override
+    public void startWorkload() throws IOException, URISyntaxException, InterruptedException {
 
         final Logger log = LogManager.getLogger(OldWorkload.class);
 
@@ -42,7 +42,7 @@ public class OldWorkload {
 
 
 
-    public static void  startWorkloadUniform() throws IOException, URISyntaxException, InterruptedException {
+    public static void startWorkloadUniform() throws IOException, URISyntaxException, InterruptedException {
 
         final Logger log = LogManager.getLogger(OldWorkload.class);
 

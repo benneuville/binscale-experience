@@ -8,12 +8,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import static fr.unice.scale.latencyaware.producer.constant.Variables.*;
+
 
 public class KafkaProducerConfig {
     private static final Logger log = LogManager.getLogger(KafkaProducerConfig.class);
-
-    private static final long DEFAULT_MESSAGES_COUNT = 10;  
-    private static final String DEFAULT_MESSAGE = "Let's test assignors";
     private final String bootstrapServers;
     private final String topic;
     private final int delay;
@@ -35,23 +34,10 @@ public class KafkaProducerConfig {
         this.headers = headers;
         this.additionalConfig = additionalConfig;
     }
-
-    
     
     public static KafkaProducerConfig fromEnv() {
-        String bootstrapServers = System.getenv("BOOTSTRAP_SERVERS");
-        String topic = System.getenv("TOPIC");
-        int delay = Integer.valueOf(System.getenv("DELAY_MS"));
-        /* la variable messageCount est initialisée avec la valeur de la variable d'environnement "MESSAGE_COUNT" si elle est définie (pas nulle), sinon elle est initialisée avec une valeur par défaut spécifiée par DEFAULT_MESSAGES_COUNT */
-        Long messageCount = System.getenv("MESSAGE_COUNT") == null ?
-                DEFAULT_MESSAGES_COUNT : Long.valueOf(System.getenv("MESSAGE_COUNT"));
-        String message = System.getenv("MESSAGE") == null ? DEFAULT_MESSAGE :
-                System.getenv("MESSAGE");
-        String acks = System.getenv().getOrDefault("PRODUCER_ACKS", "1");
-        String headers = System.getenv("HEADERS");
-        String additionalConfig = System.getenv().getOrDefault("ADDITIONAL_CONFIG", "");
-        return new KafkaProducerConfig(bootstrapServers, topic, delay, messageCount, message,
-                acks, additionalConfig, headers);
+        return new KafkaProducerConfig(BOOTSTRAP_SERVERS, TOPIC, DELAY_MS, MESSAGES_COUNT, MESSAGE,
+                PRODUCER_ACKS, ADDITIONAL_CONFIG, HEADERS);
     }
     /* The Properties class represents a persistent set of properties. The Properties can be saved to a stream or loaded from a stream. Each key and its corresponding value in the property list is a string.
 
@@ -104,6 +90,7 @@ public class KafkaProducerConfig {
     public Long getMessageCount() {
         return messageCount;
     }
+
     public String getMessage() {
         return message;
     }
