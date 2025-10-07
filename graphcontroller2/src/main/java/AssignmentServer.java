@@ -1,3 +1,4 @@
+import fr.unice.scale.latencyaware.controller.*;
 import graph.Graph;
 import group.Consumer;
 import group.Partition;

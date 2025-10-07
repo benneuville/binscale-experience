@@ -1,5 +1,6 @@
 package fr.unice.scale.latencyaware.controller;
 
+import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -216,8 +217,6 @@ public class BinPackLag {
         return consumers.size();
     }
 
-
-
    /* private static  boolean assignmentViolatesTheSLA() {
         for (Consumer cons : currentAssignment) {
             if (cons.getRemainingLagCapacity() <  (long) (wsla*200*.9f)||
@@ -227,7 +226,6 @@ public class BinPackLag {
         }
         return false;
     }*/
-
 
    /* private static boolean assignmentViolatesTheSLA2() {
 
@@ -247,6 +245,5 @@ public class BinPackLag {
         }
         return false;
     }*/
-
 
 }
