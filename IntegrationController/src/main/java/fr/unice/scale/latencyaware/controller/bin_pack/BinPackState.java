@@ -22,7 +22,7 @@ public class BinPackState {
 
     static double mu = Double.valueOf(System.getenv("MU"));
 
-    static String action = "none";
+    public static String action = "none";
 
     static List<Consumer> assignment = new ArrayList<Consumer>();
     static List<Consumer> currentAssignment = assignment;
