@@ -1,6 +1,7 @@
 package fr.unice.scale.latencyaware.producer.workload;
 import fr.unice.scale.latencyaware.common.entity.Customer;
 import fr.unice.scale.latencyaware.producer.KafkaProducerExample;
+import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,9 +12,9 @@ import java.net.URISyntaxException;
 import java.util.Random;
 import java.util.UUID;
 
-public class OldWorkloadSkewed {
-    static float ArrivalRate;
-    public static void startWorkload() throws IOException, URISyntaxException, InterruptedException {
+public class OldWorkloadSkewed extends AbstractWorkload {
+    @Override
+    public void startWorkload() throws IOException, URISyntaxException, InterruptedException {
 
         final Logger log = LogManager.getLogger(OldWorkloadSkewed.class);
         Workload wrld = new Workload();

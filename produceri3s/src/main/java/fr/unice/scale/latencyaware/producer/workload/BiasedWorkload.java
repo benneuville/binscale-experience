@@ -11,16 +11,16 @@ import java.util.UUID;
 import fr.unice.scale.latencyaware.common.entity.Customer;
 import fr.unice.scale.latencyaware.producer.config.ConfigLoader;
 import fr.unice.scale.latencyaware.producer.KafkaProducerExample;
+import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class BiasedWorkload {
-    public static float ArrivalRate;
-
-    public static void startWorkload() throws IOException, URISyntaxException, InterruptedException {
+public class BiasedWorkload extends AbstractWorkload {
+    @Override
+    public void startWorkload() throws IOException, URISyntaxException, InterruptedException {
         final Logger log = LogManager.getLogger(BiasedWorkload.class);
         Workload wrld = new Workload();
 
@@ -31,7 +31,7 @@ public class BiasedWorkload {
         // Map to keep track of the number of messages sent to each partition
         Map<Integer, Long> partitionMessageCounts = new HashMap<>();
 
-                // Initialize the count map
+        // Initialize the count map
         for (int i = 0; i < partitionWeights.size(); i++) {
                     partitionMessageCounts.put(i, 0L);
         }
@@ -43,8 +43,7 @@ public class BiasedWorkload {
 
             // Calcul du nombre total de messages à envoyer
             long totalMessages = Math.round(ArrivalRate);
-            
-            
+
             for (int partitionIndex = 0; partitionIndex < partitionWeights.size() ; partitionIndex++) {
                 int partition = partitionIndex;
                 int weight = partitionWeights.get(partitionIndex);
@@ -53,7 +52,7 @@ public class BiasedWorkload {
  
                 for (long j = 0; j < messagesPerPartition; j++) {
                     Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                    KafkaProducerExample.producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                    KafkaProducerExample.producer.send(new ProducerRecord<>(KafkaProducerExample.config.getTopic(),
                             partition, null, UUID.randomUUID().toString(), custm));
                     partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);
                 }

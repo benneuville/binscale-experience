@@ -13,11 +13,10 @@ import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 
-public class ConstantWorkload {
-    static float ArrivalRate;
-
+public class ConstantWorkload extends AbstractWorkload {
     static Instant start = Instant.now();
-    public static void  startWorkload() throws IOException, URISyntaxException, InterruptedException {
+    @Override
+    public void startWorkload() throws IOException, URISyntaxException, InterruptedException {
 
         final Logger log = LogManager.getLogger(ConstantWorkload.class);
 
@@ -33,8 +32,7 @@ public class ConstantWorkload {
             //   loop over each sample
             for (long j = 0; j < 150; j++) {
                 Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                fr.unice.scale.latencyaware.producer.KafkaProducerExample.
-                        producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                KafkaProducerExample.producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
                                 null, null, UUID.randomUUID().toString(), custm));
             }
 
