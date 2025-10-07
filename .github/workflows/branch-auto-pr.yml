@@ -28,6 +28,7 @@ jobs:
           --repo=${GITHUB_REPO} \
           --head=staging \
           --base=main \
+          --head="${GITHUB_REF}"\
           --title="Pulling ${GITHUB_REF} into main" \
           --body=":crown: *An automated PR*" \
           --draft  
