@@ -1,4 +1,4 @@
-name: Auto Pull Request - created at branch creation
+name: Auto PR from branch
 
 on:
   push:
@@ -7,24 +7,40 @@ on:
       - master
 
 jobs:
-  create-pull-request:
+  auto-pr:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-      - name: Check out repository
+      - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
         with:
-          base: main
-          branch: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Create or update pull request
+        uses: devops-infra/action-pull-request@v0.6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${{ github.ref_name }}
+          target_branch: main
           title: "PR: ${{ github.ref_name }}"
-          body: "Créée automatiquement."
-          draft: false
-          skip-commit: true
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          body: |
+            PR automatique pour la branche **${{ github.ref_name }}**.
+
+            <!-- Diff commits - START -->
+            <!-- Diff commits - END -->
+
+            <!-- Diff files - START -->
+            <!-- Diff files - END -->
+          label: automatic
+          allow_no_diff: true
+
+      - name: Link to issue if branch name contains issue number
+        if: startsWith(github.ref_name, 'issue/') || contains(github.ref_name, 'fix/')
+        run: |
+          issue_number=$(echo "${GITHUB_REF_NAME}" | grep -oE '[0-9]+')
+          gh pr edit --add-linked-issue $issue_number
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
