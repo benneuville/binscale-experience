@@ -1,0 +1,30 @@
+name: Auto Pull Request - created at branch creation
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: main
+          branch: ${{ github.ref_name }}
+          title: "PR: ${{ github.ref_name }}"
+          body: |
+            PR automatique pour la branche **${{ github.ref_name }}**.
+
+            🔗 Issue liée : ${{ github.ref_name }}
+          draft: false
