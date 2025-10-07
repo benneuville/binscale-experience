@@ -1,7 +1,9 @@
 package fr.unice.scale.latencyaware.producer.workload;
 import fr.unice.scale.latencyaware.common.entity.Customer;
 import fr.unice.scale.latencyaware.producer.KafkaProducerExample;
+import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
 import fr.unice.scale.latencyaware.producer.entity.Workload;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,11 +15,11 @@ import java.util.UUID;
 
 //The ArrivalRate variable represents the size of the current batch of messages.
 
+@Deprecated
 public class OldWorkload extends AbstractWorkload {
+    final Logger log = LogManager.getLogger(OldWorkload.class);
     @Override
-    public void startWorkload() throws IOException, URISyntaxException, InterruptedException {
-
-        final Logger log = LogManager.getLogger(OldWorkload.class);
+    public void startWorkload(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
 
         Workload wrld = new Workload();
 
@@ -30,19 +32,18 @@ public class OldWorkload extends AbstractWorkload {
             //   loop over each sample
             for (long j = 0; j < Math.ceil(wrld.getDatay().get(i)); j++) {
                 Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-               KafkaProducerExample.
-                       producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                       producer.send(new ProducerRecord<>(config.getTopic(),
                         null, null, UUID.randomUUID().toString(), custm));
             }
 
             log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
-            Thread.sleep(KafkaProducerExample.config.getDelay());
+            Thread.sleep(config.getDelay());
         }
     }
 
 
 
-    public static void startWorkloadUniform() throws IOException, URISyntaxException, InterruptedException {
+    public static void startWorkloadUniform(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
 
         final Logger log = LogManager.getLogger(OldWorkload.class);
 
@@ -59,22 +60,22 @@ public class OldWorkload extends AbstractWorkload {
             double sleep = 1000.0/(ArrivalRate);
             for (long j = 0; j < Math.ceil(wrld.getDatay().get(i)); j++) {
                 Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                KafkaProducerExample.
-                        producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                
+                        producer.send(new ProducerRecord<>(config.getTopic(),
                                 null, null, UUID.randomUUID().toString(), custm));
                 log.info("sleeping for {}", sleep );
                 Thread.sleep((long)sleep);
             }
 
             log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
-            //Thread.sleep(KafkaProducerExample.config.getDelay());
+            //Thread.sleep(config.getDelay());
         }
     }
 
 
     //This method divides the workload into mini-batches of 25 messages each.
     //It sends each mini-batch separately, with a sleep period between each mini-batch. 
-    public static void  startWorkloadUniformBatch25() throws IOException, URISyntaxException, InterruptedException {
+    public static void  startWorkloadUniformBatch25(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
         final Logger log = LogManager.getLogger(OldWorkload.class);
         Workload wrld = new Workload();
         Random rnd = new Random();
@@ -92,8 +93,8 @@ public class OldWorkload extends AbstractWorkload {
             while (minibatch > 0) {
                 for (long j = 0; j < 25; j++) {
                     Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                    KafkaProducerExample.
-                            producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                    
+                            producer.send(new ProducerRecord<>(config.getTopic(),
                                     null, null, UUID.randomUUID().toString(), custm));
                     log.info("sleeping for {}", sleep );
                 }
@@ -107,8 +108,8 @@ public class OldWorkload extends AbstractWorkload {
 
             for (long j = 0; j < fraction; j++) {
                 Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                KafkaProducerExample.
-                        producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                
+                        producer.send(new ProducerRecord<>(config.getTopic(),
                                 null, null, UUID.randomUUID().toString(), custm));
             }
 
@@ -124,7 +125,7 @@ public class OldWorkload extends AbstractWorkload {
     ///////////////////////////////////
 
     //This method divides the workload into mini-batches of 100 messages each.
-    public static void  startWorkloadUniformBatch100() throws IOException, URISyntaxException, InterruptedException {
+    public static void  startWorkloadUniformBatch100(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
         final Logger log = LogManager.getLogger(OldWorkload.class);
         Workload workld = new Workload();
         Random rnd = new Random();
@@ -144,8 +145,8 @@ public class OldWorkload extends AbstractWorkload {
             while (minibatch > 0) {
                 for (long j = 0; j < 100; j++) {
                     Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                    KafkaProducerExample.
-                            producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                    
+                            producer.send(new ProducerRecord<>(config.getTopic(),
                                     null, null, UUID.randomUUID().toString(), custm));
                 }
 
@@ -157,8 +158,8 @@ public class OldWorkload extends AbstractWorkload {
             if (fraction != 0) {
                 for (long j = 0; j < fraction; j++) {
                     Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                    KafkaProducerExample.
-                            producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                    
+                            producer.send(new ProducerRecord<>(config.getTopic(),
                                     null, null, UUID.randomUUID().toString(), custm));
                 }
                 log.info("sent {} events Per Second ", fraction);

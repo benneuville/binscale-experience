@@ -4,7 +4,9 @@ package fr.unice.scale.latencyaware.producer.workload;
 import fr.unice.scale.latencyaware.common.entity.Customer;
 import fr.unice.scale.latencyaware.producer.config.ConfigLoader;
 import fr.unice.scale.latencyaware.producer.KafkaProducerExample;
+import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
 import fr.unice.scale.latencyaware.producer.entity.Workload;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,9 +19,9 @@ import java.util.Random;
 import java.util.UUID;
 
 public class NonUniformWorkload extends AbstractWorkload {
+    final Logger log = LogManager.getLogger(NonUniformWorkload.class);
     @Override
-    public void startWorkload() throws IOException, URISyntaxException, InterruptedException {
-        final Logger log = LogManager.getLogger(NonUniformWorkload.class);
+    public void startWorkload(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
         Workload wrld = new Workload();
 
         Random rnd = new Random();
@@ -51,7 +53,7 @@ public class NonUniformWorkload extends AbstractWorkload {
  
                 for (long j = 0; j < messagesPerPartition; j++) {
                     Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                    KafkaProducerExample.producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                    producer.send(new ProducerRecord<String, Customer>(config.getTopic(),
                             partition, null, UUID.randomUUID().toString(), custm));
                     partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);
                 }
@@ -66,14 +68,14 @@ public class NonUniformWorkload extends AbstractWorkload {
             for (long j = 0; j < remainingMessages; j++) {
                 int partition = (int) (j % partitionWeights.size());
                 Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                KafkaProducerExample.producer.send(new ProducerRecord<String, Customer>(KafkaProducerExample.config.getTopic(),
+                producer.send(new ProducerRecord<String, Customer>(config.getTopic(),
                         partition, null, UUID.randomUUID().toString(), custm));
                 partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);
                 log.info("sent 1 remaining message to partition {}", partition);
             }
 
             log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
-            Thread.sleep(KafkaProducerExample.config.getDelay());
+            Thread.sleep(config.getDelay());
         }
 
                 // Log the total number of messages sent to each partition

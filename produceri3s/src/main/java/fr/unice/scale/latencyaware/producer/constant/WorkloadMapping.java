@@ -9,7 +9,9 @@ public enum WorkloadMapping {
     BIASED("biased", new BiasedWorkload()),
     CONSTANT("constant", new ConstantWorkload()),
     NON_UNIFORM("non_uniform", new NonUniformWorkload()),
+    @Deprecated
     OLD("old", new OldWorkload()),
+    @Deprecated
     OLD_SKEWED("old_skewed", new OldWorkloadSkewed());
 
     private final String name;

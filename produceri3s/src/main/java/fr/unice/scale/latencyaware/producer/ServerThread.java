@@ -1,19 +1,21 @@
 package fr.unice.scale.latencyaware.producer;
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import java.io.IOException;
 
-public class ServerThread implements Runnable{
+import static fr.unice.scale.latencyaware.producer.constant.Variables.SERVER_PORT;
+
+public class ServerThread implements Runnable {
     private static final Logger log = LogManager.getLogger(ServerThread.class);
 
     @Override
     public void run() {
-        Server server = ServerBuilder.forPort(5002)
+        Server server = ServerBuilder.forPort(SERVER_PORT)
                 .addService(ProtoReflectionService.newInstance())
                 .addService(new ArrivalServiceImpl())
                 .build();
@@ -23,12 +25,11 @@ public class ServerThread implements Runnable{
             e.printStackTrace();
         }
 
-        log.info("grpc server started at port 5002");
+        log.info("grpc server started at port {}", SERVER_PORT);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(()-> {
-           log.info("Shutting Down");
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Shutting Down");
             server.shutdown();
-
         }));
 
         try {
