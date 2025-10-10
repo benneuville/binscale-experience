@@ -15,14 +15,16 @@ public class ServerThread implements Runnable {
 
     @Override
     public void run() {
-        Server server = ServerBuilder.forPort(SERVER_PORT)
+        Server server = ServerBuilder.forPort(SERVER_PORT.get())
                 .addService(ProtoReflectionService.newInstance())
                 .addService(new ArrivalServiceImpl())
                 .build();
         try {
             server.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            server.shutdown();
+            return;
         }
 
         log.info("grpc server started at port {}", SERVER_PORT);
@@ -35,7 +37,8 @@ public class ServerThread implements Runnable {
         try {
             server.awaitTermination();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            server.shutdown();
         }
 
     }

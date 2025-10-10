@@ -1,9 +1,9 @@
 package fr.unice.scale.latencyaware.producer.config;
+
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -21,7 +21,7 @@ public class KafkaProducerConfig {
     private final String acks;
     private final String headers;
     private final String additionalConfig;
-    
+
     public KafkaProducerConfig(String bootstrapServers, String topic,
                                int delay, Long messageCount, String message,
                                String acks, String additionalConfig, String headers) {
@@ -34,11 +34,12 @@ public class KafkaProducerConfig {
         this.headers = headers;
         this.additionalConfig = additionalConfig;
     }
-    
+
     public static KafkaProducerConfig fromEnv() {
-        return new KafkaProducerConfig(BOOTSTRAP_SERVERS, TOPIC, DELAY_MS, MESSAGES_COUNT, MESSAGE,
-                PRODUCER_ACKS, ADDITIONAL_CONFIG, HEADERS);
+        return new KafkaProducerConfig(BOOTSTRAP_SERVERS.get(), TOPIC.get(), DELAY_MS.get(), MESSAGES_COUNT.get(), MESSAGE.get(),
+                PRODUCER_ACKS.get(), ADDITIONAL_CONFIG.get(), HEADERS.get());
     }
+
     /* The Properties class represents a persistent set of properties. The Properties can be saved to a stream or loaded from a stream. Each key and its corresponding value in the property list is a string.
 
     A property list can contain another property list as its "defaults"; this second property list is searched if the property key is not found in the original property list.
@@ -60,7 +61,7 @@ public class KafkaProducerConfig {
         //le producteur n'attendra pas d'accumuler un certain nombre de messages avant d'envoyer un lot.
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, "0");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-               CustomerSerializer.class.getName());
+                CustomerSerializer.class.getName());
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -81,12 +82,15 @@ public class KafkaProducerConfig {
     public String getBootstrapServers() {
         return bootstrapServers;
     }
+
     public String getTopic() {
         return topic;
     }
+
     public int getDelay() {
         return delay;
     }
+
     public Long getMessageCount() {
         return messageCount;
     }
@@ -94,6 +98,7 @@ public class KafkaProducerConfig {
     public String getMessage() {
         return message;
     }
+
     public String getAcks() {
         return acks;
     }
@@ -101,20 +106,22 @@ public class KafkaProducerConfig {
     public String getHeaders() {
         return headers;
     }
+
     public String getAdditionalConfig() {
         return additionalConfig;
     }
+
     @Override
     public String toString() {
         return "KafkaProducerConfig{" +
-            "bootstrapServers='" + bootstrapServers + '\'' +
-            ", topic='" + topic + '\'' +
-            ", delay=" + delay +
-            ", messageCount=" + messageCount +
-            ", message='" + message + '\'' +
-            ", acks='" + acks + '\'' +
-            ", headers='" + headers + '\'' +
-            ", additionalConfig='" + additionalConfig + '\'' +
-            '}';
+                "bootstrapServers='" + bootstrapServers + '\'' +
+                ", topic='" + topic + '\'' +
+                ", delay=" + delay +
+                ", messageCount=" + messageCount +
+                ", message='" + message + '\'' +
+                ", acks='" + acks + '\'' +
+                ", headers='" + headers + '\'' +
+                ", additionalConfig='" + additionalConfig + '\'' +
+                '}';
     }
 }
