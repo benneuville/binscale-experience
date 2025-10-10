@@ -1,19 +1,18 @@
 package fr.unice.scale.latencyaware.producer.config;
+
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import java.util.Properties;
 import java.util.StringTokenizer;
+
+import static fr.unice.scale.latencyaware.producer.constant.Variables.*;
 
 
 public class KafkaProducerConfig {
     private static final Logger log = LogManager.getLogger(KafkaProducerConfig.class);
-
-    private static final long DEFAULT_MESSAGES_COUNT = 10;  
-    private static final String DEFAULT_MESSAGE = "Let's test assignors";
     private final String bootstrapServers;
     private final String topic;
     private final int delay;
@@ -22,7 +21,7 @@ public class KafkaProducerConfig {
     private final String acks;
     private final String headers;
     private final String additionalConfig;
-    
+
     public KafkaProducerConfig(String bootstrapServers, String topic,
                                int delay, Long messageCount, String message,
                                String acks, String additionalConfig, String headers) {
@@ -36,23 +35,11 @@ public class KafkaProducerConfig {
         this.additionalConfig = additionalConfig;
     }
 
-    
-    
     public static KafkaProducerConfig fromEnv() {
-        String bootstrapServers = System.getenv("BOOTSTRAP_SERVERS");
-        String topic = System.getenv("TOPIC");
-        int delay = Integer.valueOf(System.getenv("DELAY_MS"));
-        /* la variable messageCount est initialisée avec la valeur de la variable d'environnement "MESSAGE_COUNT" si elle est définie (pas nulle), sinon elle est initialisée avec une valeur par défaut spécifiée par DEFAULT_MESSAGES_COUNT */
-        Long messageCount = System.getenv("MESSAGE_COUNT") == null ?
-                DEFAULT_MESSAGES_COUNT : Long.valueOf(System.getenv("MESSAGE_COUNT"));
-        String message = System.getenv("MESSAGE") == null ? DEFAULT_MESSAGE :
-                System.getenv("MESSAGE");
-        String acks = System.getenv().getOrDefault("PRODUCER_ACKS", "1");
-        String headers = System.getenv("HEADERS");
-        String additionalConfig = System.getenv().getOrDefault("ADDITIONAL_CONFIG", "");
-        return new KafkaProducerConfig(bootstrapServers, topic, delay, messageCount, message,
-                acks, additionalConfig, headers);
+        return new KafkaProducerConfig(BOOTSTRAP_SERVERS.get(), TOPIC.get(), DELAY_MS.get(), MESSAGES_COUNT.get(), MESSAGE.get(),
+                PRODUCER_ACKS.get(), ADDITIONAL_CONFIG.get(), HEADERS.get());
     }
+
     /* The Properties class represents a persistent set of properties. The Properties can be saved to a stream or loaded from a stream. Each key and its corresponding value in the property list is a string.
 
     A property list can contain another property list as its "defaults"; this second property list is searched if the property key is not found in the original property list.
@@ -74,7 +61,7 @@ public class KafkaProducerConfig {
         //le producteur n'attendra pas d'accumuler un certain nombre de messages avant d'envoyer un lot.
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, "0");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-               CustomerSerializer.class.getName());
+                CustomerSerializer.class.getName());
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -95,18 +82,23 @@ public class KafkaProducerConfig {
     public String getBootstrapServers() {
         return bootstrapServers;
     }
+
     public String getTopic() {
         return topic;
     }
+
     public int getDelay() {
         return delay;
     }
+
     public Long getMessageCount() {
         return messageCount;
     }
+
     public String getMessage() {
         return message;
     }
+
     public String getAcks() {
         return acks;
     }
@@ -114,20 +106,22 @@ public class KafkaProducerConfig {
     public String getHeaders() {
         return headers;
     }
+
     public String getAdditionalConfig() {
         return additionalConfig;
     }
+
     @Override
     public String toString() {
         return "KafkaProducerConfig{" +
-            "bootstrapServers='" + bootstrapServers + '\'' +
-            ", topic='" + topic + '\'' +
-            ", delay=" + delay +
-            ", messageCount=" + messageCount +
-            ", message='" + message + '\'' +
-            ", acks='" + acks + '\'' +
-            ", headers='" + headers + '\'' +
-            ", additionalConfig='" + additionalConfig + '\'' +
-            '}';
+                "bootstrapServers='" + bootstrapServers + '\'' +
+                ", topic='" + topic + '\'' +
+                ", delay=" + delay +
+                ", messageCount=" + messageCount +
+                ", message='" + message + '\'' +
+                ", acks='" + acks + '\'' +
+                ", headers='" + headers + '\'' +
+                ", additionalConfig='" + additionalConfig + '\'' +
+                '}';
     }
 }
