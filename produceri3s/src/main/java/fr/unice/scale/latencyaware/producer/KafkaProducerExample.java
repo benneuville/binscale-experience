@@ -23,7 +23,7 @@ public class KafkaProducerExample {
         KafkaProducer<String, Customer> producer = new KafkaProducer<>(props);
         startServer();
 
-        WORKLOAD.get().getWorkload().startWorkload(config, producer);
+        WORKLOAD.getWorkload().startWorkload(config, producer);
     }
 
     private static void startServer() {

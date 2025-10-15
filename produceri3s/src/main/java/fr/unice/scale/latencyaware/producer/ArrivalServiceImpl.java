@@ -1,4 +1,5 @@
 package fr.unice.scale.latencyaware.producer;
+import fr.unice.scale.latencyaware.producer.workload.AbstractWorkload;
 import fr.unice.scale.latencyaware.producer.workload.BiasedWorkload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,9 +11,9 @@ public class ArrivalServiceImpl extends ArrivalServiceGrpc.ArrivalServiceImplBas
     @Override
     public void arrivalRate(ArrivalRequest request, StreamObserver<ArrivalResponse> responseObserver) {
         log.info("received new rate request {}", request.getArrivalrequest());
-        log.info("Arrival is {}", BiasedWorkload.ArrivalRate );
+        log.info("Arrival is {}", AbstractWorkload.ArrivalRate );
         ArrivalResponse arrival = ArrivalResponse.newBuilder()
-                .setArrival(BiasedWorkload.ArrivalRate)
+                .setArrival(AbstractWorkload.ArrivalRate)
                         .build();
 
         responseObserver.onNext(arrival);

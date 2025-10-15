@@ -36,8 +36,8 @@ public class KafkaProducerConfig {
     }
 
     public static KafkaProducerConfig fromEnv() {
-        return new KafkaProducerConfig(BOOTSTRAP_SERVERS.get(), TOPIC.get(), DELAY_MS.get(), MESSAGES_COUNT.get(), MESSAGE.get(),
-                PRODUCER_ACKS.get(), ADDITIONAL_CONFIG.get(), HEADERS.get());
+        return new KafkaProducerConfig(BOOTSTRAP_SERVERS, TOPIC, DELAY_MS, MESSAGES_COUNT, MESSAGE,
+                PRODUCER_ACKS, ADDITIONAL_CONFIG, HEADERS);
     }
 
     /* The Properties class represents a persistent set of properties. The Properties can be saved to a stream or loaded from a stream. Each key and its corresponding value in the property list is a string.
@@ -51,14 +51,14 @@ public class KafkaProducerConfig {
         log.info("==================================================");
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
-        //props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 "org.apache.kafka.common.serialization.StringSerializer");
-        //le producteur n'attendra aucune confirmation d'acquittement pour les messages qu'il envoie?
+        // ACK
+        //props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
         props.put(ProducerConfig.ACKS_CONFIG, "0");
-        //aucun blocage ne sera effectué lors de l'envoi de messages, même si tous les brokers sont indisponibles?
+        // NO BLOCK, EVEN IF BROKER NOT AVAILABLE
         props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, "0");
-        //le producteur n'attendra pas d'accumuler un certain nombre de messages avant d'envoyer un lot.
+        // NO BATCH SENDING
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, "0");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 CustomerSerializer.class.getName());
