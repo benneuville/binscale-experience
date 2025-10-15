@@ -1,31 +1,35 @@
 package fr.unice.scale.latencyaware.producer.entity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.unice.scale.latencyaware.producer.constant.Variables.INPUT_WORKLOAD;
+
 public class Workload {
-    // private static final Logger log = LogManager.getLogger(KafkaProducerConfig.class);
     private final static String CSV_SPLIT_BY = ",";
 
     private static ArrayList<Double> datay = new ArrayList<Double>();
     private static ArrayList<Double> datax = new ArrayList<Double>();
-    public Workload() throws IOException, URISyntaxException {
+
+    public Workload() throws IOException {
         this.loadWorkload();
     }
+
     public ArrayList<Double> getDatax() {
         return datax;
     }
+
     public ArrayList<Double> getDatay() {
         return datay;
     }
 
-    private void loadWorkload() throws IOException, URISyntaxException {
+    private void loadWorkload() throws IOException {
         ClassLoader CLDR = this.getClass().getClassLoader();
-        InputStream inputStream = CLDR.getResourceAsStream("defaultArrivalRatesm.csv");
+        InputStream inputStream = CLDR.getResourceAsStream(INPUT_WORKLOAD);
 
         List<String> out = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {

@@ -39,21 +39,8 @@ public class EnvUtils {
      * Gère le cas où System.getenv(key) est null, ou le mapper lève une exception.
      */
     public static <T> T envOrDefault(String key, T defaultValue, Function<String, T> mapper) {
-        try {
-            return Optional.ofNullable(System.getenv(key))
-                    .map(value -> {
-                        try {
-                            return mapper.apply(value);
-                        } catch (Exception e) {
-                            System.err.println("EnvUtils: mapper error for " + key + " -> " + e);
-                            return defaultValue;
-                        }
-                    })
-                    .orElse(defaultValue);
-        } catch (Exception e) {
-            System.err.println("EnvUtils: error reading " + key + " -> " + e);
-            return defaultValue;
-        }
+        return Optional.ofNullable(System.getenv(key))
+                .map(mapper).orElse(defaultValue);
     }
 
     // ==========================
@@ -64,7 +51,7 @@ public class EnvUtils {
                 .orElseThrow(() -> new EnvironmentValueUndefineException(key));
     }
 
-    
+
     public static int envInt(String key) {
         return Optional.ofNullable(System.getenv(key))
                 .map(Integer::parseInt)
@@ -80,6 +67,12 @@ public class EnvUtils {
     public static boolean envBool(String key) {
         return Optional.ofNullable(System.getenv(key))
                 .map(Boolean::parseBoolean)
+                .orElseThrow(() -> new EnvironmentValueUndefineException(key));
+    }
+
+    public static <T> T env(String key, Function<String, T> map) {
+        return Optional.ofNullable(System.getenv(key))
+                .map(map)
                 .orElseThrow(() -> new EnvironmentValueUndefineException(key));
     }
 }

@@ -1,7 +1,6 @@
 package fr.unice.scale.latencyaware.producer.workload;
 
 import fr.unice.scale.latencyaware.common.entity.Customer;
-import fr.unice.scale.latencyaware.producer.config.ConfigLoader;
 import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
 import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -13,6 +12,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
+import static fr.unice.scale.latencyaware.producer.constant.Variables.PARTITION_WEIGHTS;
+
 
 public class BiasedWorkload extends AbstractWorkload {
     final Logger log = LogManager.getLogger(BiasedWorkload.class);
@@ -22,7 +23,7 @@ public class BiasedWorkload extends AbstractWorkload {
         Workload wrld = new Workload();
 
         Random rnd = new Random();
-        List<Integer> partitionWeights = ConfigLoader.loadPartitionWeights();
+        List<Integer> partitionWeights = PARTITION_WEIGHTS;
         int totalWeight = partitionWeights.stream().mapToInt(Integer::intValue).sum();
 
         // Map to keep track of the number of messages sent to each partition

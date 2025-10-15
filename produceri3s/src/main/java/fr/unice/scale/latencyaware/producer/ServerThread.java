@@ -15,7 +15,7 @@ public class ServerThread implements Runnable {
 
     @Override
     public void run() {
-        Server server = ServerBuilder.forPort(SERVER_PORT.get())
+        Server server = ServerBuilder.forPort(SERVER_PORT)
                 .addService(ProtoReflectionService.newInstance())
                 .addService(new ArrivalServiceImpl())
                 .build();
