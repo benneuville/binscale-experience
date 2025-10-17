@@ -12,9 +12,6 @@ public class AssignmentServer implements Runnable {
     private final int port;
     private final Server server;
     private static final Logger log = LogManager.getLogger(AssignmentServer.class);
-    public AssignmentServer(int port) throws IOException {
-        this(ServerBuilder.forPort(port), port);
-    }
     public AssignmentServer(ServerBuilder<?> serverBuilder, int port) {
         this.port = port;
         this.server = serverBuilder.addService(new AssignmentService()).build();
