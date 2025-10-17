@@ -1,41 +1,35 @@
 package fr.unice.scale.latencyaware.controller.bin_pack;
 
 import fr.unice.scale.latencyaware.controller.ArrivalProducer;
+import fr.unice.scale.latencyaware.controller.constant.Action;
 import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.Partition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static fr.unice.scale.latencyaware.controller.constant.Variables.*;
+
 
 public class BinPackState {
-    //TODO give fup and fdown as paramters to the functions.
     private static final Logger log = LogManager.getLogger(BinPackState.class);
-    public static int size = Integer.valueOf(System.getenv("INIT_SIZE"));
-    public Instant LastUpScaleDecision = Instant.now();
-    
-    static double wsla = Double.valueOf(System.getenv("WSLA"));
-
-    static double mu = Double.valueOf(System.getenv("MU"));
-
-    public static String action = "none";
-
+    public static int size = INIT_SIZE;
+    public static Action action = Action.NONE;
     static List<Consumer> assignment = new ArrayList<Consumer>();
     static List<Consumer> currentAssignment = assignment;
     static List<Consumer> tempAssignment = assignment;
 
-    public  static void scaleAsPerBinPack() {
-        action = "none";
-        log.info("Currently we have this number of consumers group {} {}","testgroup1", size );
+    public static void scaleAsPerBinPack() {
+        action = Action.NONE;
+        log.info("Currently we have this number of consumers group {} {}", "testgroup1", size);
         int neededsize = binPackAndScale();
         log.info("We currently need the following consumers for group1 (as per the bin pack) {}", neededsize);
         int replicasForscale = neededsize - size;
         if (replicasForscale > 0) {
-            action = "up";
+            action = Action.UP;
             //TODO IF and Else IF can be in the same logic
             log.info("We have to upscale  group1 by {}", replicasForscale);
             //currentAssignment = assignment;
@@ -45,7 +39,7 @@ public class BinPackState {
             int neededsized = binPackAndScaled();
             int replicasForscaled = size - neededsized;
             if (replicasForscaled > 0) {
-               action = "down";
+                action = Action.DOWN;
                 log.info("We have to downscale  group by {} {}", "testgroup1", replicasForscaled);
                 //currentAssignment = assignment;
                 return;
@@ -54,7 +48,7 @@ public class BinPackState {
 
 
         if (assignmentViolatesTheSLA2()) {
-            action = "REASS";
+            action = Action.REASS;
         }
         log.info("===================================");
     }
@@ -66,24 +60,23 @@ public class BinPackState {
         int consumerCount = 1;
         List<Partition> parts = new ArrayList<>(ArrivalProducer.topicpartitions);
 
-        float fup = Float.valueOf(System.getenv("FUP"));
 
         for (Partition partition : parts) {
-            if (partition.getLag() > mu*wsla*fup) {
+            if (partition.getLag() > MU * WSLA * FUP) {
                 log.info("Since partition {} has lag {} higher than consumer capacity times wsla {}" +
-                        " we are truncating its lag", partition.getId(), partition.getLag(), mu*wsla*fup);
-                partition.setLag((long)(mu*wsla*fup/*dynamicAverageMaxConsumptionRate*wsla*/));
+                        " we are truncating its lag", partition.getId(), partition.getLag(), MU * WSLA * FUP);
+                partition.setLag((long) (MU * WSLA * FUP/*dynamicAverageMaxConsumptionRate*wsla*/));
             }
         }
         //if a certain partition has an arrival rate  higher than R  set its arrival rate  to R
         //that should not happen in a well partionned topic
         for (Partition partition : parts) {
-            if (partition.getArrivalRate() > mu*fup/*dynamicAverageMaxConsumptionRate*wsla*/) {
+            if (partition.getArrivalRate() > MU * FUP/*dynamicAverageMaxConsumptionRate*wsla*/) {
                 log.info("Since partition {} has arrival rate {} higher than consumer service rate {}" +
                                 " we are truncating its arrival rate", partition.getId(),
                         String.format("%.2f", partition.getArrivalRate()),
-                        String.format("%.2f", mu*fup /*dynamicAverageMaxConsumptionRate*wsla*/));
-                partition.setArrivalRate(mu*fup /*dynamicAverageMaxConsumptionRate*wsla*/);
+                        String.format("%.2f", MU * FUP /*dynamicAverageMaxConsumptionRate*wsla*/));
+                partition.setArrivalRate(MU * FUP /*dynamicAverageMaxConsumptionRate*wsla*/);
             }
         }
         //start the bin pack FFD with sort
@@ -93,8 +86,8 @@ public class BinPackState {
             int j;
             consumers.clear();
             for (int t = 0; t < consumerCount; t++) {
-                consumers.add(new Consumer((String.valueOf(t)),  (long)(mu*wsla*fup),
-                        mu*fup));
+                consumers.add(new Consumer((String.valueOf(t)), (long) (MU * WSLA * FUP),
+                        MU * FUP));
             }
 
             for (j = 0; j < parts.size(); j++) {
@@ -121,19 +114,18 @@ public class BinPackState {
         return consumers.size();
     }
 
-    static  int binPackAndScaled() {
+    static int binPackAndScaled() {
         log.info(" shall we down scale group {} ", "testgroup1");
         List<Consumer> consumers = new ArrayList<>();
         int consumerCount = 1;
         List<Partition> parts = new ArrayList<>(ArrivalProducer.topicpartitions);
-        float fdown = Float.valueOf(System.getenv("FDOWN"));
-        double fractiondynamicAverageMaxConsumptionRate = mu*fdown;
+        double fractiondynamicAverageMaxConsumptionRate = MU * FDOWN;
         for (Partition partition : parts) {
-            if (partition.getLag() > fractiondynamicAverageMaxConsumptionRate*wsla) {
+            if (partition.getLag() > fractiondynamicAverageMaxConsumptionRate * WSLA) {
                 log.info("Since partition {} has lag {} higher than consumer capacity times wsla {}" +
                                 " we are truncating its lag", partition.getId(), partition.getLag(),
-                        fractiondynamicAverageMaxConsumptionRate*wsla);
-                partition.setLag((long)(fractiondynamicAverageMaxConsumptionRate *wsla));
+                        fractiondynamicAverageMaxConsumptionRate * WSLA);
+                partition.setLag((long) (fractiondynamicAverageMaxConsumptionRate * WSLA));
             }
         }
 
@@ -155,7 +147,7 @@ public class BinPackState {
             consumers.clear();
             for (int t = 0; t < consumerCount; t++) {
                 consumers.add(new Consumer((String.valueOf(consumerCount)),
-                        (long)(fractiondynamicAverageMaxConsumptionRate*wsla),
+                        (long) (fractiondynamicAverageMaxConsumptionRate * WSLA),
                         fractiondynamicAverageMaxConsumptionRate));
             }
 
@@ -185,7 +177,6 @@ public class BinPackState {
     }
 
     private static boolean assignmentViolatesTheSLA2() {
-        float fup = Float.valueOf(System.getenv("FUP"));
         List<Partition> partsReset = new ArrayList<>(ArrivalProducer.topicpartitions);
         for (Consumer cons : currentAssignment) {
             double sumPartitionsArrival = 0;
@@ -195,8 +186,8 @@ public class BinPackState {
                 sumPartitionsLag += partsReset.get(p.getId()).getLag();
             }
 
-            if (sumPartitionsLag  > ( wsla*mu*fup)
-                    || sumPartitionsArrival > mu*fup) {
+            if (sumPartitionsLag > (WSLA * MU * FUP)
+                    || sumPartitionsArrival > MU * FUP) {
                 return true;
             }
         }

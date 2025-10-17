@@ -1,4 +1,5 @@
 package fr.unice.scale.latencyaware.controller;
+
 import fr.unice.scale.latencyaware.controller.bin_pack.BinPackLag;
 import fr.unice.scale.latencyaware.controller.bin_pack.BinPackState;
 import fr.unice.scale.latencyaware.controller.bin_pack.Lag;
@@ -7,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ExecutionException;
 
+import static fr.unice.scale.latencyaware.controller.constant.Variables.DI;
 
 
 public class Main {
@@ -35,16 +37,14 @@ public class Main {
             log.info("--------------------");
 
 
-
             //scaleLogic();
             scaleLogicTail();
-            double di = Double.valueOf(System.getenv("DI"));
             // Convert 'di' from milliseconds to seconds for logging purposes
-            double diInSeconds = di / 1000;
+            double diInSeconds = DI / 1000;
             log.info("Sleeping for {} seconds", diInSeconds);
             log.info("******************************************" + Thread.currentThread().getId());
             log.info("******************************************");
-            Thread.sleep((long)di);
+            Thread.sleep((DI).longValue());
         }
     }
 
@@ -66,20 +66,14 @@ public class Main {
     }*/
 
 
-
-
-
-
-
-
     private static void scaleLogicTail() throws InterruptedException, ExecutionException {
         if (Lag.queryConsumerGroup() != BinPackState.size) {
             log.info("no action, previous action is not seen yet");
             return;
         }
-            BinPackState.scaleAsPerBinPack();
-            if (BinPackState.action.equals("up") || BinPackState.action.equals("down") || BinPackState.action.equals("REASS") ) {
-                BinPackLag.scaleAsPerBinPack();
+        BinPackState.scaleAsPerBinPack();
+        if (BinPackState.action.equals("up") || BinPackState.action.equals("down") || BinPackState.action.equals("REASS")) {
+            BinPackLag.scaleAsPerBinPack();
         }
     }
 

@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for graphcontroller2" enabled="true">
+      <profile name="Annotation profile for parent-project" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -47,8 +47,8 @@
         </processorPath>
         <module name="graphcontroller2" />
         <module name="variableconsumer" />
-        <module name="binscale-controller" />
         <module name="binscale-producer" />
+        <module name="binscale-controller" />
         <module name="binscale-common" />
         <module name="controllerassign" />
       </profile>
@@ -64,6 +64,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="binscale-controller" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="binscale-producer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="i3s" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
     </option>
