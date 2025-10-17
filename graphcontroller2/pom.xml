@@ -46,7 +46,7 @@
         </dependency>
         <dependency>
             <groupId>fr.unice.scale.latencyaware</groupId>
-            <artifactId>i3s</artifactId>
+            <artifactId>binscale-producer</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
