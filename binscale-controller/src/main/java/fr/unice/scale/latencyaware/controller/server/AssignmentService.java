@@ -18,7 +18,7 @@ public class AssignmentService extends AssignmentServiceGrpc.AssignmentServiceIm
 
     @Override
     public void getAssignment(AssignmentRequest request, StreamObserver<AssignmentResponse> responseObserver) {
-        if (BinPackLag.assignment.size() == 0) {
+        if (BinPackLag.assignment.isEmpty()) {
             List<ConsumerGrpc> assignmentReply = new ArrayList<>();
             for (int i = 0; i < NUMBER_PARTITIONS; i++) {
                 List<PartitionGrpc> pgrpclist = new ArrayList<>();

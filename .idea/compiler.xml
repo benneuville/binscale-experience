@@ -45,10 +45,10 @@
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
         </processorPath>
-        <module name="graphcontroller2" />
-        <module name="variableconsumer" />
-        <module name="binscale-producer" />
         <module name="binscale-controller" />
+        <module name="graphcontroller2" />
+        <module name="binscale-producer" />
+        <module name="variableconsumer" />
         <module name="binscale-common" />
         <module name="controllerassign" />
       </profile>
