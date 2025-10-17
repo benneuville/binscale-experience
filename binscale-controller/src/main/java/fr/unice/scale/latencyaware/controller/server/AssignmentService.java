@@ -11,13 +11,16 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.unice.scale.latencyaware.controller.constant.Variables.NUMBER_PARTITIONS;
+
 public class AssignmentService extends AssignmentServiceGrpc.AssignmentServiceImplBase {
     private static final Logger log = LogManager.getLogger(AssignmentService.class);
+
     @Override
     public void getAssignment(AssignmentRequest request, StreamObserver<AssignmentResponse> responseObserver) {
         if (BinPackLag.assignment.size() == 0) {
             List<ConsumerGrpc> assignmentReply = new ArrayList<>();
-            for (int i = 0; i < ArrivalProducer.numberpartitions; i++) {
+            for (int i = 0; i < NUMBER_PARTITIONS; i++) {
                 List<PartitionGrpc> pgrpclist = new ArrayList<>();
                 PartitionGrpc pgrpc = PartitionGrpc.newBuilder().setId(i).build();
                 pgrpclist.add(pgrpc);

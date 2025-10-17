@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Define environment variables and theirs default value
  */
-public abstract class Variables {
+public final class Variables {
 
     @EnvVar(description = "List of partition weights, comma separated. Example : '1,1,1,1,1'")
     public static final List<Integer> PARTITION_WEIGHTS = EnvUtils.env("PARTITION_WEIGHTS", s -> Arrays.stream((s.split(",")))

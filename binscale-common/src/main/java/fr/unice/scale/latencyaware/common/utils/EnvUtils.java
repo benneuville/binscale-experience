@@ -47,27 +47,24 @@ public class EnvUtils {
     // ENV OR ERROR
     // ==========================
     public static String envString(String key) {
-        return Optional.ofNullable(System.getenv(key))
-                .orElseThrow(() -> new EnvironmentValueUndefineException(key));
+        return env(key, s -> s);
     }
 
 
     public static int envInt(String key) {
-        return Optional.ofNullable(System.getenv(key))
-                .map(Integer::parseInt)
-                .orElseThrow(() -> new EnvironmentValueUndefineException(key));
+        return env(key, Integer::parseInt);
     }
 
     public static float envFloat(String key) {
-        return Optional.ofNullable(System.getenv(key))
-                .map(Float::parseFloat)
-                .orElseThrow(() -> new EnvironmentValueUndefineException(key));
+        return env(key, Float::parseFloat);
     }
 
     public static boolean envBool(String key) {
-        return Optional.ofNullable(System.getenv(key))
-                .map(Boolean::parseBoolean)
-                .orElseThrow(() -> new EnvironmentValueUndefineException(key));
+        return env(key, Boolean::parseBoolean);
+    }
+
+    public static Double envDouble(String key) {
+        return env(key, Double::parseDouble);
     }
 
     public static <T> T env(String key, Function<String, T> map) {

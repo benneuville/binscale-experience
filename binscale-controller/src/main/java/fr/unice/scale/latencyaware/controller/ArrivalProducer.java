@@ -10,6 +10,7 @@ import fr.unice.scale.latencyaware.producer.ArrivalServiceGrpc;
 import fr.unice.scale.latencyaware.producer.ArrivalRequest;
 import fr.unice.scale.latencyaware.producer.ArrivalResponse;
 
+import static fr.unice.scale.latencyaware.controller.constant.Variables.NUMBER_PARTITIONS;
 
 
 public class ArrivalProducer {
@@ -17,11 +18,9 @@ public class ArrivalProducer {
     public static ArrayList<Partition> topicpartitions;
     public static double totalArrivalrate;
 
-    public static int numberpartitions = Integer.valueOf(System.getenv("NUMBER_PARTITIONS"));
-
     static {
         topicpartitions = new ArrayList<>();
-        for (int i = 0; i < numberpartitions; i++) {
+        for (int i = 0; i < NUMBER_PARTITIONS; i++) {
             topicpartitions.add(new Partition(i, 0, 0));
         }
     }
@@ -34,7 +33,7 @@ public class ArrivalProducer {
 
         try {
 
-            log.info("number of partition set : {}", numberpartitions);
+            log.info("number of partition set : {}", NUMBER_PARTITIONS);
             log.info("Requesting arrival rate...");
             ArrivalRequest request = ArrivalRequest.newBuilder()
                 .setArrivalrequest("Give me the arrival rate plz").build();
@@ -43,10 +42,10 @@ public class ArrivalProducer {
             totalArrivalrate = reply.getArrival();
             log.info("Arrival from the producer is {}", totalArrivalrate);
 
-            double partitionArrival = totalArrivalrate / (numberpartitions * 1.0);
+            double partitionArrival = totalArrivalrate / (NUMBER_PARTITIONS * 1.0);
             log.info("Arrival into each partition is {}", partitionArrival);
 
-            for (int i = 0; i < numberpartitions; i++) {
+            for (int i = 0; i < NUMBER_PARTITIONS; i++) {
                 topicpartitions.get(i).setArrivalRate(partitionArrival);
             }
         } catch (Exception e) {
