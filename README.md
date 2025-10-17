@@ -100,15 +100,35 @@ Feel free to submit issues and enhancement requests.
 
 | Name | Description | Default value |
 |-----|--------------|-------------------|
-| `DI` | DI value in seconds for the controller loop sleep time | *(non défini)* |
-| `WSLA` | WSLA value in seconds | *(non défini)* |
-| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(non défini)* |
-| `MU` | MU value in seconds for the controller calculations | *(non défini)* |
-| `FUP` | FUP value for the upscaling threshold | *(non défini)* |
-| `FDOWN` | FDOWN value for the downscaling threshold | *(non défini)* |
-| `INIT_SIZE` | Initial size of the consumer group | *(non défini)* |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(non défini)* |
-| `TOPIC` | Topic name. Example : 'testtopic1' | *(non défini)* |
-| `GROUP_ID` | Group id. Example : 'testgroup1' | *(non défini)* |
-| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(non défini)* |
+| `PARTITION_WEIGHTS` | List of partition weights, comma separated. Example : '1,1,1,1,1' | *(non défini)* |
+| `INPUT_WORKLOAD` | Input workload file name. Example : 'defaultArrivalRatesm.csv' | "defaultArrivalRatesm.csv" |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers, Example : 'localhost:9092' | *(non défini)* |
+| `TOPIC` | Topic name. Example : 'test-topic' | *(non défini)* |
+| `DELAY_MS` | Delay between two messages in milliseconds. Example : 1000 | *(non défini)* |
+| `MESSAGES_COUNT` | Number of messages to send. Example : 10 | 10L |
+| `MESSAGE` | Message content. Example : 'Hello World !' | "Hello World !" |
+| `PRODUCER_ACKS` | Producer acks config. Example : '0', '1' or 'all' | "0" |
+| `HEADERS` | Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2' | "" |
+| `ADDITIONAL_CONFIG` | Additional producer configuration in the form 'key1=value1,key2=value2' | "" |
+| `WORKLOAD` | Workload mapping strategy. Example : 'constant' | "constant" |
+| `SERVER_PORT` | Server port for the health check endpoint | 5002 |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `PARTITION_WEIGHTS` | List of partition weights, comma separated. Example : '1,1,1,1,1' | *(non dÃ©fini)* |
+| `INPUT_WORKLOAD` | Input workload file name. Example : 'defaultArrivalRatesm.csv' | "defaultArrivalRatesm.csv" |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers, Example : 'localhost:9092' | *(non dÃ©fini)* |
+| `TOPIC` | Topic name. Example : 'test-topic' | *(non dÃ©fini)* |
+| `DELAY_MS` | Delay between two messages in milliseconds. Example : 1000 | *(non dÃ©fini)* |
+| `MESSAGES_COUNT` | Number of messages to send. Example : 10 | 10L |
+| `MESSAGE` | Message content. Example : 'Hello World !' | "Hello World !" |
+| `PRODUCER_ACKS` | Producer acks config. Example : '0', '1' or 'all' | "0" |
+| `HEADERS` | Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2' | "" |
+| `ADDITIONAL_CONFIG` | Additional producer configuration in the form 'key1=value1,key2=value2' | "" |
+| `WORKLOAD` | Workload mapping strategy. Example : 'constant' | "constant" |
+| `SERVER_PORT` | Server port for the health check endpoint | 5002 |
 

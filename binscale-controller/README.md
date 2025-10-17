@@ -62,3 +62,4 @@ The project supports the following scaling parameters:
 | `TOPIC` | Topic name. Example : 'testtopic1' | *(non défini)* |
 | `GROUP_ID` | Group id. Example : 'testgroup1' | *(non défini)* |
 | `NUMBER_PARTITIONS` | Number of partitions for the topic | *(non défini)* |
+

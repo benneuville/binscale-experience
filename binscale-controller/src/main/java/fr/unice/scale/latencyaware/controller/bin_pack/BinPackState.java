@@ -24,7 +24,7 @@ public class BinPackState {
 
     public static void scaleAsPerBinPack() {
         action = Action.NONE;
-        log.info("Currently we have this number of consumers group {} {}", "testgroup1", size);
+        log.info("Currently we have this number of consumers group {} {}", GROUP_ID, size);
         int neededsize = binPackAndScale();
         log.info("We currently need the following consumers for group1 (as per the bin pack) {}", neededsize);
         int replicasForscale = neededsize - size;
@@ -40,7 +40,7 @@ public class BinPackState {
             int replicasForscaled = size - neededsized;
             if (replicasForscaled > 0) {
                 action = Action.DOWN;
-                log.info("We have to downscale  group by {} {}", "testgroup1", replicasForscaled);
+                log.info("We have to downscale  group by {} {}", GROUP_ID, replicasForscaled);
                 //currentAssignment = assignment;
                 return;
             }
@@ -55,7 +55,7 @@ public class BinPackState {
 
 
     private static int binPackAndScale() {
-        log.info(" shall we upscale group {}", "testgroup1");
+        log.info(" shall we upscale group {}", GROUP_ID);
         List<Consumer> consumers = new ArrayList<>();
         int consumerCount = 1;
         List<Partition> parts = new ArrayList<>(ArrivalProducer.topicpartitions);
@@ -80,7 +80,7 @@ public class BinPackState {
             }
         }
         //start the bin pack FFD with sort
-        Collections.sort(parts, Collections.reverseOrder());
+        parts.sort(Collections.reverseOrder());
 
         while (true) {
             int j;
@@ -92,7 +92,7 @@ public class BinPackState {
 
             for (j = 0; j < parts.size(); j++) {
                 int i;
-                Collections.sort(consumers, Collections.reverseOrder());
+                consumers.sort(Collections.reverseOrder());
                 for (i = 0; i < consumerCount; i++) {
                     if (consumers.get(i).getRemainingLagCapacity() >= parts.get(j).getLag() &&
                             consumers.get(i).getRemainingArrivalCapacity() >= parts.get(j).getArrivalRate()) {
@@ -110,12 +110,12 @@ public class BinPackState {
         }
         assignment = consumers;
         tempAssignment = consumers;
-        log.info(" The BP up scaler recommended for group {} {}", "testgroup1", consumers.size());
+        log.info(" The BP up scaler recommended for group {} {}", GROUP_ID, consumers.size());
         return consumers.size();
     }
 
     static int binPackAndScaled() {
-        log.info(" shall we down scale group {} ", "testgroup1");
+        log.info(" shall we down scale group {} ", GROUP_ID);
         List<Consumer> consumers = new ArrayList<>();
         int consumerCount = 1;
         List<Partition> parts = new ArrayList<>(ArrivalProducer.topicpartitions);
@@ -141,7 +141,7 @@ public class BinPackState {
             }
         }
         //start the bin pack FFD with sort
-        Collections.sort(parts, Collections.reverseOrder());
+        parts.sort(Collections.reverseOrder());
         while (true) {
             int j;
             consumers.clear();
@@ -153,7 +153,7 @@ public class BinPackState {
 
             for (j = 0; j < parts.size(); j++) {
                 int i;
-                Collections.sort(consumers, Collections.reverseOrder());
+                consumers.sort(Collections.reverseOrder());
                 for (i = 0; i < consumerCount; i++) {
 
                     if (consumers.get(i).getRemainingLagCapacity() >= parts.get(j).getLag() &&
@@ -172,7 +172,7 @@ public class BinPackState {
         }
 
         assignment = consumers;
-        log.info(" The BP down scaler recommended  for group {} {}", "testgroup1", consumers.size());
+        log.info(" The BP down scaler recommended  for group {} {}", GROUP_ID, consumers.size());
         return consumers.size();
     }
 

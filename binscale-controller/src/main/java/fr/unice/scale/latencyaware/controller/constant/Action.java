@@ -4,5 +4,9 @@ public enum Action {
     NONE,
     UP,
     DOWN,
-    REASS
+    REASS;
+
+    public boolean isAction() {
+        return !this.equals(NONE);
+    }
 }

@@ -48,31 +48,13 @@ public class Main {
         }
     }
 
-
-
-
-
-
-
-   /* private static void scaleLogicTail() throws InterruptedException {
-        if  (Duration.between(BinPackLag2.LastUpScaleDecision, Instant.now()).getSeconds() >3) {
-            BinPackState2.scaleAsPerBinPack();
-            if (BinPackState2.action.equals("up") || BinPackState2.action.equals("down") || BinPackState2.action.equals("REASS") ) {
-                BinPackLag2.scaleAsPerBinPack();
-            }
-        } else {
-            log.info("No scale group 1 cooldown");
-        }
-    }*/
-
-
     private static void scaleLogicTail() throws InterruptedException, ExecutionException {
         if (Lag.queryConsumerGroup() != BinPackState.size) {
             log.info("no action, previous action is not seen yet");
             return;
         }
         BinPackState.scaleAsPerBinPack();
-        if (BinPackState.action.equals("up") || BinPackState.action.equals("down") || BinPackState.action.equals("REASS")) {
+        if (BinPackState.action.isAction()) {
             BinPackLag.scaleAsPerBinPack();
         }
     }
