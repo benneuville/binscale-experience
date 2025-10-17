@@ -20,8 +20,8 @@
     <packaging>pom</packaging>
     <modules>
       <module>ControllerWithAssignment</module>
-      <module>IntegrationController</module>
-      <module>produceri3s</module>
+      <module>binscale-controller</module>
+      <module>binscale-producer</module>
       <module>variableconsumer</module>
     </modules>
     <properties>
@@ -667,7 +667,7 @@
   <!-- ====================================================================== -->
   <!--                                                                        -->
   <!-- Effective POM for project                                              -->
-  <!-- 'org.example:IntegrationController:jar:1.0-SNAPSHOT'                   -->
+  <!-- 'org.example:binscale-controller:jar:1.0-SNAPSHOT'                   -->
   <!--                                                                        -->
   <!-- ====================================================================== -->
   <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -678,7 +678,7 @@
       <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>IntegrationController</artifactId>
+    <artifactId>binscale-controller</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
       <kafka.version>2.7.0</kafka.version>
@@ -787,11 +787,11 @@
       </pluginRepository>
     </pluginRepositories>
     <build>
-      <sourceDirectory>C:\Users\hp\Experience\integrationcontroller\src\main\java</sourceDirectory>
-      <scriptSourceDirectory>C:\Users\hp\Experience\integrationcontroller\src\main\scripts</scriptSourceDirectory>
-      <testSourceDirectory>C:\Users\hp\Experience\integrationcontroller\src\test\java</testSourceDirectory>
-      <outputDirectory>C:\Users\hp\Experience\integrationcontroller\target\classes</outputDirectory>
-      <testOutputDirectory>C:\Users\hp\Experience\integrationcontroller\target\test-classes</testOutputDirectory>
+      <sourceDirectory>C:\Users\hp\Experience\binscale-controller\src\main\java</sourceDirectory>
+      <scriptSourceDirectory>C:\Users\hp\Experience\binscale-controller\src\main\scripts</scriptSourceDirectory>
+      <testSourceDirectory>C:\Users\hp\Experience\binscale-controller\src\test\java</testSourceDirectory>
+      <outputDirectory>C:\Users\hp\Experience\binscale-controller\target\classes</outputDirectory>
+      <testOutputDirectory>C:\Users\hp\Experience\binscale-controller\target\test-classes</testOutputDirectory>
       <extensions>
         <extension>
           <groupId>kr.motd.maven</groupId>
@@ -801,16 +801,16 @@
       </extensions>
       <resources>
         <resource>
-          <directory>C:\Users\hp\Experience\integrationcontroller\src\main\resources</directory>
+          <directory>C:\Users\hp\Experience\binscale-controller\src\main\resources</directory>
         </resource>
       </resources>
       <testResources>
         <testResource>
-          <directory>C:\Users\hp\Experience\integrationcontroller\src\test\resources</directory>
+          <directory>C:\Users\hp\Experience\binscale-controller\src\test\resources</directory>
         </testResource>
       </testResources>
-      <directory>C:\Users\hp\Experience\integrationcontroller\target</directory>
-      <finalName>IntegrationController-1.0-SNAPSHOT</finalName>
+      <directory>C:\Users\hp\Experience\binscale-controller\target</directory>
+      <finalName>binscale-controller-1.0-SNAPSHOT</finalName>
       <pluginManagement>
         <plugins>
           <plugin>
@@ -1012,7 +1012,7 @@
                 <goal>site</goal>
               </goals>
               <configuration>
-                <outputDirectory>C:\Users\hp\Experience\integrationcontroller\target\site</outputDirectory>
+                <outputDirectory>C:\Users\hp\Experience\binscale-controller\target\site</outputDirectory>
                 <reportPlugins>
                   <reportPlugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1028,7 +1028,7 @@
                 <goal>deploy</goal>
               </goals>
               <configuration>
-                <outputDirectory>C:\Users\hp\Experience\integrationcontroller\target\site</outputDirectory>
+                <outputDirectory>C:\Users\hp\Experience\binscale-controller\target\site</outputDirectory>
                 <reportPlugins>
                   <reportPlugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1039,7 +1039,7 @@
             </execution>
           </executions>
           <configuration>
-            <outputDirectory>C:\Users\hp\Experience\integrationcontroller\target\site</outputDirectory>
+            <outputDirectory>C:\Users\hp\Experience\binscale-controller\target\site</outputDirectory>
             <reportPlugins>
               <reportPlugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1051,12 +1051,12 @@
       </plugins>
     </build>
     <reporting>
-      <outputDirectory>C:\Users\hp\Experience\integrationcontroller\target\site</outputDirectory>
+      <outputDirectory>C:\Users\hp\Experience\binscale-controller\target\site</outputDirectory>
     </reporting>
   </project>
   <!-- ====================================================================== -->
   <!--                                                                        -->
-  <!-- Effective POM for project 'org.example:i3s:jar:1.0-SNAPSHOT'           -->
+  <!-- Effective POM for project 'org.example:binscale-producer:jar:1.0-SNAPSHOT'           -->
   <!--                                                                        -->
   <!-- ====================================================================== -->
   <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -1067,7 +1067,7 @@
       <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>i3s</artifactId>
+    <artifactId>binscale-producer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
       <kafka.version>2.7.0</kafka.version>
@@ -1165,11 +1165,11 @@
       </pluginRepository>
     </pluginRepositories>
     <build>
-      <sourceDirectory>C:\Users\hp\Experience\produceri3s\src\main\java</sourceDirectory>
-      <scriptSourceDirectory>C:\Users\hp\Experience\produceri3s\src\main\scripts</scriptSourceDirectory>
-      <testSourceDirectory>C:\Users\hp\Experience\produceri3s\src\test\java</testSourceDirectory>
-      <outputDirectory>C:\Users\hp\Experience\produceri3s\target\classes</outputDirectory>
-      <testOutputDirectory>C:\Users\hp\Experience\produceri3s\target\test-classes</testOutputDirectory>
+      <sourceDirectory>C:\Users\hp\Experience\binscale-producer\src\main\java</sourceDirectory>
+      <scriptSourceDirectory>C:\Users\hp\Experience\binscale-producer\src\main\scripts</scriptSourceDirectory>
+      <testSourceDirectory>C:\Users\hp\Experience\binscale-producer\src\test\java</testSourceDirectory>
+      <outputDirectory>C:\Users\hp\Experience\binscale-producer\target\classes</outputDirectory>
+      <testOutputDirectory>C:\Users\hp\Experience\binscale-producer\target\test-classes</testOutputDirectory>
       <extensions>
         <extension>
           <groupId>kr.motd.maven</groupId>
@@ -1179,16 +1179,16 @@
       </extensions>
       <resources>
         <resource>
-          <directory>C:\Users\hp\Experience\produceri3s\src\main\resources</directory>
+          <directory>C:\Users\hp\Experience\binscale-producer\src\main\resources</directory>
         </resource>
       </resources>
       <testResources>
         <testResource>
-          <directory>C:\Users\hp\Experience\produceri3s\src\test\resources</directory>
+          <directory>C:\Users\hp\Experience\binscale-producer\src\test\resources</directory>
         </testResource>
       </testResources>
-      <directory>C:\Users\hp\Experience\produceri3s\target</directory>
-      <finalName>i3s-1.0-SNAPSHOT</finalName>
+      <directory>C:\Users\hp\Experience\binscale-producer\target</directory>
+      <finalName>binscale-producer-1.0-SNAPSHOT</finalName>
       <pluginManagement>
         <plugins>
           <plugin>
@@ -1396,7 +1396,7 @@
                 <goal>site</goal>
               </goals>
               <configuration>
-                <outputDirectory>C:\Users\hp\Experience\produceri3s\target\site</outputDirectory>
+                <outputDirectory>C:\Users\hp\Experience\binscale-producer\target\site</outputDirectory>
                 <reportPlugins>
                   <reportPlugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1412,7 +1412,7 @@
                 <goal>deploy</goal>
               </goals>
               <configuration>
-                <outputDirectory>C:\Users\hp\Experience\produceri3s\target\site</outputDirectory>
+                <outputDirectory>C:\Users\hp\Experience\binscale-producer\target\site</outputDirectory>
                 <reportPlugins>
                   <reportPlugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1423,7 +1423,7 @@
             </execution>
           </executions>
           <configuration>
-            <outputDirectory>C:\Users\hp\Experience\produceri3s\target\site</outputDirectory>
+            <outputDirectory>C:\Users\hp\Experience\binscale-producer\target\site</outputDirectory>
             <reportPlugins>
               <reportPlugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1435,7 +1435,7 @@
       </plugins>
     </build>
     <reporting>
-      <outputDirectory>C:\Users\hp\Experience\produceri3s\target\site</outputDirectory>
+      <outputDirectory>C:\Users\hp\Experience\binscale-producer\target\site</outputDirectory>
     </reporting>
   </project>
   <!-- ====================================================================== -->

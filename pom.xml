@@ -8,12 +8,12 @@
     <packaging>pom</packaging>
     <modules>
         <module>binscale-common</module>
-        <module>IntegrationController</module>
+        <module>binscale-controller</module>
         <!--        <module>multipleConsumers</module>-->
         <module>variableconsumer</module>
-        <module>produceri3s</module>
-        <module>ControllerWithAssignment</module>
-        <module>graphcontroller2</module>
+        <module>binscale-producer</module>
+        <!--        <module>ControllerWithAssignment</module>-->
+        <!--        <module>graphcontroller2</module>-->
         <!--        <module>restructuredbinpack</module>-->
     </modules>
     <properties>

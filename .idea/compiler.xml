@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for parent-project" enabled="true">
+      <profile name="Annotation profile for graphcontroller2" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -45,23 +45,26 @@
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
         </processorPath>
-        <module name="i3s" />
-        <module name="IntegrationController" />
-        <module name="variableconsumer" />
         <module name="graphcontroller2" />
-        <module name="controllerassign" />
+        <module name="variableconsumer" />
+        <module name="binscale-controller" />
+        <module name="binscale-producer" />
         <module name="binscale-common" />
+        <module name="controllerassign" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="binscale-common (1)" target="11" />
       <module name="binscale-common (2)" target="11" />
+      <module name="i3s" target="11" />
+      <module name="IntegrationController" target="11" />
       <module name="multipleConsumers" target="11" />
       <module name="restructure" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="binscale-producer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="i3s" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
     </option>
   </component>

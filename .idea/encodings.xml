@@ -5,10 +5,10 @@
     <file url="file://$PROJECT_DIR$/binscale-common-temporary/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/binscale-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/binscale-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/binscale-producer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/binscale-producer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multipleConsumers/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/multipleConsumers/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/produceri3s/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/produceri3s/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/restructuredbinpack/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/restructuredbinpack/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/variableconsumer/src/main/java" charset="UTF-8" />

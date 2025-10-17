@@ -15,7 +15,7 @@ CMD ["echo", "No default command specified"]
 ENTRYPOINT ["echo", "No entrypoint specified"]
 
 # Copy producer JAR
-COPY produceri3s/target/i3s-1.0-SNAPSHOT.jar /app/producer.jar
+COPY binscale-producer/target/binscale-producer-1.0-SNAPSHOT.jar /app/producer.jar
 
 #COPY ./scripts/ /bin
 ##COPY restructurebinpack/src/main/resources/log4j2.properties /bin/log4j2.properties
@@ -28,9 +28,9 @@ COPY produceri3s/target/i3s-1.0-SNAPSHOT.jar /app/producer.jar
 COPY variableconsumer/target/variableconsumer-1.0-SNAPSHOT.jar /app/consumer.jar
 
 # Copy log4j2.properties file
-COPY IntegrationController/src/main/resources/log4j2.properties /bin/log4j2.properties
-# Copy IntegrationController JAR
-ADD IntegrationController/target/IntegrationController-1.0-SNAPSHOT.jar /app/Controller.jar
+COPY binscale-controller/src/main/resources/log4j2.properties /bin/log4j2.properties
+# Copy binscale-controller JAR
+ADD binscale-controller/target/binscale-controller-1.0-SNAPSHOT.jar /app/Controller.jar
 
 
 ## COPY ./scripts/ /bin

@@ -1,6 +1,7 @@
 # Producer
 
-The `produceri3s` project is a Java-based application designed to handle workload management and message production. It
+The `binscale-producer` project is a Java-based application designed to handle workload management and message
+production. It
 leverages gRPC for communication and includes configurable workload strategies to simulate different production
 scenarios.
 
@@ -22,9 +23,9 @@ scenarios.
     cd ./binscale-common
     mvn clean install
     ```
-2. Build `produceri3s`
+2. Build `binscale-producer`
     ```sh
-    cd ./produceri3s
+    cd ./binscale-producer
     mvn clean compile
     ```
 
