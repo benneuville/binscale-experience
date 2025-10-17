@@ -61,7 +61,7 @@ This project includes a [Dockerfile](https://github.com/fatimazahraelaaziz/Exper
 
 1. Build Docker Image:
 ```sh
-docker build -t <image-name>:<tag> .
+docker build -t <username>/<image-name>:<tag> .
 ```
 
 2. Push Docker Image to Docker Hub:
