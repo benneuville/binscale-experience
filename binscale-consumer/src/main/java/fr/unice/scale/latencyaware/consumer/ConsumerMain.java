@@ -22,32 +22,20 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.time.Instant;
 
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
+
 public class ConsumerMain {
     private static final Logger log = LogManager.getLogger(ConsumerMain.class);
     public static KafkaConsumer<String, Customer> consumer = null;
     public static double eventsViolating = 0;
     public static double eventsNonViolating = 0;
     public static double totalEvents = 0;
-    public static float maxConsumptionRatePerConsumer = 0.0f;
-    public static float ConsumptionRatePerConsumerInThisPoll = 0.0f;
-    public static float averageRatePerConsumerForGrpc = 0.0f;
-    public static long pollsSoFar = 0;
 
-    public static ArrayList<TopicPartition> tps;
     public static KafkaProducer<String, Customer> producer;
-    public static Double maxConsumptionRatePerConsumer1 = 0.0d;
+    public static ParetoDistribution dist = new ParetoDistribution(SCALE, SHAPE);
 
-    public static double scale = Double.valueOf(System.getenv("SCALE"));
-    public static double time_to_commit = Double.valueOf(System.getenv("TIME_TO_COMMIT"));
-    public static double shape = Double.valueOf(System.getenv("SHAPE"));
-    public static ParetoDistribution dist = new ParetoDistribution(scale, shape);
-    public static double wsla_s = Double.valueOf(System.getenv("WSLA"));
-    public static boolean async_commit = Boolean.valueOf(System.getenv("ASYNC_COMMIT"));
 
-    public ConsumerMain() throws IOException, URISyntaxException, InterruptedException {
-    }
-
-    public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException {
+    public static void main(String[] args) {
         PrometheusUtils.initPrometheus();
         VariableKafkaConsumerConfig config = VariableKafkaConsumerConfig.fromEnv();
         log.info(VariableKafkaConsumerConfig.class.getName() + ": {}", config.toString());
@@ -69,14 +57,14 @@ public class ConsumerMain {
         Logger logger = LogManager.getLogger(ConsumerMain.class);
 
         Instant lastCommitTime = Instant.now();
-        logger.info("Async commit is {}", ConsumerMain.async_commit);
+        logger.info("Async commit is {}", ASYNC_COMMIT);
         try {
             while (true) {
                 //Check for commit even if no records are received
                 //just in case we have commited while processing the last batch
                 lastCommitTime = checkForCommit(simpleDateFormat, logger, lastCommitTime);  
 
-                ConsumerRecords<String, Customer> records = consumer.poll(Duration.ofMillis((long)time_to_commit));
+                ConsumerRecords<String, Customer> records = consumer.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()));
                 if (records.count() != 0) {
                     for (ConsumerRecord<String, Customer> record : records) {
                         totalEvents++;
@@ -94,7 +82,7 @@ public class ConsumerMain {
                             PrometheusUtils.processingTime.setDuration(sleep);
                             PrometheusUtils.totalLatencyTime.setDuration(System.currentTimeMillis() - record.timestamp());
 
-                            if (System.currentTimeMillis() - record.timestamp() <= wsla_s) {
+                            if (System.currentTimeMillis() - record.timestamp() <= WSLA_S) {
                                 eventsNonViolating++;
                             } else {
                                 eventsViolating++;
@@ -132,8 +120,8 @@ public class ConsumerMain {
     }
 
     private static Instant checkForCommit(SimpleDateFormat simpleDateFormat, Logger logger, Instant lastCommitTime) {
-        if (Math.abs(Duration.between(lastCommitTime, Instant.now()).toMillis()) >= time_to_commit) {
-            if (ConsumerMain.async_commit) {
+        if (Math.abs(Duration.between(lastCommitTime, Instant.now()).toMillis()) >= TIME_TO_COMMIT) {
+            if (ASYNC_COMMIT) {
                 consumer.commitAsync();
             } else {
                consumer.commitSync();

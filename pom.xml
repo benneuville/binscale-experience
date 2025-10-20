@@ -10,7 +10,7 @@
         <module>binscale-common</module>
         <module>binscale-controller</module>
         <!--        <module>multipleConsumers</module>-->
-        <module>variableconsumer</module>
+        <module>binscale-consumer</module>
         <module>binscale-producer</module>
         <!--        <module>ControllerWithAssignment</module>-->
         <!--        <module>graphcontroller2</module>-->
