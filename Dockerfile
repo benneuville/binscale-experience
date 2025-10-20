@@ -24,8 +24,8 @@ COPY binscale-producer/target/binscale-producer-1.0-SNAPSHOT.jar /app/producer.j
 #CMD ["java", "DEBUG_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005" , "-jar" , "/Controller-1.0-SNAPSHOT.jar"]
 # ENTRYPOINT [ "sh", "-c", "java $DEBUG_OPTIONS -jar /restructure-1.0-SNAPSHOT.jar" 
 
-# Copy variableconsumer JAR
-COPY variableconsumer/target/variableconsumer-1.0-SNAPSHOT.jar /app/consumer.jar
+# Copy binscale-consumer JAR
+COPY binscale-consumer/target/binscale-consumer-1.0-SNAPSHOT.jar /app/consumer.jar
 
 # Copy log4j2.properties file
 COPY binscale-controller/src/main/resources/log4j2.properties /bin/log4j2.properties

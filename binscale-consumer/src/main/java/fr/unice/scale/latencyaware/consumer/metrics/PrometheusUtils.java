@@ -13,7 +13,6 @@ public class PrometheusUtils {
     public static PrometheusMeterRegistry prometheusRegistry;
     public static TimeMeasure processingTime;
     public static Gauge processingGauge;
-    public static Timer timer;
     public static TimeMeasure totalLatencyTime;
     public static Gauge totalLatencyGauge;
 

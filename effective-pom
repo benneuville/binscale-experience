@@ -22,7 +22,7 @@
       <module>ControllerWithAssignment</module>
       <module>binscale-controller</module>
       <module>binscale-producer</module>
-      <module>variableconsumer</module>
+      <module>binscale-consumer</module>
     </modules>
     <properties>
       <kafka.version>2.7.0</kafka.version>
@@ -1441,7 +1441,7 @@
   <!-- ====================================================================== -->
   <!--                                                                        -->
   <!-- Effective POM for project                                              -->
-  <!-- 'org.example:variableconsumer:jar:1.0-SNAPSHOT'                        -->
+  <!-- 'org.example:binscale-consumer:jar:1.0-SNAPSHOT'                        -->
   <!--                                                                        -->
   <!-- ====================================================================== -->
   <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -1452,7 +1452,7 @@
       <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>variableconsumer</artifactId>
+    <artifactId>binscale-consumer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
       <build.jdk>21.0.1 (Oracle Corporation 21.0.1+12-LTS-29)</build.jdk>
@@ -1564,11 +1564,11 @@
       </pluginRepository>
     </pluginRepositories>
     <build>
-      <sourceDirectory>C:\Users\hp\Experience\variableconsumer\src\main\java</sourceDirectory>
-      <scriptSourceDirectory>C:\Users\hp\Experience\variableconsumer\src\main\scripts</scriptSourceDirectory>
-      <testSourceDirectory>C:\Users\hp\Experience\variableconsumer\src\test\java</testSourceDirectory>
-      <outputDirectory>C:\Users\hp\Experience\variableconsumer\target\classes</outputDirectory>
-      <testOutputDirectory>C:\Users\hp\Experience\variableconsumer\target\test-classes</testOutputDirectory>
+      <sourceDirectory>C:\Users\hp\Experience\binscale-consumer\src\main\java</sourceDirectory>
+      <scriptSourceDirectory>C:\Users\hp\Experience\binscale-consumer\src\main\scripts</scriptSourceDirectory>
+      <testSourceDirectory>C:\Users\hp\Experience\binscale-consumer\src\test\java</testSourceDirectory>
+      <outputDirectory>C:\Users\hp\Experience\binscale-consumer\target\classes</outputDirectory>
+      <testOutputDirectory>C:\Users\hp\Experience\binscale-consumer\target\test-classes</testOutputDirectory>
       <extensions>
         <extension>
           <groupId>kr.motd.maven</groupId>
@@ -1578,16 +1578,16 @@
       </extensions>
       <resources>
         <resource>
-          <directory>C:\Users\hp\Experience\variableconsumer\src\main\resources</directory>
+          <directory>C:\Users\hp\Experience\binscale-consumer\src\main\resources</directory>
         </resource>
       </resources>
       <testResources>
         <testResource>
-          <directory>C:\Users\hp\Experience\variableconsumer\src\test\resources</directory>
+          <directory>C:\Users\hp\Experience\binscale-consumer\src\test\resources</directory>
         </testResource>
       </testResources>
-      <directory>C:\Users\hp\Experience\variableconsumer\target</directory>
-      <finalName>variableconsumer-1.0-SNAPSHOT</finalName>
+      <directory>C:\Users\hp\Experience\binscale-consumer\target</directory>
+      <finalName>binscale-consumer-1.0-SNAPSHOT</finalName>
       <pluginManagement>
         <plugins>
           <plugin>
@@ -1777,7 +1777,7 @@
                 <goal>site</goal>
               </goals>
               <configuration>
-                <outputDirectory>C:\Users\hp\Experience\variableconsumer\target\site</outputDirectory>
+                <outputDirectory>C:\Users\hp\Experience\binscale-consumer\target\site</outputDirectory>
                 <reportPlugins>
                   <reportPlugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1793,7 +1793,7 @@
                 <goal>deploy</goal>
               </goals>
               <configuration>
-                <outputDirectory>C:\Users\hp\Experience\variableconsumer\target\site</outputDirectory>
+                <outputDirectory>C:\Users\hp\Experience\binscale-consumer\target\site</outputDirectory>
                 <reportPlugins>
                   <reportPlugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1804,7 +1804,7 @@
             </execution>
           </executions>
           <configuration>
-            <outputDirectory>C:\Users\hp\Experience\variableconsumer\target\site</outputDirectory>
+            <outputDirectory>C:\Users\hp\Experience\binscale-consumer\target\site</outputDirectory>
             <reportPlugins>
               <reportPlugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1816,7 +1816,7 @@
       </plugins>
     </build>
     <reporting>
-      <outputDirectory>C:\Users\hp\Experience\variableconsumer\target\site</outputDirectory>
+      <outputDirectory>C:\Users\hp\Experience\binscale-consumer\target\site</outputDirectory>
     </reporting>
   </project>
 </projects>

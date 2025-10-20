@@ -45,10 +45,10 @@
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
         </processorPath>
-        <module name="binscale-controller" />
         <module name="graphcontroller2" />
+        <module name="binscale-controller" />
         <module name="binscale-producer" />
-        <module name="variableconsumer" />
+        <module name="binscale-consumer" />
         <module name="binscale-common" />
         <module name="controllerassign" />
       </profile>
@@ -64,6 +64,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="binscale-consumer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="binscale-controller" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="binscale-producer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="i3s" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />

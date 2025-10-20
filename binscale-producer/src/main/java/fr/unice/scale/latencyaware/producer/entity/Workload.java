@@ -30,6 +30,7 @@ public class Workload {
     private void loadWorkload() throws IOException {
         ClassLoader CLDR = this.getClass().getClassLoader();
         InputStream inputStream = CLDR.getResourceAsStream(INPUT_WORKLOAD);
+        
 
         List<String> out = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
