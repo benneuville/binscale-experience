@@ -1,4 +1,4 @@
-package fr.unice.scale.latencyaware.producer.config;
+package fr.unice.scale.latencyaware.consumer.config;
 
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -8,35 +8,38 @@ import org.apache.logging.log4j.Logger;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import static fr.unice.scale.latencyaware.producer.constant.Variables.*;
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.STRING_DESERIALIZER;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
+import static org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG;
+import static org.apache.kafka.clients.producer.ProducerConfig.MAX_BLOCK_MS_CONFIG;
 
 
-public class KafkaProducerConfig {
-    private static final Logger log = LogManager.getLogger(KafkaProducerConfig.class);
+public class BinscaleProducerConfig {
+    private static final Logger log = LogManager.getLogger(BinscaleProducerConfig.class);
     private final String bootstrapServers;
-    private final String topic;
-    private final int delay;
-    private final Long messageCount;
-    private final String message;
     private final String acks;
     private final String headers;
     private final String additionalConfig;
+    private String topic;
 
-    public KafkaProducerConfig(String bootstrapServers, String topic,
-                               int delay, Long messageCount, String message,
-                               String acks, String additionalConfig, String headers) {
+    public BinscaleProducerConfig(String bootstrapServers, String acks, String additionalConfig, String headers) {
         this.bootstrapServers = bootstrapServers;
-        this.topic = topic;
-        this.delay = delay;
-        this.messageCount = messageCount;
-        this.message = message;
         this.acks = acks;
         this.headers = headers;
         this.additionalConfig = additionalConfig;
     }
 
-    public static KafkaProducerConfig fromEnv() {
-        return new KafkaProducerConfig(BOOTSTRAP_SERVERS, TOPIC, DELAY_MS, MESSAGES_COUNT, MESSAGE,
+    public BinscaleProducerConfig(String topic) {
+        this.topic = topic;
+        this.bootstrapServers = BOOTSTRAP_SERVERS;
+        this.acks = PRODUCER_ACKS;
+        this.headers = HEADERS;
+        this.additionalConfig = ADDITIONAL_CONFIG;
+    }
+
+    @Deprecated
+    public static BinscaleProducerConfig fromEnv() {
+        return new BinscaleProducerConfig(BOOTSTRAP_SERVERS,
                 PRODUCER_ACKS, ADDITIONAL_CONFIG, HEADERS);
     }
 
@@ -45,23 +48,20 @@ public class KafkaProducerConfig {
     A property list can contain another property list as its "defaults"; this second property list is searched if the property key is not found in the original property list.
 
     Because Properties inherits from Hashtable, the put and putAll methods can be applied to a Properties object. Their use is strongly discouraged as they allow the caller to insert entries whose keys or values are not Strings. The setProperty method should be used instead. If the store or save method is called on a "compromised" Properties object that contains a non-String key or value, the call will fail. Similarly, the call to the propertyNames or list method will fail if it is called on a "compromised" Properties object that contains a non-String key. */
-    public static Properties createProperties(KafkaProducerConfig config) {
+    public static Properties createProperties(BinscaleProducerConfig config) {
         log.info("==================================================");
         log.info("Creating Properties");
         log.info("==================================================");
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_DESERIALIZER);
         // ACK
-        //props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
-        props.put(ProducerConfig.ACKS_CONFIG, "0");
+        props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
         // NO BLOCK, EVEN IF BROKER NOT AVAILABLE
-        props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, "0");
+        props.put(MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG);
         // NO BATCH SENDING
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, "0");
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                CustomerSerializer.class.getName());
+        props.put(BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -87,18 +87,6 @@ public class KafkaProducerConfig {
         return topic;
     }
 
-    public int getDelay() {
-        return delay;
-    }
-
-    public Long getMessageCount() {
-        return messageCount;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     public String getAcks() {
         return acks;
     }
@@ -116,9 +104,6 @@ public class KafkaProducerConfig {
         return "KafkaProducerConfig{" +
                 "bootstrapServers='" + bootstrapServers + '\'' +
                 ", topic='" + topic + '\'' +
-                ", delay=" + delay +
-                ", messageCount=" + messageCount +
-                ", message='" + message + '\'' +
                 ", acks='" + acks + '\'' +
                 ", headers='" + headers + '\'' +
                 ", additionalConfig='" + additionalConfig + '\'' +

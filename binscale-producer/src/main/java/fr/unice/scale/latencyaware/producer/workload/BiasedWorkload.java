@@ -1,7 +1,7 @@
 package fr.unice.scale.latencyaware.producer.workload;
 
-import fr.unice.scale.latencyaware.common.entity.Customer;
-import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
+import fr.unice.scale.latencyaware.common.entity.EventCustomer;
+import fr.unice.scale.latencyaware.producer.config.BinscaleKafkaProducerConfig;
 import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -19,7 +19,7 @@ public class BiasedWorkload extends AbstractWorkload {
     final Logger log = LogManager.getLogger(BiasedWorkload.class);
 
     @Override
-    public void startWorkload(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
+    public void startWorkload(BinscaleKafkaProducerConfig config, KafkaProducer<String, EventCustomer> producer) throws IOException, URISyntaxException, InterruptedException {
         Workload wrld = new Workload();
 
         Random rnd = new Random();
@@ -48,7 +48,7 @@ public class BiasedWorkload extends AbstractWorkload {
 
 
                 for (long j = 0; j < messagesPerPartition; j++) {
-                    Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
+                    EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
                     producer.send(new ProducerRecord<>(config.getTopic(),
                             partitionIndex, null, UUID.randomUUID().toString(), custm));
                     partitionMessageCounts.put(partitionIndex, partitionMessageCounts.get(partitionIndex) + 1);
@@ -63,7 +63,7 @@ public class BiasedWorkload extends AbstractWorkload {
             long remainingMessages = totalMessages % totalWeight;
             for (long j = 0; j < remainingMessages; j++) {
                 int partition = (int) (j % partitionWeights.size());
-                Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
+                EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
                 producer.send(new ProducerRecord<>(config.getTopic(),
                         partition, null, UUID.randomUUID().toString(), custm));
                 partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);

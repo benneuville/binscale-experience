@@ -1,0 +1,124 @@
+package fr.unice.scale.latencyaware.producer.config;
+
+import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Properties;
+import java.util.StringTokenizer;
+
+import static fr.unice.scale.latencyaware.producer.constant.Variables.*;
+
+
+public class BinscaleKafkaProducerConfig {
+    private static final Logger log = LogManager.getLogger(BinscaleKafkaProducerConfig.class);
+    private final String bootstrapServers;
+    private final String topic;
+    private final int delay;
+    private final Long messageCount;
+    private final String message;
+    private final String acks;
+    private final String headers;
+    private final String additionalConfig;
+
+    public BinscaleKafkaProducerConfig(String bootstrapServers, String topic,
+                                       int delay, Long messageCount, String message,
+                                       String acks, String additionalConfig, String headers) {
+        this.bootstrapServers = bootstrapServers;
+        this.topic = topic;
+        this.delay = delay;
+        this.messageCount = messageCount;
+        this.message = message;
+        this.acks = acks;
+        this.headers = headers;
+        this.additionalConfig = additionalConfig;
+    }
+
+    public static BinscaleKafkaProducerConfig fromEnv() {
+        return new BinscaleKafkaProducerConfig(BOOTSTRAP_SERVERS, TOPIC, DELAY_MS, MESSAGES_COUNT, MESSAGE,
+                PRODUCER_ACKS, ADDITIONAL_CONFIG, HEADERS);
+    }
+
+    /* The Properties class represents a persistent set of properties. The Properties can be saved to a stream or loaded from a stream. Each key and its corresponding value in the property list is a string.
+
+    A property list can contain another property list as its "defaults"; this second property list is searched if the property key is not found in the original property list.
+
+    Because Properties inherits from Hashtable, the put and putAll methods can be applied to a Properties object. Their use is strongly discouraged as they allow the caller to insert entries whose keys or values are not Strings. The setProperty method should be used instead. If the store or save method is called on a "compromised" Properties object that contains a non-String key or value, the call will fail. Similarly, the call to the propertyNames or list method will fail if it is called on a "compromised" Properties object that contains a non-String key. */
+    public static Properties createProperties(BinscaleKafkaProducerConfig config) {
+        log.info("==================================================");
+        log.info("Creating Properties");
+        log.info("==================================================");
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_SERIALIZER);
+        // ACK
+        props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
+        // NO BLOCK, EVEN IF BROKER NOT AVAILABLE
+        props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG);
+        // NO BATCH SENDING
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
+        if (!config.getAdditionalConfig().isEmpty()) {
+            StringTokenizer tok =
+                    new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
+            while (tok.hasMoreTokens()) {
+                String record = tok.nextToken();
+                int endIndex = record.indexOf('=');
+                if (endIndex == -1) {
+                    throw new RuntimeException("Failed to parse Map from String");
+                }
+                String key = record.substring(0, endIndex);
+                String value = record.substring(endIndex + 1);
+                props.put(key.trim(), value.trim());
+            }
+        }
+        return props;
+    }
+
+    public String getBootstrapServers() {
+        return bootstrapServers;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public Long getMessageCount() {
+        return messageCount;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getAcks() {
+        return acks;
+    }
+
+    public String getHeaders() {
+        return headers;
+    }
+
+    public String getAdditionalConfig() {
+        return additionalConfig;
+    }
+
+    @Override
+    public String toString() {
+        return "KafkaProducerConfig{" +
+                "bootstrapServers='" + bootstrapServers + '\'' +
+                ", topic='" + topic + '\'' +
+                ", delay=" + delay +
+                ", messageCount=" + messageCount +
+                ", message='" + message + '\'' +
+                ", acks='" + acks + '\'' +
+                ", headers='" + headers + '\'' +
+                ", additionalConfig='" + additionalConfig + '\'' +
+                '}';
+    }
+}

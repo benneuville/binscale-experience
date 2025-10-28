@@ -1,18 +1,21 @@
 package fr.unice.scale.latencyaware.common.utils;
-import fr.unice.scale.latencyaware.common.entity.Customer;
+
+import fr.unice.scale.latencyaware.common.entity.EventCustomer;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class CustomerSerializer implements Serializer<Customer> {
+public class CustomerSerializer implements Serializer<EventCustomer> {
     @Override
     public void configure(Map configs, boolean isKey) {
 // nothing to configure
     }
+
     @Override
-    public byte[] serialize(String topic, Customer data) {
+    public byte[] serialize(String topic, EventCustomer data) {
         try {
             byte[] serializedName;
             int stringSize;
@@ -20,7 +23,7 @@ public class CustomerSerializer implements Serializer<Customer> {
                 return null;
             else {
                 if (data.getName() != null) {
-                    serializedName = data.getName().getBytes("UTF-8");
+                    serializedName = data.getName().getBytes(StandardCharsets.UTF_8);
                     stringSize = serializedName.length;
                 } else {
                     serializedName = new byte[0];
@@ -37,6 +40,7 @@ public class CustomerSerializer implements Serializer<Customer> {
                     "Error when serializing Customer to byte[] " + e);
         }
     }
+
     @Override
     public void close() {
 // nothing to close

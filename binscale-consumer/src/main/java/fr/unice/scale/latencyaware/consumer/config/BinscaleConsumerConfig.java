@@ -3,39 +3,41 @@ package fr.unice.scale.latencyaware.consumer.config;
 import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
 import fr.unice.scale.latencyaware.common.utils.CustomerDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.StickyAssignor;
 
 import java.util.Properties;
 import java.util.StringTokenizer;
 
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
 
-public class VariableKafkaConsumerConfig extends KafkaConsumerConfig {
-    private final static String HEARTBEAT_INTERVAL_MS = "3000";
-    private final static int MAX_POLL_RECORDS = 500;
+public class BinscaleConsumerConfig extends KafkaConsumerConfig {
     private final static String autoOffsetReset = "earliest";
     private final static String enableAutoCommit = "false";
-
+    private final String heartbeatIntervalMs;
+    private final int maxPollRecords;
     private final String clientRack;
     private final int sleep;
     private final Long messageCount;
     private final String additionalConfig;
 
-    public VariableKafkaConsumerConfig(String bootstrapServers, String topic, String groupId,
-                                       String clientRack, Long messageCount, int sleep,
-                                       String additionalConfig) {
+    public BinscaleConsumerConfig(String bootstrapServers, String topic, String groupId,
+                                  String clientRack, Long messageCount, int sleep,
+                                  String additionalConfig, int maxPollRecords, String heartbeatIntervalMs) {
         super(bootstrapServers, topic, groupId);
         this.clientRack = clientRack;
         this.messageCount = messageCount;
         this.sleep = sleep;
         this.additionalConfig = additionalConfig;
+        this.maxPollRecords = maxPollRecords;
+        this.heartbeatIntervalMs = heartbeatIntervalMs;
     }
 
-    public static VariableKafkaConsumerConfig fromEnv() {
-        return new VariableKafkaConsumerConfig(BOOTSTRAP_SERVERS, TOPIC, GROUP_ID, CLIENT_RACK,
-                MESSAGE_COUNT, SLEEP, ADDITIONAL_CONFIG);
+    public static BinscaleConsumerConfig fromEnv() {
+        return new BinscaleConsumerConfig(BOOTSTRAP_SERVERS, TOPIC, GROUP_ID, CLIENT_RACK,
+                MESSAGE_COUNT, SLEEP, ADDITIONAL_CONFIG, MAX_POLL_RECORDS, HEARTBEAT_INTERVAL_MS);
     }
 
-    public static Properties createProperties(VariableKafkaConsumerConfig config) {
+    public static Properties createProperties(BinscaleConsumerConfig config) {
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getGroupId());
@@ -44,14 +46,14 @@ public class VariableKafkaConsumerConfig extends KafkaConsumerConfig {
             props.put(ConsumerConfig.CLIENT_RACK_CONFIG, config.getClientRack());
         }
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, config.getAutoOffsetReset());
-        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, MAX_POLL_RECORDS);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, config.getMaxPollRecords());
 
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, config.getEnableAutoCommit());
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, STRING_DESERIALIZER);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 CustomerDeserializer.class.getName());
-        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, HEARTBEAT_INTERVAL_MS);
+        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, config.getHeartbeatIntervalMs());
+        props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, StickyAssignor.class.getName());
 
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok = new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -67,6 +69,10 @@ public class VariableKafkaConsumerConfig extends KafkaConsumerConfig {
             }
         }
         return props;
+    }
+
+    public Properties toProperties() {
+        return createProperties(this);
     }
 
     public int getSleep() {
@@ -91,6 +97,14 @@ public class VariableKafkaConsumerConfig extends KafkaConsumerConfig {
 
     public String getAdditionalConfig() {
         return additionalConfig;
+    }
+
+    public int getMaxPollRecords() {
+        return maxPollRecords;
+    }
+
+    public String getHeartbeatIntervalMs() {
+        return heartbeatIntervalMs;
     }
 
     @Override

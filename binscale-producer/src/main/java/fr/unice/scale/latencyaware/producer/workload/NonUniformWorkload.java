@@ -1,8 +1,8 @@
 package fr.unice.scale.latencyaware.producer.workload;
 
 
-import fr.unice.scale.latencyaware.common.entity.Customer;
-import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
+import fr.unice.scale.latencyaware.common.entity.EventCustomer;
+import fr.unice.scale.latencyaware.producer.config.BinscaleKafkaProducerConfig;
 import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -19,7 +19,7 @@ public class NonUniformWorkload extends AbstractWorkload {
     final Logger log = LogManager.getLogger(NonUniformWorkload.class);
 
     @Override
-    public void startWorkload(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws IOException, URISyntaxException, InterruptedException {
+    public void startWorkload(BinscaleKafkaProducerConfig config, KafkaProducer<String, EventCustomer> producer) throws IOException, URISyntaxException, InterruptedException {
         Workload wrld = new Workload();
 
         Random rnd = new Random();
@@ -49,8 +49,8 @@ public class NonUniformWorkload extends AbstractWorkload {
 
 
                 for (long j = 0; j < messagesPerPartition; j++) {
-                    Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                    producer.send(new ProducerRecord<String, Customer>(config.getTopic(),
+                    EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
+                    producer.send(new ProducerRecord<String, EventCustomer>(config.getTopic(),
                             partitionIndex, null, UUID.randomUUID().toString(), custm));
                     partitionMessageCounts.put(partitionIndex, partitionMessageCounts.get(partitionIndex) + 1);
                 }
@@ -64,8 +64,8 @@ public class NonUniformWorkload extends AbstractWorkload {
             long remainingMessages = totalMessages % totalWeight;
             for (long j = 0; j < remainingMessages; j++) {
                 int partition = (int) (j % partitionWeights.size());
-                Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                producer.send(new ProducerRecord<String, Customer>(config.getTopic(),
+                EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
+                producer.send(new ProducerRecord<String, EventCustomer>(config.getTopic(),
                         partition, null, UUID.randomUUID().toString(), custm));
                 partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);
                 log.info("sent 1 remaining message to partition {}", partition);

@@ -1,18 +1,20 @@
 package fr.unice.scale.latencyaware.common.utils;
-import fr.unice.scale.latencyaware.common.entity.Customer;
+
+import fr.unice.scale.latencyaware.common.entity.EventCustomer;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
 
-public class CustomerDeserializer implements Deserializer<Customer> {
+public class CustomerDeserializer implements Deserializer<EventCustomer> {
     @Override
     public void configure(Map configs, boolean isKey) {
 // nothing to configure
     }
+
     @Override
-    public Customer deserialize(String topic, byte[] data) {
+    public EventCustomer deserialize(String topic, byte[] data) {
         int id;
         int nameSize;
         String name;
@@ -28,12 +30,13 @@ public class CustomerDeserializer implements Deserializer<Customer> {
             byte[] nameBytes = new byte[nameSize];
             buffer.get(nameBytes);
             name = new String(nameBytes, "UTF-8");
-            return new Customer(id, name);
+            return new EventCustomer(id, name);
         } catch (Exception e) {
             throw new SerializationException("Error when deserializing " +
                     "byte[] to Customer " + e);
         }
     }
+
     @Override
     public void close() {
 // nothing to close

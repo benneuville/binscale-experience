@@ -1,7 +1,7 @@
 package fr.unice.scale.latencyaware.producer;
 
-import fr.unice.scale.latencyaware.common.entity.Customer;
-import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
+import fr.unice.scale.latencyaware.common.entity.EventCustomer;
+import fr.unice.scale.latencyaware.producer.config.BinscaleKafkaProducerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,10 +17,10 @@ public class KafkaProducerExample {
     private static final Logger log = LogManager.getLogger(KafkaProducerExample.class);
 
     public static void main(String[] args) throws InterruptedException, IOException, URISyntaxException {
-        KafkaProducerConfig config = KafkaProducerConfig.fromEnv();
-        log.info(KafkaProducerConfig.class.getName() + ": {}", config.toString());
-        Properties props = KafkaProducerConfig.createProperties(config);
-        KafkaProducer<String, Customer> producer = new KafkaProducer<>(props);
+        BinscaleKafkaProducerConfig config = BinscaleKafkaProducerConfig.fromEnv();
+        log.info(BinscaleKafkaProducerConfig.class.getName() + ": {}", config.toString());
+        Properties props = BinscaleKafkaProducerConfig.createProperties(config);
+        KafkaProducer<String, EventCustomer> producer = new KafkaProducer<>(props);
         startServer();
 
         WORKLOAD.getWorkload().startWorkload(config, producer);
