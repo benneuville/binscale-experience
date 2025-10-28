@@ -1,28 +1,24 @@
 package fr.unice.scale.latencyaware.consumer.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DistributionConfig {
-    private List<ProducerTopicDistribution> output;
+    private List<ProducerTopicDistribution> outputTopics;
 
     public DistributionConfig() {
-        this.output = new ArrayList<>();
+        this.outputTopics = new ArrayList<>();
     }
 
-    @JsonCreator
-    public DistributionConfig(@JsonProperty("output") List<ProducerTopicDistribution> output) {
-        this.output = output;
+    public DistributionConfig(List<ProducerTopicDistribution> outputTopics) {
+        this.outputTopics = outputTopics;
     }
 
-    public List<ProducerTopicDistribution> getOutput() {
-        return output;
+    public List<ProducerTopicDistribution> getOutputTopics() {
+        return outputTopics;
     }
 
-    public void setOutput(List<ProducerTopicDistribution> output) {
-        this.output = output;
+    public void setOutputTopics(List<ProducerTopicDistribution> outputTopics) {
+        this.outputTopics = outputTopics;
     }
 }

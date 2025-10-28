@@ -19,7 +19,7 @@ public class DuplicateProcessStrategy extends ProcessStrategy {
     @Override
     public List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events, Consumer<ConsumerRecord<String, EventCustomer>> eventProcessor) {
         List<DistributedEventCustomer> distributedEvents = new ArrayList<>();
-        for (ProducerTopicDistribution topic : config.getOutput()) {
+        for (ProducerTopicDistribution topic : config.getOutputTopics()) {
             distributedEvents.add(new DistributedEventCustomer(topic));
         }
         for (ConsumerRecord<String, EventCustomer> eventCustomer : events) {

@@ -7,8 +7,6 @@ import fr.unice.scale.latencyaware.consumer.metrics.MetricsCollector;
 import org.apache.commons.math3.distribution.ParetoDistribution;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -19,12 +17,8 @@ import static fr.unice.scale.latencyaware.consumer.constant.Variables.SHAPE;
 public abstract class ProcessStrategy {
     private final ParetoDistribution paretoDistribution = new ParetoDistribution(SCALE, SHAPE);
 
-    private final Logger logger = LoggerFactory.getLogger(ProcessStrategy.class);
-
     public List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events) {
-        List<DistributedEventCustomer> res = process(config, events, this::processEvent);
-        this.logger.info(res.toString());
-        return res;
+        return process(config, events, this::processEvent);
     }
 
     public abstract List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events, Consumer<ConsumerRecord<String, EventCustomer>> eventProcessor);

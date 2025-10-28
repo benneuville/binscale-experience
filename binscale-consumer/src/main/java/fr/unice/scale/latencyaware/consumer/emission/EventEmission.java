@@ -7,27 +7,24 @@ import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
 import fr.unice.scale.latencyaware.consumer.entity.ProducerTopicDistribution;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EventEmission {
-    private final static Logger logger = LoggerFactory.getLogger(EventEmission.class);
     private final Map<ProducerTopicDistribution, KafkaProducer<String, EventCustomer>> producers;
+
     private long timestampNow = System.currentTimeMillis();
 
     public EventEmission(DistributionConfig config) {
         this.producers = new HashMap<>();
-        if (config.getOutput().isEmpty()) return;
-        for (ProducerTopicDistribution topic : config.getOutput()) {
-            BinscaleProducerConfig producerConfig = new BinscaleProducerConfig(topic.getName());
+        if (config.getOutputTopics().isEmpty()) return;
+        for (ProducerTopicDistribution topic : config.getOutputTopics()) {
+            BinscaleProducerConfig producerConfig = new BinscaleProducerConfig(topic.getTopicName());
             KafkaProducer<String, EventCustomer> producer = new KafkaProducer<>(BinscaleProducerConfig.createProperties(producerConfig));
             this.producers.put(topic, producer);
         }
-        logger.info("Initialized EventEmission with {} producers", this.producers.size());
     }
 
     public void setTimestampNow() {
@@ -38,12 +35,9 @@ public class EventEmission {
         if (producers.isEmpty()) return;
         for (DistributedEventCustomer distributedEvent : processed) {
             KafkaProducer<String, EventCustomer> producer = producers.get(distributedEvent.getTargetTopic());
-            logger.info("Publishing {} events to topic {}",
-                    distributedEvent.getEvents().size(),
-                    distributedEvent.getTargetTopic().getName());
             for (EventCustomer event : distributedEvent.getEvents()) {
                 producer.send(new ProducerRecord<>(
-                        distributedEvent.getTargetTopic().getName(),
+                        distributedEvent.getTargetTopic().getTopicName(),
                         event
                 ));
             }
