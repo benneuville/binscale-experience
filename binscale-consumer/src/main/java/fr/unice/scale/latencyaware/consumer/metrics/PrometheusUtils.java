@@ -1,7 +1,6 @@
 package fr.unice.scale.latencyaware.consumer.metrics;
+
 import com.sun.net.httpserver.HttpServer;
-import io.micrometer.core.instrument.Gauge;
-import io.micrometer.core.instrument.Timer;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
@@ -11,11 +10,6 @@ import java.net.InetSocketAddress;
 
 public class PrometheusUtils {
     public static PrometheusMeterRegistry prometheusRegistry;
-    public static TimeMeasure processingTime;
-    public static Gauge processingGauge;
-    public static TimeMeasure totalLatencyTime;
-    public static Gauge totalLatencyGauge;
-
 
     public static void initPrometheus() {
         prometheusRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
@@ -32,14 +26,7 @@ public class PrometheusUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        processingTime = new TimeMeasure(0.0);
-        processingGauge = Gauge.builder("processingGauge",  processingTime, TimeMeasure::getDuration)
-                .register(prometheusRegistry);//prometheusRegistry.gauge("timergauge" );
-
-        totalLatencyTime = new TimeMeasure(0.0);
-        totalLatencyGauge = Gauge.builder("totallatencygauge",  totalLatencyTime, TimeMeasure::getDuration)
-                .register(prometheusRegistry);//prometheusRegistry.gauge("timergauge" );
-
     }
+
+
 }

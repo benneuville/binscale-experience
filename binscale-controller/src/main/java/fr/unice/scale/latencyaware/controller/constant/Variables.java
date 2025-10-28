@@ -1,9 +1,10 @@
 package fr.unice.scale.latencyaware.controller.constant;
 
+import fr.unice.scale.latencyaware.common.constant.CommonVariables;
 import fr.unice.scale.latencyaware.common.doc.EnvVar;
 import fr.unice.scale.latencyaware.common.utils.EnvUtils;
 
-public final class Variables {
+public final class Variables extends CommonVariables {
     @EnvVar(description = "DI value in seconds for the controller loop sleep time")
     public static final Double DI = EnvUtils.envDouble("DI");
     @EnvVar(description = "WSLA value in seconds")
@@ -21,10 +22,10 @@ public final class Variables {
     public static final Integer INIT_SIZE = EnvUtils.envInt("INIT_SIZE");
     @EnvVar(description = "Bootstrap servers. Example : 'localhost:9092'")
     public static final String BOOTSTRAP_SERVERS = EnvUtils.envString("BOOTSTRAP_SERVERS");
-    @EnvVar(description = "Topic name. Example : 'testtopic1'")
-    public static final String TOPIC = EnvUtils.envString("TOPIC");
-    @EnvVar(description = "Group id. Example : 'testgroup1'")
-    public static final String GROUP_ID = EnvUtils.envString("GROUP_ID");
     @EnvVar(description = "Number of partitions for the topic")
     public static final Integer NUMBER_PARTITIONS = EnvUtils.envInt("NUMBER_PARTITIONS");
+
+    // Constants
+
+    public static final String ARRIVAL_SERVICE = "arrivalservice";
 }

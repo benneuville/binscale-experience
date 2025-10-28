@@ -1,10 +1,10 @@
 package fr.unice.scale.latencyaware.common.entity;
 
-public class Customer {
+public class EventCustomer {
 
     private int customerID;
     private String customerName;
-    public Customer(int ID, String name) {
+    public EventCustomer(int ID, String name) {
         this.customerID = ID;
         this.customerName = name;
     }

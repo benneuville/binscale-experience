@@ -1,7 +1,7 @@
 package fr.unice.scale.latencyaware.producer.workload;
 
-import fr.unice.scale.latencyaware.common.entity.Customer;
-import fr.unice.scale.latencyaware.producer.config.KafkaProducerConfig;
+import fr.unice.scale.latencyaware.common.entity.EventCustomer;
+import fr.unice.scale.latencyaware.producer.config.BinscaleKafkaProducerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,7 @@ public class ConstantWorkload extends AbstractWorkload {
     final Logger log = LogManager.getLogger(ConstantWorkload.class);
 
     @Override
-    public void startWorkload(KafkaProducerConfig config, KafkaProducer<String, Customer> producer) throws InterruptedException {
+    public void startWorkload(BinscaleKafkaProducerConfig config, KafkaProducer<String, EventCustomer> producer) throws InterruptedException {
 
         Random rnd = new Random();
         //During 10 minutes
@@ -30,8 +30,8 @@ public class ConstantWorkload extends AbstractWorkload {
 
             //   loop over each sample
             for (long j = 0; j < 150; j++) {
-                Customer custm = new Customer(rnd.nextInt(), UUID.randomUUID().toString());
-                producer.send(new ProducerRecord<String, Customer>(config.getTopic(),
+                EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
+                producer.send(new ProducerRecord<String, EventCustomer>(config.getTopic(),
                         null, null, UUID.randomUUID().toString(), custm));
             }
 
