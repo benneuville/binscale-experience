@@ -1,16 +1,17 @@
 package fr.unice.scale.latencyaware.consumer.config;
 
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
-import fr.unice.scale.latencyaware.consumer.emission.EmissionInterceptor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.STRING_DESERIALIZER;
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
+import static org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG;
+import static org.apache.kafka.clients.producer.ProducerConfig.MAX_BLOCK_MS_CONFIG;
 
 
 public class BinscaleProducerConfig {
@@ -53,15 +54,14 @@ public class BinscaleProducerConfig {
         log.info("==================================================");
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_SERIALIZER);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_DESERIALIZER);
         // ACK
         props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
         // NO BLOCK, EVEN IF BROKER NOT AVAILABLE
-        props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG);
+        props.put(MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG);
         // NO BATCH SENDING
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
+        props.put(BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
-        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, Collections.singletonList(EmissionInterceptor.class));
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");

@@ -45,12 +45,4 @@ public class DistributedEventCustomer {
     public void addAllEvents(List<EventCustomer> events) {
         this.events.addAll(events);
     }
-
-    @Override
-    public String toString() {
-        return "DistributedEventCustomer{" +
-                "targetTopic=" + targetTopic +
-                ", events_count=" + events.size() +
-                '}';
-    }
 }

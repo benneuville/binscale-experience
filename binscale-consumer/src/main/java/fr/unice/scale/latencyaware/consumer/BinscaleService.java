@@ -7,7 +7,6 @@ import fr.unice.scale.latencyaware.consumer.emission.EventEmission;
 import fr.unice.scale.latencyaware.consumer.entity.DistributedEventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
 import fr.unice.scale.latencyaware.consumer.ingestion.EventIngestion;
-import fr.unice.scale.latencyaware.consumer.metrics.MetricsCollector;
 import fr.unice.scale.latencyaware.consumer.metrics.PrometheusUtils;
 import fr.unice.scale.latencyaware.consumer.processing.EventProcessing;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -43,39 +42,21 @@ public class BinscaleService implements Runnable {
         this.producer = new EventEmission(config);
     }
 
-    public void addShutDownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                log.info("Starting exit...");
-                consumer.wakeup();
-                try {
-                    this.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     @Override
     public void run() {
         log.info("Starting Binscale Consumer Service...");
 
         try {
             while (running) {
+                consumer.commit();
                 producer.setTimestampNow();
                 ConsumerRecords<String, EventCustomer> events = consumer.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()));
-                if (!events.isEmpty()) {
-                    List<DistributedEventCustomer> processed = distributor.distribute(events);
+                List<DistributedEventCustomer> processed = distributor.distribute(events);
 
-                    producer.publish(processed);
-                    consumer.commit();
-                } else {
-                    MetricsCollector.getInstance().resetLatency();
-                }
+                producer.publish(processed);
+                consumer.commit();
             }
         } catch (Exception e) {
-            shutdown();
             throw new RuntimeException(e);
         } finally {
             shutdown();

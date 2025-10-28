@@ -20,12 +20,12 @@ public class BalanceProcessStrategy extends ProcessStrategy {
     @Override
     public List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events, Consumer<ConsumerRecord<String, EventCustomer>> eventProcessor) {
         List<DistributedEventCustomer> distributedEvents = new ArrayList<>();
-        for (ProducerTopicDistribution topic : config.getOutput()) {
+        for (ProducerTopicDistribution topic : config.getOutputTopics()) {
             distributedEvents.add(new DistributedEventCustomer(topic));
         }
         for (ConsumerRecord<String, EventCustomer> eventCustomer : events) {
-            if (!config.getOutput().isEmpty()) {
-                currentTopicDistributionPosition = (currentTopicDistributionPosition + 1) % config.getOutput().size();
+            if (!config.getOutputTopics().isEmpty()) {
+                currentTopicDistributionPosition = (currentTopicDistributionPosition + 1) % config.getOutputTopics().size();
                 DistributedEventCustomer distributedEvent = distributedEvents.get(currentTopicDistributionPosition);
                 distributedEvent.addEvent(eventCustomer.value());
             }
