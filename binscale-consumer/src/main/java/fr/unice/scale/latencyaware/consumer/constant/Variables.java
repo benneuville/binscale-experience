@@ -30,10 +30,8 @@ public final class Variables extends CommonVariables {
     public static final String CLIENT_RACK = EnvUtils.envOrDefault("CLIENT_RACK", null);
     @EnvVar(description = "Max poll records parameter. Max number of events returned in a call to Kafka topic.")
     public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 500);
-    @EnvVar(description = "Kafka session timeout in milliseconds")
-    public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "3000");
     @EnvVar(description = "Heartbeat interval in milliseconds")
-    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "1000");
+    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "3000");
     @EnvVar(description = "Processing strategy. Example : 'balanced', 'dupplicated', custom'")
     public static final ProcessStrategyMapping PROCESSING_STRATEGY = EnvUtils.envOrDefault("PROCESSING_STRATEGY", ProcessStrategyMapping.defaultStrategy, ProcessStrategyMapping::getByName);
     @EnvVar(description = "Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2'", defaultValue = "\"\"")
@@ -42,8 +40,4 @@ public final class Variables extends CommonVariables {
     public static final String PRODUCER_ACKS = EnvUtils.envOrDefault("PRODUCER_ACKS", "0");
     @EnvVar(description = "Config path for Topics distribution")
     public static final String TOPICS_DISTRIBUTION_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_DISTRIBUTION_CONFIG_PATH", "/config/topics-config.yaml");
-
-    // CONSTANTS
-    public static final String MAX_BLOCK_MS_CONFIG = "0";
-    public static final String BATCH_SIZE_CONFIG = "0";
 }

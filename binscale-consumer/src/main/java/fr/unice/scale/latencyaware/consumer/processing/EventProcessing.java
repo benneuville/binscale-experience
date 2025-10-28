@@ -3,6 +3,7 @@ package fr.unice.scale.latencyaware.consumer.processing;
 import fr.unice.scale.latencyaware.common.entity.EventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributedEventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
+import fr.unice.scale.latencyaware.consumer.metrics.MetricsCollector;
 import fr.unice.scale.latencyaware.consumer.processing.strategy.ProcessStrategy;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.slf4j.Logger;

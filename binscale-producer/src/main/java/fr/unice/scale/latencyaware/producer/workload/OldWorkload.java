@@ -27,14 +27,14 @@ public class OldWorkload extends AbstractWorkload {
 
         Random rnd = new Random();
         // over all the workload
-        for (int i = 0; i < wrld.getTimestamps().size(); i++) {
+        for (int i = 0; i < wrld.getDatax().size(); i++) {
             log.info("sending a batch of authorizations of size:{}",
-                    Math.ceil(wrld.getRate(i)));
-            ArrivalRate = (float) Math.ceil(wrld.getRate(i));
+                    Math.ceil(wrld.getDatay().get(i)));
+            ArrivalRate = (float) Math.ceil(wrld.getDatay().get(i));
             //   loop over each sample
 
             double sleep = 1000.0 / (ArrivalRate);
-            for (long j = 0; j < Math.ceil(wrld.getRate(i)); j++) {
+            for (long j = 0; j < Math.ceil(wrld.getDatay().get(i)); j++) {
                 EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
 
                 producer.send(new ProducerRecord<>(config.getTopic(),
@@ -43,7 +43,7 @@ public class OldWorkload extends AbstractWorkload {
                 Thread.sleep((long) sleep);
             }
 
-            log.info("sent {} events Per Second ", Math.ceil(wrld.getRate(i)));
+            log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
             //Thread.sleep(config.getDelay());
         }
     }
@@ -55,10 +55,10 @@ public class OldWorkload extends AbstractWorkload {
         Workload wrld = new Workload();
         Random rnd = new Random();
         // over all the workload
-        for (int i = 0; i < wrld.getTimestamps().size(); i++) {
+        for (int i = 0; i < wrld.getDatax().size(); i++) {
             log.info("sending a batch of authorizations of size:{}",
-                    Math.ceil(wrld.getRate(i)));
-            ArrivalRate = (float) Math.ceil(wrld.getRate(i));
+                    Math.ceil(wrld.getDatay().get(i)));
+            ArrivalRate = (float) Math.ceil(wrld.getDatay().get(i));
             //   loop over each sample
             double minibatch = ArrivalRate / 25;
             double fraction = ArrivalRate % 25;
@@ -102,10 +102,10 @@ public class OldWorkload extends AbstractWorkload {
         Workload workld = new Workload();
         Random rnd = new Random();
         // over all the workload
-        for (int i = 0; i < workld.getTimestamps().size(); i++) {
+        for (int i = 0; i < workld.getDatax().size(); i++) {
             log.info("sending a batch of authorizations of size:{}",
-                    Math.ceil(workld.getRate(i)));
-            ArrivalRate = (float) Math.ceil(workld.getRate(i));
+                    Math.ceil(workld.getDatay().get(i)));
+            ArrivalRate = (float) Math.ceil(workld.getDatay().get(i));
             //   loop over each sample
             double minibatch = Math.floor(ArrivalRate / 100.0);
             double fraction = ArrivalRate % 100.0;
@@ -151,18 +151,18 @@ public class OldWorkload extends AbstractWorkload {
 
         Random rnd = new Random();
         // over all the workload
-        for (int i = 0; i < wrld.getTimestamps().size(); i++) {
+        for (int i = 0; i < wrld.getDatax().size(); i++) {
             log.info("sending a batch of authorizations of size:{}",
-                    Math.ceil(wrld.getRate(i)));
-            ArrivalRate = (float) Math.ceil(wrld.getRate(i));
+                    Math.ceil(wrld.getDatay().get(i)));
+            ArrivalRate = (float) Math.ceil(wrld.getDatay().get(i));
             //   loop over each sample
-            for (long j = 0; j < Math.ceil(wrld.getRate(i)); j++) {
+            for (long j = 0; j < Math.ceil(wrld.getDatay().get(i)); j++) {
                 EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
                 producer.send(new ProducerRecord<>(config.getTopic(),
                         null, null, UUID.randomUUID().toString(), custm));
             }
 
-            log.info("sent {} events Per Second ", Math.ceil(wrld.getRate(i)));
+            log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
             Thread.sleep(config.getDelay());
         }
     }
