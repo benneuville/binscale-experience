@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for graphcontroller2" enabled="true">
+      <profile name="Annotation profile for parent-project" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -45,17 +45,17 @@
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
         </processorPath>
-        <module name="graphcontroller2" />
-        <module name="binscale-controller" />
         <module name="binscale-producer" />
+        <module name="binscale-controller" />
         <module name="binscale-consumer" />
         <module name="binscale-common" />
-        <module name="controllerassign" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="binscale-common (1)" target="11" />
       <module name="binscale-common (2)" target="11" />
+      <module name="controllerassign" target="11" />
+      <module name="graphcontroller2" target="11" />
       <module name="i3s" target="11" />
       <module name="IntegrationController" target="11" />
       <module name="multipleConsumers" target="11" />

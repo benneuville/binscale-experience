@@ -11,6 +11,8 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/ControllerWithAssignment/pom.xml" />
+        <option value="$PROJECT_DIR$/graphcontroller2/pom.xml" />
         <option value="$PROJECT_DIR$/produceri3s/binscale-common/pom.xml" />
       </set>
     </option>

@@ -1,6 +1,6 @@
-package graph;
+package fr.unice.scale.latencyaware.controller.graph;
 
-import group.ConsumerGroup;
+import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 
 public class Vertex {
 
