@@ -15,8 +15,9 @@ public class DistributionConfigBuilder {
 
     private static final Logger log = LoggerFactory.getLogger(DistributionConfigBuilder.class);
 
+    private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+
     public static DistributionConfig fromEnv() {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             return mapper.readValue(new File(TOPICS_DISTRIBUTION_CONFIG_PATH), DistributionConfig.class);
         } catch (IOException e) {

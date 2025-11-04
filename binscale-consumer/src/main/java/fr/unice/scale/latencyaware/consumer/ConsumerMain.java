@@ -22,6 +22,7 @@ import java.util.TimeZone;
 
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
 
+@Deprecated
 public class ConsumerMain {
     private static final Logger log = LogManager.getLogger(ConsumerMain.class);
     public static KafkaConsumer<String, EventCustomer> consumer = null;
@@ -32,7 +33,7 @@ public class ConsumerMain {
     public static KafkaProducer<String, EventCustomer> producer;
     public static ParetoDistribution dist = new ParetoDistribution(SCALE, SHAPE);
 
-
+    @Deprecated
     public static void main(String[] args) {
 //        PrometheusUtils.initPrometheus();
         BinscaleConsumerConfig config = BinscaleConsumerConfig.fromEnv();
@@ -111,6 +112,7 @@ public class ConsumerMain {
         }
     }
 
+    @Deprecated
     private static Instant checkForCommit(SimpleDateFormat simpleDateFormat, Logger logger, Instant lastCommitTime) {
         if (Math.abs(Duration.between(lastCommitTime, Instant.now()).toMillis()) >= TIME_TO_COMMIT) {
             if (ASYNC_COMMIT) {
@@ -124,6 +126,7 @@ public class ConsumerMain {
         return lastCommitTime;
     }
 
+    @Deprecated
     private static void addShutDownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {

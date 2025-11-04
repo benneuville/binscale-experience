@@ -9,12 +9,8 @@
     <modules>
         <module>binscale-common</module>
         <module>binscale-controller</module>
-        <!--        <module>multipleConsumers</module>-->
         <module>binscale-consumer</module>
         <module>binscale-producer</module>
-        <!--        <module>ControllerWithAssignment</module>-->
-        <!--        <module>graphcontroller2</module>-->
-        <!--        <module>restructuredbinpack</module>-->
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

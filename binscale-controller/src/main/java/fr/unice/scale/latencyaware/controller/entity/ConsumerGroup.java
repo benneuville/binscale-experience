@@ -1,5 +1,6 @@
-package group;
+package fr.unice.scale.latencyaware.controller.entity;
 
+import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -22,21 +23,39 @@ public class ConsumerGroup {
     ArrayList<Partition> topicpartitions;
     double totalArrivalRate;
     double totalLag;
+
+    public void setDynamicAverageMaxConsumptionRate(double dynamicAverageMaxConsumptionRate) {
+        this.dynamicAverageMaxConsumptionRate = dynamicAverageMaxConsumptionRate;
+    }
+
     double dynamicAverageMaxConsumptionRate;
-    double wsla = 0.5;
+    double wsla;
     Instant lastUpScaleDecision = Instant.now();
 
-    public  KubernetesClient k8s;
+
+    public double getProcessingRate() {
+        return processingRate;
+    }
+
+    public void setProcessingRate(double processingRate) {
+        this.processingRate = processingRate;
+    }
+
+    double processingRate;
+
+    public KubernetesClient k8s;
 
     public boolean isScaled() {
         return scaled;
     }
+
 
     public void setScaled(boolean scaled) {
         this.scaled = scaled;
     }
 
     boolean scaled;
+
 
     KafkaConsumerConfig kcg;
     List<Consumer> assignment;
@@ -75,7 +94,6 @@ public class ConsumerGroup {
     }
 
 
-
     public static double getMu() {
         return mu;
     }
@@ -94,8 +112,9 @@ public class ConsumerGroup {
         this.metadataConsumer = metadataConsumer;
     }
 
-    private  KafkaConsumer<byte[], byte[]> metadataConsumer;
+    private KafkaConsumer<byte[], byte[]> metadataConsumer;
     static double mu = 200.0;
+
 
     public ConsumerGroup(String inputTopic, Integer size,
                          double dynamicAverageMaxConsumptionRate,
@@ -130,39 +149,48 @@ public class ConsumerGroup {
         }
         currentAssignment = assignment;
         tempAssignment = assignment;
+
+        processingRate =0;
     }
 
 
     public String getKafkaName() {
         return kafkaName;
     }
+
     public void setKafkaName(String kafkaName) {
         this.kafkaName = kafkaName;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public Integer getSize() {
         return size;
     }
+
     public void setSize(Integer size) {
         this.size = size;
     }
+
     public double getDynamicAverageMaxConsumptionRate() {
         return dynamicAverageMaxConsumptionRate;
     }
 
 
-
     public double getWsla() {
         return wsla;
     }
+
     public Instant getLastUpScaleDecision() {
         return lastUpScaleDecision;
     }
+
     public void setLastUpScaleDecision(Instant lastUpScaleDecision) {
         this.lastUpScaleDecision = lastUpScaleDecision;
     }
@@ -170,6 +198,7 @@ public class ConsumerGroup {
     public String getInputTopic() {
         return inputTopic;
     }
+
     public ArrayList<Partition> getTopicpartitions() {
         return topicpartitions;
     }
@@ -178,11 +207,12 @@ public class ConsumerGroup {
     public double getTotalArrivalRate() {
         return totalArrivalRate;
     }
+
     public void setTotalArrivalRate(double totalArrivalRate) {
         this.totalArrivalRate = totalArrivalRate;
-
+        // TODO
         for (int i = 0; i < 5; i++) {
-           topicpartitions.get(i).setArrivalRate(totalArrivalRate/5.0);
+            topicpartitions.get(i).setArrivalRate(totalArrivalRate / 5.0);
             log.info("Arrival rate for partition {} is {}", i, topicpartitions.get(i).getArrivalRate());
         }
     }
@@ -190,18 +220,33 @@ public class ConsumerGroup {
     public double getTotalLag() {
         return totalLag;
     }
+
     public void setTotalLag(double totalLag) {
+        // TODO  TO BE OR NOT TO BE
+        //  double max = Math.max(totalArrivalRate, dynamicAverageMaxConsumptionRate * size);
+        // lag = lag + (arrivalsPerSec - consumedPerSec)
+        // lag = max (0, lag)
 
 
-    // TO BE OR NOT TO BE
-      double max = Math.max(totalArrivalRate, dynamicAverageMaxConsumptionRate*size);
-      totalLag = Math.max(totalLag - max, 0);
 
-        this.totalLag = totalLag;
-       for (int i = 0; i < 5; i++) {
-            topicpartitions.get(i).setLag((long)(totalLag/5));
-           log.info("Lag for partition {} is {}", i, topicpartitions.get(i).getLag());
+
+        //TODO
+        //Any lag less than mu is not counted,
+        totalLag = Math.max(totalLag -  (dynamicAverageMaxConsumptionRate * size), 0);
+
+
+
+        //totalLag = Math.max(totalLag - max, 0);
+        //this.totalLag = 0; //totalLag;
+
+
+        //eventually equal lag per partition?
+        //how about lagPerPartition = Math.max(lagPerPartition -  dynamicAverageMaxConsumptionRate, 0)
+        //topicpartitions.get(i).setLag(lagPerPartition);
+        for (int i = 0; i < 5; i++) {
+            topicpartitions.get(i).setLag((long) (totalLag / 5));
+            log.info("Lag for partition {} is {}", i, topicpartitions.get(i).getLag());
         }
-           // log.info("Lag for partition {} is {}", i, topicpartitions.get(i).getLag());
-        }
+        // log.info("Lag for partition {} is {}", i, topicpartitions.get(i).getLag());
+    }
 }
