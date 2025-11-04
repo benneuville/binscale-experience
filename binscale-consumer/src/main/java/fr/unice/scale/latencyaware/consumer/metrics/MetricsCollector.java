@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.DATE_FORMAT;
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.TOPIC;
 
 public class MetricsCollector {
@@ -42,8 +41,8 @@ public class MetricsCollector {
         Date insertionDate = new Date(timestamp.getTime());
 
         // export data in logs for Filebeat
-        logger.info("latency is {}, insertion time is {}, processing time is {}",
-                currentTimeMillis - record.timestamp(), DATE_FORMAT.format(insertionDate), DATE_FORMAT.format(currentDate));
+//        logger.info("latency is {}, insertion time is {}, processing time is {}",
+//                currentTimeMillis - record.timestamp(), DATE_FORMAT.format(insertionDate), DATE_FORMAT.format(currentDate));
 
         latencygaugemeasure
                 .setDuration(System.currentTimeMillis() - record.timestamp());

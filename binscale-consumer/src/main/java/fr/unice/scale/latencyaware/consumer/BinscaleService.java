@@ -48,13 +48,14 @@ public class BinscaleService implements Runnable {
 
         try {
             while (running) {
-                consumer.commit();
                 producer.setTimestampNow();
                 ConsumerRecords<String, EventCustomer> events = consumer.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()));
-                List<DistributedEventCustomer> processed = distributor.distribute(events);
+                if(!events.isEmpty()) {
+                    List<DistributedEventCustomer> processed = distributor.distribute(events);
 
-                producer.publish(processed);
-                consumer.commit();
+                    producer.publish(processed);
+                    consumer.commit();
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
