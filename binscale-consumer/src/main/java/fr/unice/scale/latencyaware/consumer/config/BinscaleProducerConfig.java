@@ -8,10 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.STRING_DESERIALIZER;
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
-import static org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG;
-import static org.apache.kafka.clients.producer.ProducerConfig.MAX_BLOCK_MS_CONFIG;
 
 
 public class BinscaleProducerConfig {
@@ -54,13 +51,13 @@ public class BinscaleProducerConfig {
         log.info("==================================================");
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_DESERIALIZER);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_SERIALIZER);
         // ACK
         props.put(ProducerConfig.ACKS_CONFIG, config.getAcks());
         // NO BLOCK, EVEN IF BROKER NOT AVAILABLE
-        props.put(MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG);
+        props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG);
         // NO BATCH SENDING
-        props.put(BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =

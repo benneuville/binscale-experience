@@ -40,4 +40,8 @@ public final class Variables extends CommonVariables {
     public static final String PRODUCER_ACKS = EnvUtils.envOrDefault("PRODUCER_ACKS", "0");
     @EnvVar(description = "Config path for Topics distribution")
     public static final String TOPICS_DISTRIBUTION_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_DISTRIBUTION_CONFIG_PATH", "/config/topics-config.yaml");
+
+    // CONSTANTS
+    public static final String MAX_BLOCK_MS_CONFIG = "0";
+    public static final String BATCH_SIZE_CONFIG = "0";
 }
