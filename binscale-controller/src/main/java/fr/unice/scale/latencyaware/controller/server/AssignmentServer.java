@@ -2,26 +2,19 @@ package fr.unice.scale.latencyaware.controller.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 
 public class AssignmentServer implements Runnable {
     private static final Logger log = LogManager.getLogger(AssignmentServer.class);
     private final int port;
     private final Server server;
 
-    public AssignmentServer(int port) {
-        this(NettyServerBuilder.forAddress(new InetSocketAddress("0.0.0.0", port)), port);
-    }
-
     public AssignmentServer(ServerBuilder<?> serverBuilder, int port) {
         this.port = port;
         this.server = serverBuilder.addService(new AssignmentService()).build();
-
     }
 
     public void start() throws IOException {

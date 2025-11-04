@@ -6,38 +6,33 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.DATE_FORMAT;
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.ASYNC_COMMIT;
-import static fr.unice.scale.latencyaware.consumer.constant.Variables.TIME_TO_COMMIT;
 
 public class EventIngestion extends KafkaConsumer<String, EventCustomer> {
-    private Instant lastCommitTime;
-
     private final Logger logger = LogManager.getLogger(EventIngestion.class);
 
     public EventIngestion(BinscaleConsumerConfig config) {
         this(config.toProperties(), Collections.singletonList(config.getTopic()));
     }
+
     protected EventIngestion(Properties properties, List<String> topics) {
         super(properties);
+        logger.info("Subscribing to topics: {}", topics);
         subscribe(topics);
-        lastCommitTime = Instant.now();
     }
 
     public void commit() {
-        if (Math.abs(Duration.between(lastCommitTime, Instant.now()).toMillis()) >= TIME_TO_COMMIT) {
-            if (ASYNC_COMMIT) {
-                this.commitAsync();
-            } else {
-                this.commitSync();
-            }
-            logger.info("Committed offset at time {}", DATE_FORMAT.format(new Date(System.currentTimeMillis())));
-            lastCommitTime = Instant.now();
+        if (ASYNC_COMMIT) {
+            this.commitAsync();
+        } else {
+            this.commitSync();
         }
+        logger.info("Committed offset at time {}", DATE_FORMAT.format(new Date(System.currentTimeMillis())));
     }
 }

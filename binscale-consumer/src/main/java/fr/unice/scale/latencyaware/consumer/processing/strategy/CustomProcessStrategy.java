@@ -22,14 +22,14 @@ public class CustomProcessStrategy extends ProcessStrategy {
         int index = 0;
         List<EventCustomer> eventList = new ArrayList<>();
 
-        for(ConsumerRecord<String, EventCustomer> eventCustomer : events) {
+        for (ConsumerRecord<String, EventCustomer> eventCustomer : events) {
             // Simulate processing
             eventProcessor.accept(eventCustomer);
             eventList.add(eventCustomer.value());
         }
 
-        for (ProducerTopicDistribution topic : config.getOutputTopics()) {
-            int numberEventsForTopic = Math.round(originalEventSize * topic.getDistributionRatio());
+        for (ProducerTopicDistribution topic : config.getOutput()) {
+            int numberEventsForTopic = Math.round(originalEventSize * topic.getRatio());
             DistributedEventCustomer distributedEvent = new DistributedEventCustomer(topic);
             for (int i = 0; i < numberEventsForTopic; i++) {
                 distributedEvent.addEvent(eventList.get((index + i) % originalEventSize));
