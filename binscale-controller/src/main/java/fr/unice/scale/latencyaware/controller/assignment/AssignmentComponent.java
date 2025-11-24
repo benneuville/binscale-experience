@@ -16,8 +16,14 @@ import java.util.Map;
 
 public class AssignmentComponent {
     private final Logger log = LoggerFactory.getLogger(AssignmentComponent.class);
+    private final KubernetesClient kubernetesClient;
 
     public AssignmentComponent() {
+        this.kubernetesClient = new KubernetesClientBuilder().build();
+    }
+
+    public AssignmentComponent(KubernetesClient kubernetesClient) {
+        this.kubernetesClient = kubernetesClient;
     }
 
     public void assignScale(Graph<ConsumerGroup> graph, Map<ConsumerGroup, ScaleDecision> decisions) {
@@ -41,7 +47,7 @@ public class AssignmentComponent {
             case UP:
             case DOWN:
                 new Thread(() -> {
-                    (new KubernetesClientBuilder().build()).apps().deployments().inNamespace("default").withName(group.getConsumerName()).scale(decision.getAssociations().size());
+                    kubernetesClient.apps().deployments().inNamespace("default").withName(group.getConsumerName()).scale(decision.getAssociations().size(), false);
                     log.info("group {} scaled to {}", group.getKafkaGroupName(), decision.getAssociations());
                 }).start();
                 return ConsumerConverter.convertConsumers(decision.getAssociations());

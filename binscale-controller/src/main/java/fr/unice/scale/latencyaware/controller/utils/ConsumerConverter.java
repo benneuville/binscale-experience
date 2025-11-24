@@ -15,10 +15,10 @@ public class ConsumerConverter {
     }
 
     public static List<ConsumerCalculation> convert(List<Consumer> consumers, Map<Partition, PartitionCalculation> parts, double maxLag, double maxCapacity) {
-        return consumers.stream().map(c -> {
+        return consumers.stream().map( c -> {
                     ConsumerCalculation cc = new ConsumerCalculation(c.getId(), maxCapacity, maxLag);
-                    for (Partition p : c.getAssignedPartitions()) {
-                        cc.assignPartition(p, parts.get(p).getIndexedLagCapacityUpScale(), parts.get(p).getIndexedArrivalRateUpScale());
+                    for(Partition p : c.getAssignedPartitions()) {
+                        cc.assignPartition(p, parts.get(p).getIndexedLagCapacityUpScale(), parts.get(p).getIndexedConsumptionRateUpScale());
                     }
                     return cc;
                 }
@@ -26,7 +26,7 @@ public class ConsumerConverter {
     }
 
     public static Consumer convert(ConsumerCalculation cc) {
-        Consumer c = new Consumer(cc.getId());
+        Consumer c = new Consumer(cc.getId(), .0, .0);
         for (Partition p : cc.getAssignedPartitions()) {
             c.assignPartition(p);
         }

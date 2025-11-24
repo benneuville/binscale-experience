@@ -3,12 +3,15 @@ package fr.unice.scale.latencyaware.controller.constant;
 import fr.unice.scale.latencyaware.common.constant.CommonVariables;
 import fr.unice.scale.latencyaware.common.doc.EnvVar;
 import fr.unice.scale.latencyaware.common.utils.EnvUtils;
+import fr.unice.scale.latencyaware.controller.entity.ScalingStrategyMapping;
 
 public final class Variables extends CommonVariables {
-    @EnvVar(description = "DI value in seconds for the controller loop sleep time")
+    @EnvVar(description = "DI value in milliseconds for the controller loop sleep time")
     public static final Double DI = EnvUtils.envDouble("DI");
     @EnvVar(description = "WSLA value in seconds")
     public static final Double WSLA = EnvUtils.envDouble("WSLA");
+    @EnvVar(description = "Number of partitions for the topic")
+    public static final Integer NUMBER_PARTITIONS = EnvUtils.envInt("NUMBER_PARTITIONS");
     // REBALANCING TIME will have to be determined and not a static value
     @EnvVar(description = "REB_TIME value in seconds for the rebalancing time")
     public static final Double REB_TIME = EnvUtils.envDouble("REB_TIME");
@@ -18,12 +21,14 @@ public final class Variables extends CommonVariables {
     public static final Double FUP = EnvUtils.envDouble("FUP");
     @EnvVar(description = "FDOWN value for the downscaling threshold")
     public static final Double FDOWN = EnvUtils.envDouble("FDOWN");
-    @EnvVar(description = "Initial size of the consumer group")
-    public static final Integer INIT_SIZE = EnvUtils.envInt("INIT_SIZE");
     @EnvVar(description = "Bootstrap servers. Example : 'localhost:9092'")
     public static final String BOOTSTRAP_SERVERS = EnvUtils.envString("BOOTSTRAP_SERVERS");
-    @EnvVar(description = "Number of partitions for the topic")
-    public static final Integer NUMBER_PARTITIONS = EnvUtils.envInt("NUMBER_PARTITIONS");
+    @EnvVar(description = "Path to config file")
+    public static final String TOPICS_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_CONFIG_PATH", "/config/controller-config.yaml");
+    @EnvVar(description = "Range time in seconds for the metrics calculation")
+    public static final String REQUEST_TIME_RANGE = EnvUtils.envOrDefault("REQUEST_TIME_RANGE", "2s");
+    @EnvVar(description = "Scaling strategy selector between : 'naive'")
+    public static final ScalingStrategyMapping SCALING_STRATEGY = EnvUtils.envOrDefault("SCALING_STRATEGY", ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName);
 
     // Constants
 

@@ -7,6 +7,7 @@ import fr.unice.scale.latencyaware.consumer.emission.EventEmission;
 import fr.unice.scale.latencyaware.consumer.entity.DistributedEventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
 import fr.unice.scale.latencyaware.consumer.ingestion.EventIngestion;
+import fr.unice.scale.latencyaware.consumer.metrics.MetricsCollector;
 import fr.unice.scale.latencyaware.consumer.metrics.PrometheusUtils;
 import fr.unice.scale.latencyaware.consumer.processing.EventProcessing;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -50,11 +51,13 @@ public class BinscaleService implements Runnable {
             while (running) {
                 producer.setTimestampNow();
                 ConsumerRecords<String, EventCustomer> events = consumer.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()));
-                if(!events.isEmpty()) {
+                if (!events.isEmpty()) {
                     List<DistributedEventCustomer> processed = distributor.distribute(events);
 
                     producer.publish(processed);
                     consumer.commit();
+                } else {
+                    MetricsCollector.getInstance().resetLatency();
                 }
             }
         } catch (Exception e) {

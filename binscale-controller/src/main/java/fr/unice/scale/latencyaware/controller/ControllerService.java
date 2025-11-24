@@ -54,13 +54,14 @@ public class ControllerService implements Runnable {
     @Override
     public void run() {
         try {
+            init();
             while (true) {
                 Map<ConsumerGroup, CGMetaData> cgdatas = metricCollector.collectRawMetaData(graph);
 
                 Map<ConsumerGroup, ScaleDecision> decisions = scalerProcessor.process(graph, cgdatas);
 
                 assignmentComponent.assignScale(graph, decisions);
-                log.info("Sleeping for {} millisecond", DI);
+                log.info("Sleeping for {} second", DI);
                 log.info("******************************************");
                 Thread.sleep(DI.longValue());
             }
