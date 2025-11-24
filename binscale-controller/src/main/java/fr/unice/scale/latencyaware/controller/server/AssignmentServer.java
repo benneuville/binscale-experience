@@ -12,9 +12,14 @@ public class AssignmentServer implements Runnable {
     private final int port;
     private final Server server;
 
+    public AssignmentServer(int port) {
+        this(ServerBuilder.forPort(port), port);
+    }
+
     public AssignmentServer(ServerBuilder<?> serverBuilder, int port) {
         this.port = port;
         this.server = serverBuilder.addService(new AssignmentService()).build();
+
     }
 
     public void start() throws IOException {

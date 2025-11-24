@@ -72,7 +72,7 @@ public class ClassicScalerProcessor implements ScalerProcessor {
             double totalAR = currentData.getTotalArrivalRate();
             // To facilitate calculations for root, totalArrivalRate = parentArrivalRate
             currentData.setParentArrivalRate(totalAR);
-            double avgLT = currentData.getAvgEventProcessingRate();
+            double avgLT = currentData.getAvgLatency();
             for (BranchingFactor<ConsumerGroup> child : graph.getChildBranchingFactors(root)) {
                 CGMetaData childData = cgdatas.get(child.getVertex().getGroup());
                 childData.addParentArrivalRate((totalAR + avgLT) * child.getFactor()); // (ArrivalRate(parent) + Lag(parent)) * BF(parent->child)
@@ -90,7 +90,7 @@ public class ClassicScalerProcessor implements ScalerProcessor {
                                             Map<ConsumerGroup, CGMetaData> cgdatas) {
         CGMetaData currentData = cgdatas.get(vertex.getGroup());
         double totalAR = currentData.getParentArrivalRate();
-        double avgLT = currentData.getAvgEventProcessingRate();
+        double avgLT = currentData.getAvgLatency();
 
         for (BranchingFactor<ConsumerGroup> child : graph.getChildBranchingFactors(vertex)) {
             CGMetaData childData = cgdatas.get(child.getVertex().getGroup());
