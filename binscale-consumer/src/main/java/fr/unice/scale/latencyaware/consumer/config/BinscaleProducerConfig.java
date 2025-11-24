@@ -1,10 +1,12 @@
 package fr.unice.scale.latencyaware.consumer.config;
 
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
+import fr.unice.scale.latencyaware.consumer.emission.EmissionInterceptor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -59,6 +61,7 @@ public class BinscaleProducerConfig {
         // NO BATCH SENDING
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
+        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, Collections.singletonList(EmissionInterceptor.class));
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");

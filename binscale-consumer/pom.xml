@@ -65,6 +65,12 @@
             <artifactId>simpleclient_httpserver</artifactId>
             <version>0.16.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client-api</artifactId>
+            <version>6.7.2</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

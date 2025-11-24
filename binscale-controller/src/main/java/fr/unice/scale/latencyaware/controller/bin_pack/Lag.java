@@ -32,37 +32,37 @@ public class Lag {
         admin = AdminClient.create(props);
         for (int i = 0; i < NUMBER_PARTITIONS; i++) {
             //ArrivalProducer.topicpartitions.get(i).setLag(0L);
-            Partition p = new Partition(i, 0L, 0.0);
+            Partition p = new Partition(i);
             partitions.add(p);
         }
     }
 
 
     public static void getCommittedLatestOffsetsAndLag() throws ExecutionException, InterruptedException {
-        committedOffsets = admin.listConsumerGroupOffsets(GROUP_ID)
-                .partitionsToOffsetAndMetadata().get();
-        Map<TopicPartition, OffsetSpec> requestLatestOffsets = new HashMap<>();
-        for (int i = 0; i < NUMBER_PARTITIONS; i++) {
-            requestLatestOffsets.put(new TopicPartition(TOPIC, i), OffsetSpec.latest());
-        }
-        Map<TopicPartition, ListOffsetsResult.ListOffsetsResultInfo> latestOffsets =
-                admin.listOffsets(requestLatestOffsets).all().get();
-        totalLag = 0L;
-
-        for (int i = 0; i < NUMBER_PARTITIONS; i++) {
-            TopicPartition t = new TopicPartition(TOPIC, i);
-            Long latestOffset = latestOffsets.get(t) != null ? latestOffsets.get(t).offset() : 0L;
-            Long committedOffset = committedOffsets.get(t) != null ? committedOffsets.get(t).offset() : 0L;
-            partitions.get(i).setLag(latestOffset - committedOffset);
-            ArrivalProducer.topicpartitions.get(i).setLag(latestOffset - committedOffset);
-            totalLag += partitions.get(i).getLag();
-            log.info("partition {} has lag {}", i, partitions.get(i).getLag());
-        }
-        // Get the current date and time in the specified format
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy'T'HH:mm:ss.SSSSSS");
-        String currentTime = sdf.format(new Date(System.currentTimeMillis()));
-
-        log.info("total lag {} at {}", totalLag, currentTime);
+//        committedOffsets = admin.listConsumerGroupOffsets(GROUP_ID)
+//                .partitionsToOffsetAndMetadata().get();
+//        Map<TopicPartition, OffsetSpec> requestLatestOffsets = new HashMap<>();
+//        for (int i = 0; i < NUMBER_PARTITIONS; i++) {
+//            requestLatestOffsets.put(new TopicPartition(TOPIC, i), OffsetSpec.latest());
+//        }
+//        Map<TopicPartition, ListOffsetsResult.ListOffsetsResultInfo> latestOffsets =
+//                admin.listOffsets(requestLatestOffsets).all().get();
+//        totalLag = 0L;
+//
+//        for (int i = 0; i < NUMBER_PARTITIONS; i++) {
+//            TopicPartition t = new TopicPartition(TOPIC, i);
+//            Long latestOffset = latestOffsets.get(t) != null ? latestOffsets.get(t).offset() : 0L;
+//            Long committedOffset = committedOffsets.get(t) != null ? committedOffsets.get(t).offset() : 0L;
+//            partitions.get(i).setLag(latestOffset - committedOffset);
+//            ArrivalProducer.topicpartitions.get(i).setLag(latestOffset - committedOffset);
+//            totalLag += partitions.get(i).getLag();
+//            log.info("partition {} has lag {}", i, partitions.get(i).getLag());
+//        }
+//        // Get the current date and time in the specified format
+//        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy'T'HH:mm:ss.SSSSSS");
+//        String currentTime = sdf.format(new Date(System.currentTimeMillis()));
+//
+//        log.info("total lag {} at {}", totalLag, currentTime);
     }
 
     public static int queryConsumerGroup() throws ExecutionException, InterruptedException {

@@ -14,6 +14,11 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/binscale-common/target/classes" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.18.1/jackson-databind-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.18.1/jackson-annotations-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
