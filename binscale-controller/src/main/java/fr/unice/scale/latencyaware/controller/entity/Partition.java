@@ -1,9 +1,6 @@
 package fr.unice.scale.latencyaware.controller.entity;
-
 public class Partition {
 
-    private Double lagCapacity;
-    private Double arrivalCapacity;
     private int id;
 
     public Partition(int id) {
@@ -13,7 +10,6 @@ public class Partition {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }

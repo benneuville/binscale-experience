@@ -2,7 +2,6 @@ package fr.unice.scale.latencyaware.controller.entity.graph;
 
 
 import com.google.common.collect.Sets;
-import fr.unice.scale.latencyaware.common.error.exception.NotFoundException;
 import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.NamedEntity;
 
@@ -109,10 +108,6 @@ public class Graph<T extends NamedEntity> {
             }
         }
         return null;
-    }
-
-    public Vertex<T> getVertex(String name) {
-        return vertices.values().stream().filter(v -> v.getGroup().getGroupName().equals(name)).findFirst().orElseThrow(()-> new NotFoundException("ConsumerGroup with name "+name+" not found") );
     }
 
     public List<Vertex<T>> getVertices() {

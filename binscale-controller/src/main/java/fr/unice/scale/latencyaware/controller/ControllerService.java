@@ -61,7 +61,7 @@ public class ControllerService implements Runnable {
                 Map<ConsumerGroup, ScaleDecision> decisions = scalerProcessor.process(graph, cgdatas);
 
                 assignmentComponent.assignScale(graph, decisions);
-                log.info("Sleeping for {} millisecond", DI);
+                log.info("Sleeping for {} second", DI);
                 log.info("******************************************");
                 Thread.sleep(DI.longValue());
             }

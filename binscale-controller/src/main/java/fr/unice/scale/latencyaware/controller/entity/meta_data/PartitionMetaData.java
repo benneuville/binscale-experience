@@ -5,52 +5,18 @@ import fr.unice.scale.latencyaware.controller.entity.Partition;
 public class PartitionMetaData {
     private long lag;
     private double arrivalRate;
-    private double processingTime;
-    private double processingCount;
-    private double latency;
     private Partition partition;
-    private final double REBALANCING_TIME;
 
-    public PartitionMetaData(Partition partition, double rebalancingTime) {
+    public PartitionMetaData(Partition partition) {
         this.partition = partition;
         this.lag = 0;
         this.arrivalRate = 0.0;
-        this.REBALANCING_TIME = rebalancingTime;
     }
 
-    public double getProcessingTime() {
-        return processingTime;
-    }
-
-    public void setProcessingTime(double processingTime) {
-        this.processingTime = processingTime;
-    }
-
-    public double getProcessingCount() {
-        return processingCount;
-    }
-
-    public void setProcessingCount(double processingCount) {
-        this.processingCount = processingCount;
-    }
-
-    public double getProcessingCapacity() {
-        if (processingCount == 0) {
-            return 0.0;
-        }
-        return processingTime / processingCount;
-    }
-
-    public double getLagRebalancing() {
-        return getProcessingCapacity() * REBALANCING_TIME;
-    }
-
-    public double getLatency() {
-        return latency;
-    }
-
-    public void setLatency(double latency) {
-        this.latency = latency;
+    public PartitionMetaData(Partition partition, long lag, double arrivalRate) {
+        this.partition = partition;
+        this.lag = lag;
+        this.arrivalRate = arrivalRate;
     }
 
     public Partition getPartition() {
@@ -86,12 +52,9 @@ public class PartitionMetaData {
     @Override
     public String toString() {
         return "PartitionMetaData{" +
-                "partition=" + partition.getId() +
+                "partition=" + partition +
                 ", lag=" + lag +
                 ", arrivalRate=" + arrivalRate +
-                ", latency=" + latency +
-                ", processingTime=" + processingTime +
-                ", processingCount=" + processingCount +
                 '}';
     }
 }
