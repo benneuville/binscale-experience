@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11.0.16-jdk
 ##dockerfile
 # Update and install necessary packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
