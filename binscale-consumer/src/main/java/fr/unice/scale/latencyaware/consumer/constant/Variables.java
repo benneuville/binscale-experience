@@ -30,8 +30,10 @@ public final class Variables extends CommonVariables {
     public static final String CLIENT_RACK = EnvUtils.envOrDefault("CLIENT_RACK", null);
     @EnvVar(description = "Max poll records parameter. Max number of events returned in a call to Kafka topic.")
     public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 500);
+    @EnvVar(description = "Kafka session timeout in milliseconds")
+    public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "3000");
     @EnvVar(description = "Heartbeat interval in milliseconds")
-    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "3000");
+    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "1000");
     @EnvVar(description = "Processing strategy. Example : 'balanced', 'dupplicated', custom'")
     public static final ProcessStrategyMapping PROCESSING_STRATEGY = EnvUtils.envOrDefault("PROCESSING_STRATEGY", ProcessStrategyMapping.defaultStrategy, ProcessStrategyMapping::getByName);
     @EnvVar(description = "Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2'", defaultValue = "\"\"")

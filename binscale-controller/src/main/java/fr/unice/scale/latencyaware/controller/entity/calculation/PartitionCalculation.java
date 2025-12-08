@@ -8,39 +8,62 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
 
     private final double lag;
     private final double arrivalRate;
+    private final double lagRebalancing;
     private double maxLagCapacity; // upscale
     private double minLagCapacity; // downscale
-    private double maxConsumptionRate; // upscale
-    private double minConsumptionRate; // downscale
-
-    public PartitionCalculation(Partition partition, double lag, double arrivalRate) {
-        this.partition = partition;
-        this.lag = lag;
-        this.arrivalRate = arrivalRate;
-    }
+    private double maxProcessingCapacity; // upscale
+    private double minProcessingCapacity; // downscale
+    private double maxArrivalRate; // upscale
+    private double minArrivalRate; // downscale
 
     public PartitionCalculation(PartitionMetaData metaData) {
         this.partition = metaData.getPartition();
         this.lag = metaData.getLag();
         this.arrivalRate = metaData.getArrivalRate();
+        this.lagRebalancing = metaData.getLagRebalancing();
     }
 
     public PartitionCalculation(Partition partition, PartitionMetaData metaData) {
         this.partition = partition;
         this.lag = metaData.getLag();
         this.arrivalRate = metaData.getArrivalRate();
+        this.lagRebalancing = metaData.getLagRebalancing();
     }
 
-    public PartitionCalculation(Partition partition, PartitionMetaData metaData,
-                                double minLagCapacity, double maxLagCapacity,
-                                double minConsumptionRate, double maxConsumptionRate) {
-        this.partition = partition;
-        this.lag = metaData.getLag();
-        this.arrivalRate = metaData.getArrivalRate();
-        this.minLagCapacity = minLagCapacity;
-        this.maxLagCapacity = maxLagCapacity;
-        this.minConsumptionRate = minConsumptionRate;
-        this.maxConsumptionRate = maxConsumptionRate;
+    public double getMaxArrivalRate() {
+        return maxArrivalRate;
+    }
+
+    public void setMaxArrivalRate(double maxArrivalRate) {
+        this.maxArrivalRate = maxArrivalRate;
+    }
+
+    public double getMinArrivalRate() {
+        return minArrivalRate;
+    }
+
+    public void setMinArrivalRate(double minArrivalRate) {
+        this.minArrivalRate = minArrivalRate;
+    }
+
+    public double getLagRebalancing() {
+        return lagRebalancing;
+    }
+
+    public double getMaxProcessingCapacity() {
+        return maxProcessingCapacity;
+    }
+
+    public void setMaxProcessingCapacity(double maxProcessingCapacity) {
+        this.maxProcessingCapacity = maxProcessingCapacity;
+    }
+
+    public double getMinProcessingCapacity() {
+        return minProcessingCapacity;
+    }
+
+    public void setMinProcessingCapacity(double minProcessingCapacity) {
+        this.minProcessingCapacity = minProcessingCapacity;
     }
 
     public Partition getPartition() {
@@ -48,19 +71,19 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
     }
 
     public double getIndexedLagCapacityUpScale() {
-        return Math.max(lag, minLagCapacity);
+        return Math.min(lag + lagRebalancing, maxLagCapacity);
     }
 
     public double getIndexedLagCapacityDownScale() {
-        return Math.max(lag, maxLagCapacity);
+        return Math.min(lag + lagRebalancing, minLagCapacity);
     }
 
-    public double getIndexedConsumptionRateUpScale() {
-        return Math.max(arrivalRate, minConsumptionRate);
+    public double getIndexedArrivalRateUpScale() {
+        return Math.min(arrivalRate, maxArrivalRate);
     }
 
-    public double getIndexedConsumptionRateDownScale() {
-        return Math.max(arrivalRate, maxConsumptionRate);
+    public double getIndexedArrivalRateDownScale() {
+        return Math.min(arrivalRate, minArrivalRate);
     }
 
     public double getLag() {
@@ -85,22 +108,6 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
 
     public void setMinLagCapacity(double minLagCapacity) {
         this.minLagCapacity = minLagCapacity;
-    }
-
-    public double getMaxConsumptionRate() {
-        return maxConsumptionRate;
-    }
-
-    public void setMaxConsumptionRate(double maxConsumptionRate) {
-        this.maxConsumptionRate = maxConsumptionRate;
-    }
-
-    public double getMinConsumptionRate() {
-        return minConsumptionRate;
-    }
-
-    public void setMinConsumptionRate(double minConsumptionRate) {
-        this.minConsumptionRate = minConsumptionRate;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package fr.unice.scale.latencyaware.controller.entity.calculation;
 
-import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.Partition;
 
 import java.util.ArrayList;
@@ -8,21 +7,21 @@ import java.util.List;
 
 public class ConsumerCalculation implements Comparable<ConsumerCalculation> {
     private final String id;
-    private Double remainingArrivalCapacity;
+    private Double remainingProcessingCapacity;
     private List<Partition> assignedPartitions = new ArrayList<>();
     private Double remainingLagCapacity;
 
     public ConsumerCalculation(String id, Double maxLagCapacity,
-                               double maxArrivalCapacity) {
+                               double maxProcessingCapacity) {
         this.id = id;
         this.remainingLagCapacity = maxLagCapacity;
-        this.remainingArrivalCapacity = maxArrivalCapacity;
+        this.remainingProcessingCapacity = maxProcessingCapacity;
     }
 
-    public void assignPartition(Partition partition, double lagCapacity, double consumptionRate) {
+    public void assignPartition(Partition partition, double lagCapacity, double processingRate) {
         assignedPartitions.add(partition);
         remainingLagCapacity -= lagCapacity;
-        remainingArrivalCapacity -= consumptionRate;
+        remainingProcessingCapacity -= processingRate;
     }
 
 
@@ -34,14 +33,14 @@ public class ConsumerCalculation implements Comparable<ConsumerCalculation> {
         return remainingLagCapacity;
     }
 
-    public double getRemainingArrivalCapacity() {
-        return remainingArrivalCapacity;
+    public double getRemainingProcessingCapacity() {
+        return remainingProcessingCapacity;
     }
 
     @Override
     public String toString() {
         return "\nConsumer{" + "id=" + id +
-                ", remainingArrivalCapacity= " + String.format("%.2f", remainingArrivalCapacity) +
+                ", remainingArrivalCapacity= " + String.format("%.2f", remainingProcessingCapacity) +
                 ", remainingLagCapacity= " + remainingLagCapacity +
                 ", assignedPartitions= \n" + assignedPartitions +
                 "}";
@@ -51,7 +50,7 @@ public class ConsumerCalculation implements Comparable<ConsumerCalculation> {
     public int hashCode() {
         int result = 0;
         long temp;
-        temp = Double.doubleToLongBits(remainingArrivalCapacity);
+        temp = Double.doubleToLongBits(remainingProcessingCapacity);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (assignedPartitions != null ? assignedPartitions.hashCode() : 0);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -66,6 +65,6 @@ public class ConsumerCalculation implements Comparable<ConsumerCalculation> {
 
     @Override
     public int compareTo(ConsumerCalculation o) {
-        return Double.compare(this.remainingArrivalCapacity, o.getRemainingLagCapacity());
+        return Double.compare(this.remainingProcessingCapacity, o.getRemainingLagCapacity());
     }
 }
