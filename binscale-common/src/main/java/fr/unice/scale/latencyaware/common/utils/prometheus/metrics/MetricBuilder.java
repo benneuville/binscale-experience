@@ -10,6 +10,7 @@ public class MetricBuilder extends PrometheusBuilder {
     private final String NAME = "name";
     private final String TIME_WINDOW = "time_window";
     private final String TAGS = "tags";
+
     public Map<String, Object> tagsMap = new HashMap<>();
 
     public static MetricBuilder builder() {

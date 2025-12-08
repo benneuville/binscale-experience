@@ -6,12 +6,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import fr.unice.scale.latencyaware.common.utils.prometheus.enums.DistributionSummarySuffix;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.AverageMetricBuilder;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.DistributionSummaryMetricQueryBuilder;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.MetricBuilder;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.RateMetricQueryBuilder;
-import fr.unice.scale.latencyaware.controller.entity.metric.DoubleMetric;
 import fr.unice.scale.latencyaware.controller.metric.ClientMetricCollector;
 import org.apache.hc.core5.net.URIBuilder;
 import org.slf4j.Logger;
@@ -24,9 +18,6 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-import static fr.unice.scale.latencyaware.common.utils.MetricUtils.eventLatencyMetricName;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.REQUEST_TIME_RANGE;
-
 public class PrometheusClient implements ClientMetricCollector {
     private static final String PROM_URL = "http://prometheus-service:9090/api/v1/query";
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -34,6 +25,7 @@ public class PrometheusClient implements ClientMetricCollector {
     private static final Logger logger = LoggerFactory.getLogger(PrometheusClient.class);
 
     public String rawQuery(String promQL) {
+        logger.info("Querying Prometheus with query: {}", promQL);
         try {
             URI uri = new URIBuilder(PROM_URL)
                     .addParameter("query", promQL)
@@ -46,37 +38,12 @@ public class PrometheusClient implements ClientMetricCollector {
 
             CompletableFuture<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body);
             String res = response.get();
-            logger.info(res);
+            logger.info("Querying Prometheus result : {}", res);
             return res;
         } catch (Exception e) {
             logger.error("Error querying Prometheus with query {}: {}", promQL, e.getMessage());
             return null;
         }
-    }
-
-
-    public double queryAvgLatency(String topic) {
-        //String promQL = "1000/(avg(rate(" + EVENTS_LATENCY_PREFIX + topic + "_sum[" + REQUEST_TIME_RANGE + "])/rate(" + EVENTS_LATENCY_PREFIX + topic + "_count[" + REQUEST_TIME_RANGE + "])))";
-        String promQL = LatencyQueryBuilder.builder()
-                .numerator(AverageMetricBuilder.builder().metric(
-                        RateMetricQueryBuilder.builder().metric(
-                                DistributionSummaryMetricQueryBuilder.builder()
-                                        .metric(MetricBuilder.builder()
-                                                .name(eventLatencyMetricName(topic))
-                                                .timeWindow(REQUEST_TIME_RANGE)
-                                        )
-                                        .suffix(DistributionSummarySuffix.SUM))
-                )).denominator(
-                        RateMetricQueryBuilder.builder().metric(
-                                DistributionSummaryMetricQueryBuilder.builder()
-                                        .metric(MetricBuilder.builder()
-                                                .name(eventLatencyMetricName(topic))
-                                                .timeWindow(REQUEST_TIME_RANGE)
-                                        )
-                                        .suffix(DistributionSummarySuffix.COUNT))
-                )
-                .build();
-        return query(promQL, DoubleMetric.class).getValue();
     }
 
     public <T> T query(String request, Class<T> tClass) {
@@ -89,7 +56,6 @@ public class PrometheusClient implements ClientMetricCollector {
 
     public <K, V> Map<K, V> mappedResultQuery(String request, String mapKey,
                                               Class<K> keyClass, Class<V> valueClass) {
-
         JSONObject response = JSONObject.parseObject(rawQuery(request));
 
         JSONArray results = response.getJSONObject("data")

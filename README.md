@@ -99,17 +99,18 @@ Feel free to submit issues and enhancement requests.
 
 | Name | Description | Default value |
 |-----|--------------|-------------------|
-| `PARTITION_WEIGHTS` | List of partition weights, comma separated. Example : '1,1,1,1,1' | *(non défini)* |
-| `INPUT_WORKLOAD` | Input workload file name. Example : 'defaultArrivalRatesm.csv' | "defaultArrivalRatesm.csv" |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers, Example : 'localhost:9092' | *(non défini)* |
-| `DELAY_MS` | Delay between two messages in milliseconds. Example : 1000 | *(non défini)* |
-| `MESSAGES_COUNT` | Number of messages to send. Example : 10 | 10L |
-| `MESSAGE` | Message content. Example : 'Hello World !' | "Hello World !" |
-| `PRODUCER_ACKS` | Producer acks config. Example : '0', '1' or 'all' | "0" |
-| `HEADERS` | Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2' | "" |
-| `ADDITIONAL_CONFIG` | Additional producer configuration in the form 'key1=value1,key2=value2' | "" |
-| `WORKLOAD` | Workload mapping strategy. Example : 'constant' | "constant" |
-| `SERVER_PORT` | Server port for the health check endpoint | 5002 |
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(non défini)* |
+| `WSLA` | WSLA value in seconds | *(non défini)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(non défini)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(non défini)* |
+| `MU` | MU value in seconds for the controller calculations | *(non défini)* |
+| `FUP` | FUP value for the upscaling threshold | *(non défini)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(non défini)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(non défini)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
 
 ## ðŸ”§ Environment Variables
 

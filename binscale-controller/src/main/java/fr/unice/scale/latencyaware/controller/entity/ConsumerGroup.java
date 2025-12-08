@@ -1,63 +1,63 @@
 package fr.unice.scale.latencyaware.controller.entity;
 
-import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
 import fr.unice.scale.latencyaware.common.error.exception.NotFoundException;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.STRING_DESERIALIZER;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.*;
+import static fr.unice.scale.latencyaware.controller.constant.Variables.FDOWN;
+import static fr.unice.scale.latencyaware.controller.constant.Variables.FUP;
 
 public class ConsumerGroup implements NamedEntity {
-    private static final Logger log = LogManager.getLogger(ConsumerGroup.class);
+    // WSLA in seconds
     double wsla;
     private String inputTopic;
     private String consumerName;
     private String kafkaGroupName;
-    private double maxConsumptionRate;
+    // MU
+    private double maxDefinedProcessingRate;
     private List<Partition> topicPartitions;
     private Instant lastUpScaleDecision = Instant.now();
     private List<Consumer> assignment = new ArrayList<>();
     private KafkaConsumer<byte[], byte[]> metadataConsumer;
 
-    public ConsumerGroup(String inputTopic, double maxConsumptionRate, double wsla, String consumerName, String groupName, int partitionNumber) {
-        this(inputTopic, 1, maxConsumptionRate, wsla, consumerName, groupName, partitionNumber);
+    // test constructor only
+    public ConsumerGroup() {
+
     }
 
-    public ConsumerGroup(String inputTopic, Integer size, double maxConsumptionRate,
-                         double wsla, String name, String groupName, int partitionNumber) {
+    public ConsumerGroup(String inputTopic, double maxDefinedProcessingRate, double wsla, String consumerName, String groupName, int partitionNumber, KafkaConsumer<byte[], byte[]> kafkaConsumer) {
+        this(inputTopic, 1, maxDefinedProcessingRate, wsla, consumerName, groupName, partitionNumber, kafkaConsumer);
+    }
+
+    public ConsumerGroup(String inputTopic, Integer size, double maxDefinedProcessingRate,
+                         double wsla, String name, String groupName, int partitionNumber, KafkaConsumer<byte[], byte[]> kafkaConsumer) {
         this.inputTopic = inputTopic;
-        this.maxConsumptionRate = maxConsumptionRate;
+        this.maxDefinedProcessingRate = maxDefinedProcessingRate;
         this.wsla = wsla;
         this.consumerName = name;
         this.kafkaGroupName = groupName;
         topicPartitions = IntStream.range(0, partitionNumber)
                 .mapToObj(Partition::new).collect(Collectors.toList());
-
-        Properties props = KafkaConsumerConfig.createProperties(new KafkaConsumerConfig(BOOTSTRAP_SERVERS, inputTopic, kafkaGroupName));
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                STRING_DESERIALIZER);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                STRING_DESERIALIZER);
-        metadataConsumer = new KafkaConsumer<>(props);
+        metadataConsumer = kafkaConsumer;
 
         for (int i = 0; i < size; i++)
-            assignment.add(new Consumer(String.valueOf(i), MU * wsla * .9, MU * .9));
+            assignment.add(new Consumer(String.valueOf(i)));
         topicPartitions.forEach(assignment.get(0)::assignPartition);
     }
 
     @Override
     public String getName() {
         return consumerName;
+    }
+
+    @Override
+    public String getGroupName() {
+        return kafkaGroupName;
     }
 
     public List<Consumer> getAssignment() {
@@ -92,16 +92,12 @@ public class ConsumerGroup implements NamedEntity {
         this.consumerName = consumerName;
     }
 
-    public double getMaxConsumptionRate() {
-        return maxConsumptionRate;
+    public double getMaxDefinedProcessingRate() {
+        return maxDefinedProcessingRate;
     }
 
-    public void setMaxConsumptionRate(double maxConsumptionRate) {
-        this.maxConsumptionRate = maxConsumptionRate;
-    }
-
-    public Integer getSize() {
-        return assignment.size();
+    public void setMaxDefinedProcessingRate(double maxDefinedProcessingRate) {
+        this.maxDefinedProcessingRate = maxDefinedProcessingRate;
     }
 
     public double getWsla() {
@@ -147,6 +143,11 @@ public class ConsumerGroup implements NamedEntity {
     @Override
     public int hashCode() {
         return kafkaGroupName.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ConsumerGroup{" + kafkaGroupName + "}";
     }
 
 
