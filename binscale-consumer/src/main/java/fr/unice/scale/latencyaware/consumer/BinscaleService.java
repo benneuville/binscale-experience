@@ -43,6 +43,20 @@ public class BinscaleService implements Runnable {
         this.producer = new EventEmission(config);
     }
 
+    public void addShutDownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                log.info("Starting exit...");
+                consumer.wakeup();
+                try {
+                    this.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public void run() {
         log.info("Starting Binscale Consumer Service...");
@@ -61,6 +75,7 @@ public class BinscaleService implements Runnable {
                 }
             }
         } catch (Exception e) {
+            shutdown();
             throw new RuntimeException(e);
         } finally {
             shutdown();

@@ -21,73 +21,86 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BinPack {
-    private static final Logger logger = LogManager.getLogger(BinPack.class);
+    private static final Logger log = LogManager.getLogger(BinPack.class);
 
     public static ScaleDecision scaleDecisionEventConsumerWithLag(ConsumerGroup group, CGMetaData cgdata) {
-        logger.info("Currently we have this number of consumers group {} {}", group.getKafkaGroupName(), group.getSize());
+        log.info("Currently we have this number of consumers group {} {}", group.getKafkaGroupName(), group.getAssignment().size());
+        log.info("Average processing rate for group {} : {}", group.getKafkaGroupName(), cgdata.getAvgEventProcessingRate());
         double maxLagCapacity = cgdata.getMaxLagCapacity();
-        double maxConsumptionRate = cgdata.getMaxAverageConsumptionRate();
+        log.info("Max Lag Capacity for group {} is {}", group.getKafkaGroupName(), maxLagCapacity);
+        double maxArrivalRate = cgdata.getMaxAverageArrivalRate();
+        log.info("Max Processing Rate for group {} is {}", group.getKafkaGroupName(), maxArrivalRate);
 
         double minLagCapacity = cgdata.getMinLagCapacity();
-        double minConsumptionRate = cgdata.getMinAverageConsumptionRate();
+        log.info("Min Lag Capacity for group {} is {}", group.getKafkaGroupName(), minLagCapacity);
+        double minProcessingRate = cgdata.getMinAverageArrivalRate();
+        log.info("Min Processing Rate for group {} is {}", group.getKafkaGroupName(), minProcessingRate);
 
-        Map<Partition, PartitionCalculation> parts = computeConsumer(cgdata, maxLagCapacity, maxConsumptionRate, minLagCapacity, minConsumptionRate);
+        Map<Partition, PartitionCalculation> parts = computeConsumer(cgdata, maxLagCapacity, maxArrivalRate, minLagCapacity, minProcessingRate);
 
+        log.info("Binpack (UP) on -> Consumer group {}", group.getKafkaGroupName());
         List<ConsumerCalculation> upScaled = binPackAndScale(new ArrayList<>(parts.values()),
                 maxLagCapacity,
-                maxConsumptionRate,
+                maxArrivalRate,
                 PartitionCalculation::getIndexedLagCapacityUpScale,
-                PartitionCalculation::getIndexedConsumptionRateUpScale);
+                PartitionCalculation::getIndexedArrivalRateUpScale);
         // UP
-        if (upScaled.size() > group.getSize()) {
+        if (upScaled.size() > group.getAssignment().size()) {
+            log.info("Decided to upscale from {} to {}", group.getAssignment().size(), upScaled.size());
+            log.info("New assignment after upscale {}", upScaled.toString());
             return new ScaleDecision(upScaled, Action.UP);
         }
 
+        log.info("Binpack (DOWN) on -> Consumer group {}", group.getKafkaGroupName());
         List<ConsumerCalculation> downScaled = binPackAndScale(new ArrayList<>(parts.values()),
-                maxLagCapacity,
-                maxConsumptionRate,
+                minLagCapacity,
+                minProcessingRate,
                 PartitionCalculation::getIndexedLagCapacityDownScale,
-                PartitionCalculation::getIndexedConsumptionRateDownScale);
+                PartitionCalculation::getIndexedArrivalRateDownScale);
 
         // DOWN
-        if (downScaled.size() < group.getSize()) {
+        if (downScaled.size() < group.getAssignment().size()) {
+            log.info("Decided to downscale from {} to {}", group.getAssignment().size(), downScaled.size());
+            log.info("New assignment after downscale {}", downScaled.toString());
             return new ScaleDecision(downScaled, Action.DOWN);
         }
 
+        log.info("Binpack (REASS) on -> Consumer group {}", group.getKafkaGroupName());
         // REASS
-        if (assignmentViolatesTheSLA(parts, group, maxLagCapacity, maxConsumptionRate)) {
-            return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxConsumptionRate), Action.REASS);
+        if (assignmentViolatesTheSLA(parts, group, maxLagCapacity, maxArrivalRate)) {
+            return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.REASS);
         }
 
+        log.info("Binpack (NONE) on -> Consumer group {}", group.getKafkaGroupName());
         // NOTHING
-        return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxConsumptionRate), Action.NONE);
+        return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.NONE);
     }
 
-    private static Map<Partition, PartitionCalculation> computeConsumer(CGMetaData cgdatas,
-                                                                        double maxLagCapacity,
-                                                                        double maxConsumptionRate,
-                                                                        double minLagCapacity,
-                                                                        double minConsumptionRate) {
+    public static Map<Partition, PartitionCalculation> computeConsumer(CGMetaData cgdatas,
+                                                                       double maxLagCapacity,
+                                                                       double maxArrivalRate,
+                                                                       double minLagCapacity,
+                                                                       double minArrivalRate) {
 
         Map<Partition, PartitionCalculation> parts = cgdatas.getPartitionsMetaData().values().stream()
                 .collect(Collectors.toMap(PartitionMetaData::getPartition, PartitionCalculation::new));
         // min/max arrival rates and lags to partitions
         parts.forEach(
                 (p, pc) -> {
-                    pc.setMaxConsumptionRate(maxConsumptionRate);
+                    pc.setMaxArrivalRate(maxArrivalRate);
                     pc.setMaxLagCapacity(maxLagCapacity);
-                    pc.setMinConsumptionRate(minConsumptionRate);
+                    pc.setMinArrivalRate(minArrivalRate);
                     pc.setMinLagCapacity(minLagCapacity);
                 }
         );
         return parts;
     }
 
-    private static List<ConsumerCalculation> binPackAndScale(List<PartitionCalculation> parts,
-                                                             double maxLagCapacity,
-                                                             double maxConsumptionRate,
-                                                             Function<PartitionCalculation, Double> getLagCapacity,
-                                                             Function<PartitionCalculation, Double> getConsumptionRate) {
+    public static List<ConsumerCalculation> binPackAndScale(List<PartitionCalculation> parts,
+                                                            double maxLagCapacity,
+                                                            double maxConsumptionRate,
+                                                            Function<PartitionCalculation, Double> getAvgLagCapacity,
+                                                            Function<PartitionCalculation, Double> getAvgEventProcessRate) {
         parts.sort(Collections.reverseOrder());
 
         int consumerCount = 1;
@@ -98,17 +111,18 @@ public class BinPack {
             for (int t = 0; t < consumerCount; t++) {
                 consumers.add(new ConsumerCalculation(String.valueOf(t), maxLagCapacity, maxConsumptionRate));
             }
+            log.info("Creating {} consumers for binpack", consumerCount);
 
             for (j = 0; j < parts.size(); j++) {
                 int i;
-                consumers.sort(ConsumerCalculation::compareTo);
+                consumers.sort(Collections.reverseOrder());
                 PartitionCalculation currentPartCalc = parts.get(j);
                 for (i = 0; i < consumerCount; i++) {
-                    if (consumers.get(i).getRemainingLagCapacity() >= getLagCapacity.apply(currentPartCalc)
-                            && consumers.get(i).getRemainingArrivalCapacity() >= getConsumptionRate.apply(currentPartCalc)) {
+                    if (consumers.get(i).getRemainingLagCapacity() >= getAvgLagCapacity.apply(currentPartCalc)
+                            && consumers.get(i).getRemainingProcessingCapacity() >= getAvgEventProcessRate.apply(currentPartCalc)) {
                         consumers.get(i).assignPartition(currentPartCalc.getPartition(),
-                                getLagCapacity.apply(currentPartCalc),
-                                getConsumptionRate.apply(currentPartCalc));
+                                getAvgLagCapacity.apply(currentPartCalc),
+                                getAvgEventProcessRate.apply(currentPartCalc));
                         break;
                     }
                 }
@@ -123,19 +137,19 @@ public class BinPack {
         return consumers;
     }
 
-    private static boolean assignmentViolatesTheSLA(Map<Partition, PartitionCalculation> parts,
-                                                    ConsumerGroup group,
-                                                    double maxLatencyCapacity,
-                                                    double maxConsumptionCapacity) {
+    public static boolean assignmentViolatesTheSLA(Map<Partition, PartitionCalculation> parts,
+                                                   ConsumerGroup group,
+                                                   double maxLagCapacity,
+                                                   double maxProcessingCapacity) {
         for (Consumer c : group.getAssignment()) {
-            double sumArrivalRate = 0;
+            double sumProcessingCapacityRate = 0;
             double sumLag = 0;
             for (Partition p : c.getAssignedPartitions()) {
                 PartitionCalculation pc = parts.get(p);
                 sumLag += pc.getIndexedLagCapacityUpScale();
-                sumArrivalRate += pc.getIndexedConsumptionRateUpScale();
+                sumProcessingCapacityRate += pc.getIndexedArrivalRateUpScale();
             }
-            if (sumLag > maxLatencyCapacity || sumArrivalRate > maxConsumptionCapacity)
+            if (sumLag > maxLagCapacity || sumProcessingCapacityRate > maxProcessingCapacity)
                 return true;
         }
         return false;
