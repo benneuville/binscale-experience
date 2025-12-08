@@ -1,5 +1,6 @@
 package fr.unice.scale.latencyaware.controller.entity.meta_data;
 
+import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.Partition;
 
@@ -10,24 +11,49 @@ public class CGMetaData {
     private ConsumerGroup consumerGroup;
 
     private Map<Partition, PartitionMetaData> partitionsMetaData = new HashMap<>();
-
-    private long processingRate = 0;
-
+    private Map<Consumer, ConsumerMetaData> consumersMetaData = new HashMap<>();
     private double parentArrivalRate = 0;
 
-    public CGMetaData(ConsumerGroup consumerGroup) {
+    public CGMetaData(ConsumerGroup consumerGroup, double rebalancingTime) {
         this.consumerGroup = consumerGroup;
         for (Partition p : consumerGroup.getTopicPartitions()) {
-            partitionsMetaData.put(p, new PartitionMetaData(p));
+            partitionsMetaData.put(p, new PartitionMetaData(p, rebalancingTime));
+        }
+
+        for (Consumer c : consumerGroup.getAssignment()) {
+            consumersMetaData.put(c, new ConsumerMetaData(c));
         }
     }
 
-    public long getProcessingRate() {
-        return processingRate;
+    public double getAvgEventProcessingRate() {
+        double totalProcessingRate = 0.0;
+
+        for (Consumer c : consumerGroup.getAssignment()) {
+            double consumerProcessingCount = 0.0;
+            double consumerProcessingSum = 0.0;
+            for (Partition p : c.getAssignedPartitions()) {
+                PartitionMetaData pMetaData = partitionsMetaData.get(p);
+                consumerProcessingSum += pMetaData.getProcessingTime();
+                consumerProcessingCount += pMetaData.getProcessingCount();
+            }
+            if (consumerProcessingCount > 0) {
+                double consumerAvgProcessingRate = consumerProcessingSum / consumerProcessingCount;
+                totalProcessingRate += consumerAvgProcessingRate;
+            }
+        }
+        return totalProcessingRate / consumerGroup.getAssignment().size();
     }
 
-    public void setProcessingRate(long processingRate) {
-        this.processingRate = processingRate;
+    public Map<Consumer, ConsumerMetaData> getConsumersMetaData() {
+        return consumersMetaData;
+    }
+
+    public void setConsumersMetaData(Map<Consumer, ConsumerMetaData> consumersMetaData) {
+        this.consumersMetaData = consumersMetaData;
+    }
+
+    public ConsumerMetaData getConsumerMetaData(Consumer consumer) {
+        return consumersMetaData.get(consumer);
     }
 
     public double getParentArrivalRate() {
@@ -79,36 +105,32 @@ public class CGMetaData {
         return this.partitionsMetaData.values().stream().map(PartitionMetaData::getArrivalRate).reduce(0.0, Double::sum);
     }
 
-    public long getAvgLatency() {
-        return this.partitionsMetaData.values().stream().map(PartitionMetaData::getLag).reduce(0L, Long::sum) / this.partitionsMetaData.size();
-    }
-
     public void resetArrivalRate() {
         this.parentArrivalRate = 0;
     }
 
     public double getMaxLagCapacity() {
-        return this.getAvgLatency() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFup();
+        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFup();
     }
 
-    public double getMaxAverageConsumptionRate() {
-        return this.getAvgLatency() * this.getConsumerGroup().getFup();
+    public double getMaxAverageArrivalRate() {
+        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getFup();
     }
 
     public double getMinLagCapacity() {
-        return this.getAvgLatency() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFdown();
+        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFdown();
     }
 
-    public double getMinAverageConsumptionRate() {
-        return this.getAvgLatency() * this.getConsumerGroup().getFdown();
+    public double getMinAverageArrivalRate() {
+        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getFdown();
     }
 
     @Override
     public String toString() {
-        return "CGMetaData{" +
-                "consumerGroup=" + consumerGroup +
+        return "ConsumerGroupMetaData{" +
+                "consumerGroup=" + consumerGroup.getGroupName() +
                 ", partitionsMetaData=" + partitionsMetaData +
-                ", processingRate=" + processingRate +
+                ", consumersMetaData=" + consumersMetaData +
                 ", parentArrivalRate=" + parentArrivalRate +
                 '}';
     }

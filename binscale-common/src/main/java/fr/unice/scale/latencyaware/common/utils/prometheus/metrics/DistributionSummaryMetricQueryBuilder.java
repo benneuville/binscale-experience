@@ -3,7 +3,7 @@ package fr.unice.scale.latencyaware.common.utils.prometheus.metrics;
 import fr.unice.scale.latencyaware.common.utils.prometheus.PrometheusBuilder;
 import fr.unice.scale.latencyaware.common.utils.prometheus.enums.DistributionSummarySuffix;
 
-public class DistributionSummaryMetricQueryBuilder extends PrometheusBuilder {
+public class DistributionSummaryMetricQueryBuilder extends MetricBuilder {
 
     private final static String DISTRIBUTION_SUMMARY_METRIC_QUERY_PATTERN = "#{metric}#{suffix}";
     private final String METRIC = "metric";
@@ -30,6 +30,11 @@ public class DistributionSummaryMetricQueryBuilder extends PrometheusBuilder {
 
     public DistributionSummaryMetricQueryBuilder metric(MetricBuilder metricBuilder) {
         this.params.put(METRIC, metricBuilder);
+        return this;
+    }
+
+    public DistributionSummaryMetricQueryBuilder metric(String name) {
+        this.params.put(METRIC, name);
         return this;
     }
 
