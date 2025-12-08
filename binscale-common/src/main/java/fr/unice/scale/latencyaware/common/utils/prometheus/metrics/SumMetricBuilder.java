@@ -1,6 +1,6 @@
 package fr.unice.scale.latencyaware.common.utils.prometheus.metrics;
 
-public class SumMetricBuilder extends MetricBuilder {
+public class SumMetricBuilder extends ByBuilder {
     private final static String SUM_METRIC_QUERY_PATTERN = "sum(#{metric})";
 
     private final String METRIC = "metric";
@@ -24,7 +24,7 @@ public class SumMetricBuilder extends MetricBuilder {
     }
 
     @Override
-    public String getPattern() {
+    public String getFormulaPattern() {
         return SUM_METRIC_QUERY_PATTERN;
     }
 }

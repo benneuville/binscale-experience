@@ -4,20 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NodeDistribution {
     private String name;
-    private long wsla;
+    private double wsla;
     private double maxConsumptionRate;
     private String inputTopic;
     private int partitionNumber;
     private String groupId;
 
     public NodeDistribution(@JsonProperty("name") String name,
-                            @JsonProperty("wsla") long wsla,
+                            @JsonProperty("wsla") double wsla,
                             @JsonProperty("maxConsumptionRate") double maxConsumptionRate,
                             @JsonProperty("inputTopic") String inputTopic,
                             @JsonProperty("partitionNumber") int partitionNumber,
                             @JsonProperty("groupId") String groupId) {
         this.name = name;
-        this.wsla = wsla;
+        //given in milliseconds, converted in seconds
+        this.wsla = wsla / 1000.0;
         this.maxConsumptionRate = maxConsumptionRate;
         this.inputTopic = inputTopic;
         this.partitionNumber = partitionNumber;
@@ -32,11 +33,11 @@ public class NodeDistribution {
         this.name = name;
     }
 
-    public long getWsla() {
+    public double getWsla() {
         return wsla;
     }
 
-    public void setWsla(long wsla) {
+    public void setWsla(double wsla) {
         this.wsla = wsla;
     }
 

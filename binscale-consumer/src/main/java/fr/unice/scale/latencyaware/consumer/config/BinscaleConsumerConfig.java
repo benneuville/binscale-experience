@@ -14,6 +14,7 @@ public class BinscaleConsumerConfig extends KafkaConsumerConfig {
     private final static String autoOffsetReset = "earliest";
     private final static String enableAutoCommit = "false";
     private final String heartbeatIntervalMs;
+    private final String sessionTimeoutMs;
     private final int maxPollRecords;
     private final String clientRack;
     private final int sleep;
@@ -22,7 +23,7 @@ public class BinscaleConsumerConfig extends KafkaConsumerConfig {
 
     public BinscaleConsumerConfig(String bootstrapServers, String topic, String groupId,
                                   String clientRack, Long messageCount, int sleep,
-                                  String additionalConfig, int maxPollRecords, String heartbeatIntervalMs) {
+                                  String additionalConfig, int maxPollRecords, String sessionTimeout, String heartbeatIntervalMs) {
         super(bootstrapServers, topic, groupId);
         this.clientRack = clientRack;
         this.messageCount = messageCount;
@@ -30,11 +31,12 @@ public class BinscaleConsumerConfig extends KafkaConsumerConfig {
         this.additionalConfig = additionalConfig;
         this.maxPollRecords = maxPollRecords;
         this.heartbeatIntervalMs = heartbeatIntervalMs;
+        this.sessionTimeoutMs = sessionTimeout;
     }
 
     public static BinscaleConsumerConfig fromEnv() {
         return new BinscaleConsumerConfig(BOOTSTRAP_SERVERS, TOPIC, GROUP_ID, CLIENT_RACK,
-                MESSAGE_COUNT, SLEEP, ADDITIONAL_CONFIG, MAX_POLL_RECORDS, HEARTBEAT_INTERVAL_MS);
+                MESSAGE_COUNT, SLEEP, ADDITIONAL_CONFIG, MAX_POLL_RECORDS, SESSION_TIMEOUT_MS, HEARTBEAT_INTERVAL_MS);
     }
 
     public static Properties createProperties(BinscaleConsumerConfig config) {
@@ -47,12 +49,14 @@ public class BinscaleConsumerConfig extends KafkaConsumerConfig {
         }
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, config.getAutoOffsetReset());
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, config.getMaxPollRecords());
+//        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 1000);
 
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, config.getEnableAutoCommit());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, STRING_DESERIALIZER);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 CustomerDeserializer.class.getName());
         props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, config.getHeartbeatIntervalMs());
+//        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, config.getSessionTimeoutMs());
         props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, StickyAssignor.class.getName());
 
         if (!config.getAdditionalConfig().isEmpty()) {
@@ -69,6 +73,10 @@ public class BinscaleConsumerConfig extends KafkaConsumerConfig {
             }
         }
         return props;
+    }
+
+    public String getSessionTimeoutMs() {
+        return sessionTimeoutMs;
     }
 
     public Properties toProperties() {

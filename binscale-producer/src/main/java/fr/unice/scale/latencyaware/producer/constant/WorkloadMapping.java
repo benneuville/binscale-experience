@@ -14,14 +14,17 @@ public enum WorkloadMapping {
     @Deprecated
     OLD_SKEWED("old_skewed", new OldWorkloadSkewed());
 
+    public final static WorkloadMapping defaultWorkload = CONSTANT;
     private final String name;
     private final AbstractWorkload workload;
-
-    public final static WorkloadMapping defaultWorkload = CONSTANT;
 
     WorkloadMapping(String name, AbstractWorkload workload) {
         this.name = name;
         this.workload = workload;
+    }
+
+    public static WorkloadMapping getByName(String name) throws NotFoundException {
+        return Arrays.stream(WorkloadMapping.values()).filter(w -> w.getName().equals(name)).findFirst().orElseThrow(() -> new NotFoundException(name + " not found in " + WorkloadMapping.class.getName()));
     }
 
     public String getName() {
@@ -30,9 +33,5 @@ public enum WorkloadMapping {
 
     public AbstractWorkload getWorkload() {
         return workload;
-    }
-
-    public static WorkloadMapping getByName(String name) throws NotFoundException {
-        return Arrays.stream(WorkloadMapping.values()).filter(w -> w.getName().equals(name)).findFirst().orElseThrow(() -> new NotFoundException(name + " not found in " + WorkloadMapping.class.getName()));
     }
 }

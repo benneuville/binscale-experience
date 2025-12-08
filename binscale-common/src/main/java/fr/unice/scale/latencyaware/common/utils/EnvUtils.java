@@ -34,6 +34,10 @@ public class EnvUtils {
         return envOrDefault(key, defaultFloatValue, Float::parseFloat);
     }
 
+    public static double envOrDefault(String key, double defaultDoubleValue) {
+        return envOrDefault(key, defaultDoubleValue, Double::parseDouble);
+    }
+
     /**
      * Méthode générique sécurisée : jamais d'exception levée.
      * Gère le cas où System.getenv(key) est null, ou le mapper lève une exception.

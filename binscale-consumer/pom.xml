@@ -23,13 +23,15 @@
     <dependencies>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-            <version>1.9.5</version>
+            <artifactId>micrometer-bom</artifactId>
+            <version>1.16.0</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-core</artifactId>
-            <version>1.9.5</version>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.16.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GraphDistributionConfig {
     private List<EdgeDistribution> topics;
@@ -18,7 +19,7 @@ public class GraphDistributionConfig {
     @JsonCreator
     public GraphDistributionConfig(@JsonProperty("topics") List<EdgeDistribution> topics,
                                    @JsonProperty("nodes") List<NodeDistribution> nodes) {
-        this.topics = topics;
+        this.topics = Objects.requireNonNullElseGet(topics, ArrayList::new);
         this.nodes = nodes;
     }
 
