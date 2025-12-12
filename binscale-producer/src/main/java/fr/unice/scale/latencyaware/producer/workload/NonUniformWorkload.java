@@ -34,10 +34,10 @@ public class NonUniformWorkload extends AbstractWorkload {
             partitionMessageCounts.put(i, 0L);
         }
 
-        for (int i = 0; i < wrld.getDatax().size(); i++) {
+        for (int i = 0; i < wrld.getTimestamps().size(); i++) {
             log.info("sending a batch of authorizations of size:{}",
-                    Math.ceil(wrld.getDatay().get(i)));
-            ArrivalRate = (float) Math.ceil(wrld.getDatay().get(i));
+                    Math.ceil(wrld.getRates().get(i)));
+            ArrivalRate = (float) Math.ceil(wrld.getRates().get(i));
 
             // Calcul du nombre total de messages à envoyer
             long totalMessages = Math.round(ArrivalRate);
@@ -71,7 +71,7 @@ public class NonUniformWorkload extends AbstractWorkload {
                 log.info("sent 1 remaining message to partition {}", partition);
             }
 
-            log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
+            log.info("sent {} events Per Second ", Math.ceil(wrld.getRates().get(i)));
             Thread.sleep(config.getDelay());
         }
 

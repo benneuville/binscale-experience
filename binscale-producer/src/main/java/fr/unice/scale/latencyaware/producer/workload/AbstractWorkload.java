@@ -2,6 +2,7 @@ package fr.unice.scale.latencyaware.producer.workload;
 
 import fr.unice.scale.latencyaware.common.entity.EventCustomer;
 import fr.unice.scale.latencyaware.producer.config.BinscaleKafkaProducerConfig;
+import fr.unice.scale.latencyaware.producer.entity.Workload;
 import org.apache.kafka.clients.producer.KafkaProducer;
 
 import java.io.IOException;

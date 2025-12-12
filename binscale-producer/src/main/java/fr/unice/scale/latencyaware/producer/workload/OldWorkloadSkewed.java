@@ -25,10 +25,10 @@ public class OldWorkloadSkewed extends AbstractWorkload {
 
         Random rnd = new Random();
         // over all the workload
-        for (int i = 0; i < wrld.getDatax().size(); i++) {
+        for (int i = 0; i < wrld.getTimestamps().size(); i++) {
             log.info("sending a batch of authorizations of size:{}",
-                    Math.ceil(wrld.getDatay().get(i)));
-            ArrivalRate = (float) Math.ceil(wrld.getDatay().get(i));
+                    Math.ceil(wrld.getRates().get(i)));
+            ArrivalRate = (float) Math.ceil(wrld.getRates().get(i));
 
             first3Partitions = ArrivalRate * 0.5;
             remaining6Partitions = ArrivalRate * 0.5;
@@ -70,7 +70,7 @@ public class OldWorkloadSkewed extends AbstractWorkload {
                         8, null, UUID.randomUUID().toString(), custm));
 
             }
-            log.info("sent {} events Per Second ", Math.ceil(wrld.getDatay().get(i)));
+            log.info("sent {} events Per Second ", Math.ceil(wrld.getRates().get(i)));
             Thread.sleep(config.getDelay());
         }
     }
