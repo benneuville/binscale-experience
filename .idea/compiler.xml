@@ -7,6 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="binscale-consumer" />
+        <module name="binscale-controller" />
+        <module name="binscale-producer" />
       </profile>
       <profile name="Annotation profile for parent-project" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -50,9 +53,6 @@
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
         </processorPath>
-        <module name="binscale-producer" />
-        <module name="binscale-controller" />
-        <module name="binscale-consumer" />
         <module name="binscale-common" />
       </profile>
     </annotationProcessing>
@@ -69,9 +69,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="binscale-consumer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
-      <module name="binscale-controller" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
-      <module name="binscale-producer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
+      <module name="binscale-consumer" options="" />
+      <module name="binscale-controller" options="" />
+      <module name="binscale-producer" options="" />
       <module name="i3s" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
     </option>
   </component>

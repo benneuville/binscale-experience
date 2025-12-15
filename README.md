@@ -8,38 +8,26 @@ different projects.
 
 ### Single Microservice Consumer
 
-1. **Binscale Controller**
-    - **Path**: [binscale-controller](https://github.com/fatimazahraelaaziz/Experience/tree/main/integrationcontroller)
+1. **Binscale Common**
+    - **Path**: [binscale-common](https://github.com/benneuville/binscale-experience/tree/main/binscale-common)
+
+2. **Binscale Controller**
+    - **Path**: [binscale-controller](https://github.com/benneuville/binscale-experience/tree/main/binscale-controller)
     - **Description**: This repository contains the controller responsible for implementing the bin packing algorithm.
 
-2. **Variable Consumer**
-    - **Path**: [binscale-consumer](https://github.com/fatimazahraelaaziz/Experience/tree/main/variableconsumer)
+3. **Consumer**
+    - **Path**: [binscale-consumer](https://github.com/benneuville/binscale-experience/tree/main/binscale-consumer)
     - **Description**: This repository contains the consumer microservice implemented using Kafka.
 
-3. **Producer**
-    - **Path**: [binscale-producer](https://github.com/fatimazahraelaaziz/Experience/tree/main/produceri3s)
-    - **Description**: This repository models the producer microservice using Apache Kafka.
-
-### DAG of Multiple Microservice Consumers
-
-1. **Graph Controller**
-    - **Path**: [graphcontroller2](https://github.com/fatimazahraelaaziz/Experience/tree/main/graphcontroller2)
-    - **Description**: This repository contains the controller responsible for modeling the graph for the scenario
-      involving multiple consumer microservices.
-
-2. **Multiple Consumers**
-    - **Path**: [multipleconsumers](https://github.com/fatimazahraelaaziz/Experience/tree/main/multipleConsumers)
-    - **Description**: This repository contains the implementation of the consumer microservices for the DAG scenario.
-
-3. **Producer**
-    - **Path**: [binscale-producer](https://github.com/fatimazahraelaaziz/Experience/tree/main/produceri3s)
+4. **Producer**
+    - **Path**: [binscale-producer](https://github.com/benneuville/binscale-experience/tree/main/binscale-producer)
     - **Description**: The producer implementation remains unchanged.
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Java JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11 or later)
+- [Java JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) (version 11)
 - [Kafka](https://kafka.apache.org/)
 - [Maven](https://maven.apache.org/) (for building the project)
 - [Docker](https://www.docker.com/) (for containerized deployment)
@@ -61,7 +49,7 @@ different projects.
 
 ### Dockerfile
 
-This project includes a [Dockerfile](https://github.com/fatimazahraelaaziz/Experience/blob/main/Dockerfile) to
+This project includes a [Dockerfile](https://github.com/benneuville/binscale-experience/blob/main/Dockerfile) to
 containerize the microservices. Using this Dockerfile, you can build a single Docker image for all the microservices
 mentioned in this repository.
 
@@ -97,34 +85,15 @@ Feel free to submit issues and enhancement requests.
 
 *This part is auto generated.*
 
-| Name | Description | Default value |
-|-----|--------------|-------------------|
-| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
-| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
-| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
-| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
-| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
-| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
-| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
-| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
-| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
-
-## ðŸ”§ Environment Variables
-
-*This part is auto generated.*
-
-| Name | Description | Default value |
-|-----|--------------|-------------------|
-| `PARTITION_WEIGHTS` | List of partition weights, comma separated. Example : '1,1,1,1,1' | *(non dÃ©fini)* |
-| `INPUT_WORKLOAD` | Input workload file name. Example : 'defaultArrivalRatesm.csv' | "defaultArrivalRatesm.csv" |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers, Example : 'localhost:9092' | *(non dÃ©fini)* |
-| `DELAY_MS` | Delay between two messages in milliseconds. Example : 1000 | *(non dÃ©fini)* |
-| `MESSAGES_COUNT` | Number of messages to send. Example : 10 | 10L |
-| `MESSAGE` | Message content. Example : 'Hello World !' | "Hello World !" |
-| `PRODUCER_ACKS` | Producer acks config. Example : '0', '1' or 'all' | "0" |
-| `HEADERS` | Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2' | "" |
-| `ADDITIONAL_CONFIG` | Additional producer configuration in the form 'key1=value1,key2=value2' | "" |
-| `WORKLOAD` | Workload mapping strategy. Example : 'constant' | "constant" |
-| `SERVER_PORT` | Server port for the health check endpoint | 5002 |
-
+| Name                 | Description                                                 | Default value                                                           |
+|----------------------|-------------------------------------------------------------|-------------------------------------------------------------------------|
+| `DI`                 | DI value in milliseconds for the controller loop sleep time | *(undefined)*                                                           |
+| `NUMBER_PARTITIONS`  | Number of partitions for the topic                          | *(undefined)*                                                           |
+| `REB_TIME`           | REB_TIME value in seconds for the rebalancing time          | *(undefined)*                                                           |
+| `FUP`                | FUP value for the upscaling threshold                       | *(undefined)*                                                           |
+| `FDOWN`              | FDOWN value for the downscaling threshold                   | *(undefined)*                                                           |
+| `BOOTSTRAP_SERVERS`  | Bootstrap servers. Example : 'localhost:9092'               | *(undefined)*                                                           |
+| `TOPICS_CONFIG_PATH` | Path to config file                                         | "/config/controller-config.yaml"                                        |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation           | 2                                                                       |
+| `REQUEST_TIME_UNIT`  | Range time in seconds for the metrics calculation           | "s"                                                                     |
+| `SCALING_STRATEGY`   | Scaling strategy selector between : 'naive'                 | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
