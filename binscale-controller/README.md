@@ -79,5 +79,10 @@ The project supports the following scaling parameters:
 | `FDOWN` | FDOWN value for the downscaling threshold | *(non dÃ©fini)* |
 | `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(non dÃ©fini)* |
 | `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+<<<<<<< HEAD
 | `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | "2s" |
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+=======
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+>>>>>>> 646ddaabef899a07ef88cbe6dd3f1c87dfd7b6c8
