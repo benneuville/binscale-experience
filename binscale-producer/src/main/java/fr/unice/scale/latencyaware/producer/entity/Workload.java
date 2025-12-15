@@ -12,25 +12,28 @@ import static fr.unice.scale.latencyaware.producer.constant.Variables.INPUT_WORK
 public class Workload {
     private final static String CSV_SPLIT_BY = ",";
 
-    private static ArrayList<Double> datay = new ArrayList<Double>();
-    private static ArrayList<Double> datax = new ArrayList<Double>();
+    private static ArrayList<Double> rates = new ArrayList<Double>();
+    private static ArrayList<Double> timestamps = new ArrayList<Double>();
 
     public Workload() throws IOException {
         this.loadWorkload();
     }
 
-    public ArrayList<Double> getDatax() {
-        return datax;
+    public ArrayList<Double> getTimestamps() {
+        return timestamps;
     }
 
-    public ArrayList<Double> getDatay() {
-        return datay;
+    public ArrayList<Double> getRates() {
+        return rates;
+    }
+
+    public Double getRate(int index) {
+        return rates.get(index);
     }
 
     private void loadWorkload() throws IOException {
         ClassLoader CLDR = this.getClass().getClassLoader();
         InputStream inputStream = CLDR.getResourceAsStream(INPUT_WORKLOAD);
-        
 
         List<String> out = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -43,8 +46,8 @@ public class Workload {
             String[] workFields = line.split(CSV_SPLIT_BY);
             //inputXPointValue = Double.parseDouble(workFields[0]);
             double targetXPointValue = Double.parseDouble(workFields[1]);
-            datax.add(0d);
-            datay.add(targetXPointValue);
+            timestamps.add(0d);
+            rates.add(targetXPointValue);
         }
     }
 }

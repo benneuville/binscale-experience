@@ -58,7 +58,7 @@ public class EnvVarProcessor extends AbstractProcessor {
 
                 markdown.append("| `").append(name).append("` | ")
                         .append(description).append(" | ")
-                        .append(defaultValue == null ? "*(non défini)*" : defaultValue)
+                        .append(defaultValue == null ? "*(undefined)*" : defaultValue)
                         .append(" |\n");
             }
         }
@@ -69,7 +69,7 @@ public class EnvVarProcessor extends AbstractProcessor {
             String existing = Files.exists(readme) ? Files.readString(readme) : "";
 
             Pattern sectionPattern = Pattern.compile(
-                    "(?s)## 🔧 Environment Variables\\s*.*?(?=\\n## |\\Z)"
+                    "(?s)## . Environment Variables\\s*.*?(?=\\n## |\\Z)"
             );
 
             Matcher sectionMatcher = sectionPattern.matcher(existing);
