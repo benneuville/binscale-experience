@@ -86,7 +86,10 @@ In first purpose, scaling assignment is made after scaling decision for all cons
 
 ### Sequence diagram
 
-##### //TODO
+On this example, the scaling strategy is `ClassicBinpack`. It's the simple application of the scaling strategy,
+here to describe the sequence of operations.
+
+![Sequence diagram](./assets/controller_sequence_diagram.png)
 
 ## 🔧 Environment Variables
 

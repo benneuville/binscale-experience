@@ -39,7 +39,7 @@ public class BinPack {
         Map<Partition, PartitionCalculation> parts = computeConsumer(cgdata, maxLagCapacity, maxArrivalRate, minLagCapacity, minProcessingRate);
 
         log.info("Binpack (UP) on -> Consumer group {}", group.getKafkaGroupName());
-        List<ConsumerCalculation> upScaled = binPackAndScale(new ArrayList<>(parts.values()),
+        List<ConsumerCalculation> upScaled = binPack(new ArrayList<>(parts.values()),
                 maxLagCapacity,
                 maxArrivalRate,
                 PartitionCalculation::getIndexedLagCapacityUpScale,
@@ -52,7 +52,7 @@ public class BinPack {
         }
 
         log.info("Binpack (DOWN) on -> Consumer group {}", group.getKafkaGroupName());
-        List<ConsumerCalculation> downScaled = binPackAndScale(new ArrayList<>(parts.values()),
+        List<ConsumerCalculation> downScaled = binPack(new ArrayList<>(parts.values()),
                 minLagCapacity,
                 minProcessingRate,
                 PartitionCalculation::getIndexedLagCapacityDownScale,
@@ -96,11 +96,11 @@ public class BinPack {
         return parts;
     }
 
-    public static List<ConsumerCalculation> binPackAndScale(List<PartitionCalculation> parts,
-                                                            double maxLagCapacity,
-                                                            double maxConsumptionRate,
-                                                            Function<PartitionCalculation, Double> getAvgLagCapacity,
-                                                            Function<PartitionCalculation, Double> getAvgEventProcessRate) {
+    public static List<ConsumerCalculation> binPack(List<PartitionCalculation> parts,
+                                                    double maxLagCapacity,
+                                                    double maxConsumptionRate,
+                                                    Function<PartitionCalculation, Double> getAvgLagCapacity,
+                                                    Function<PartitionCalculation, Double> getAvgEventProcessRate) {
         parts.sort(Collections.reverseOrder());
 
         int consumerCount = 1;

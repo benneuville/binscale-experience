@@ -54,7 +54,6 @@ public class ControllerService implements Runnable {
     @Override
     public void run() {
         try {
-            init();
             while (true) {
                 Map<ConsumerGroup, CGMetaData> cgdatas = metricCollector.collectRawMetaData(graph);
 

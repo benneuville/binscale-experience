@@ -89,7 +89,7 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    public Map<Integer, DoubleMetric> processingTimeByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> collectProcessingTimeByPartition(ConsumerGroup consumerGroup) {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         RateMetricQueryBuilder.builder()
@@ -104,7 +104,7 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    public Map<Integer, DoubleMetric> processingCountByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> collectProcessingCountByPartition(ConsumerGroup consumerGroup) {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         RateMetricQueryBuilder.builder()
@@ -146,13 +146,13 @@ public class PrometheusMetricCollector {
                 metaData.getPartitionMetaData(partitionId).setLatency(latency.get(partitionId).getValue());
             }
 
-            Map<Integer, DoubleMetric> processingTime = processingTimeByPartition(cg);
+            Map<Integer, DoubleMetric> processingTime = collectProcessingTimeByPartition(cg);
 
             for (Integer partitionId : processingTime.keySet()) {
                 metaData.getPartitionMetaData(partitionId).setProcessingTime(processingTime.get(partitionId).getValue());
             }
 
-            Map<Integer, DoubleMetric> processingCount = processingCountByPartition(cg);
+            Map<Integer, DoubleMetric> processingCount = collectProcessingCountByPartition(cg);
 
             for (Integer partitionId : processingCount.keySet()) {
                 metaData.getPartitionMetaData(partitionId).setProcessingCount(processingCount.get(partitionId).getValue().longValue());
