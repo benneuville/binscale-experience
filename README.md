@@ -92,6 +92,7 @@ docker push <username>/<image-name>:<tag>
 ## Contributing
 
 Feel free to submit issues and enhancement requests.
+<<<<<<< HEAD
 
 ## ðŸ”§ Environment Variables
 
@@ -229,3 +230,5 @@ Feel free to submit issues and enhancement requests.
 | `ADDITIONAL_CONFIG` | Additional producer configuration in the form 'key1=value1,key2=value2' | "" |
 | `WORKLOAD` | Workload mapping strategy. Example : 'constant' | "constant" |
 | `SERVER_PORT` | Server port for the health check endpoint | 5002 |
+=======
+>>>>>>> 646ddaabef899a07ef88cbe6dd3f1c87dfd7b6c8
