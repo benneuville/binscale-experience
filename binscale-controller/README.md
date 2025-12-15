@@ -51,33 +51,13 @@ The project supports the following scaling parameters:
 
 | Name | Description | Default value |
 |-----|--------------|-------------------|
-| `DI` | DI value in seconds for the controller loop sleep time | *(non défini)* |
-| `WSLA` | WSLA value in seconds | *(non défini)* |
-| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(non défini)* |
-| `MU` | MU value in seconds for the controller calculations | *(non défini)* |
-| `FUP` | FUP value for the upscaling threshold | *(non défini)* |
-| `FDOWN` | FDOWN value for the downscaling threshold | *(non défini)* |
-| `INIT_SIZE` | Initial size of the consumer group | *(non défini)* |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(non défini)* |
-| `TOPIC` | Topic name. Example : 'testtopic1' | *(non défini)* |
-| `GROUP_ID` | Group id. Example : 'testgroup1' | *(non défini)* |
-| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(non défini)* |
-
-
-## ðŸ”§ Environment Variables
-
-*This part is auto generated.*
-
-| Name | Description | Default value |
-|-----|--------------|-------------------|
-| `DI` | DI value in milliseconds for the controller loop sleep time | *(non dÃ©fini)* |
-| `WSLA` | WSLA value in seconds | *(non dÃ©fini)* |
-| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(non dÃ©fini)* |
-| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(non dÃ©fini)* |
-| `MU` | MU value in seconds for the controller calculations | *(non dÃ©fini)* |
-| `FUP` | FUP value for the upscaling threshold | *(non dÃ©fini)* |
-| `FDOWN` | FDOWN value for the downscaling threshold | *(non dÃ©fini)* |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(non dÃ©fini)* |
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
 | `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
-| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | "2s" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |

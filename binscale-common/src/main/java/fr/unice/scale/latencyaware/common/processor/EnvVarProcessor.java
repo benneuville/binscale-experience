@@ -69,7 +69,7 @@ public class EnvVarProcessor extends AbstractProcessor {
             String existing = Files.exists(readme) ? Files.readString(readme) : "";
 
             Pattern sectionPattern = Pattern.compile(
-                    "(?s)## 🔧 Environment Variables\\s*.*?(?=\\n## |\\Z)"
+                    "(?s)## . Environment Variables\\s*.*?(?=\\n## |\\Z)"
             );
 
             Matcher sectionMatcher = sectionPattern.matcher(existing);
