@@ -60,4 +60,3 @@ The project supports the following scaling parameters:
 | `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
 | `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
 | `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
-| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
