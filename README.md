@@ -81,19 +81,62 @@ docker push <username>/<image-name>:<tag>
 
 Feel free to submit issues and enhancement requests.
 
-## 🔧 Environment Variables
+## ðŸ”§ Environment Variables
 
 *This part is auto generated.*
 
-| Name                 | Description                                                 | Default value                                                           |
-|----------------------|-------------------------------------------------------------|-------------------------------------------------------------------------|
-| `DI`                 | DI value in milliseconds for the controller loop sleep time | *(undefined)*                                                           |
-| `NUMBER_PARTITIONS`  | Number of partitions for the topic                          | *(undefined)*                                                           |
-| `REB_TIME`           | REB_TIME value in seconds for the rebalancing time          | *(undefined)*                                                           |
-| `FUP`                | FUP value for the upscaling threshold                       | *(undefined)*                                                           |
-| `FDOWN`              | FDOWN value for the downscaling threshold                   | *(undefined)*                                                           |
-| `BOOTSTRAP_SERVERS`  | Bootstrap servers. Example : 'localhost:9092'               | *(undefined)*                                                           |
-| `TOPICS_CONFIG_PATH` | Path to config file                                         | "/config/controller-config.yaml"                                        |
-| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation           | 2                                                                       |
-| `REQUEST_TIME_UNIT`  | Range time in seconds for the metrics calculation           | "s"                                                                     |
-| `SCALING_STRATEGY`   | Scaling strategy selector between : 'naive'                 | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `SCALE` | Scale parameter | *(undefined)* |
+| `TIME_TO_COMMIT` | Time to commit parameter | *(undefined)* |
+| `SHAPE` | Shape parameter | *(undefined)* |
+| `WSLA_S` | WSLA parameter | *(undefined)* |
+| `ASYNC_COMMIT` | Async commit parameter. Have the Kafka commit to be asynchronous? | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers, Example : 'localhost:9092' | *(undefined)* |
+| `SLEEP` | Sleep time | 0 |
+| `ADDITIONAL_CONFIG` | Additional consumer configuration in the form 'key1=value1,key2=value2' | "" |
+| `MESSAGE_COUNT` | Message count | 10L |
+| `CLIENT_RACK` | Client rack | null |
+| `MAX_POLL_RECORDS` | Max poll records parameter. Max number of events returned in a call to Kafka topic. | 500 |
+| `SESSION_TIMEOUT_MS` | Kafka session timeout in milliseconds | "3000" |
+| `HEARTBEAT_INTERVAL_MS` | Heartbeat interval in milliseconds | "1000" |
+| `PROCESSING_STRATEGY` | Processing strategy. Example : 'balanced', 'dupplicated', custom' | ProcessStrategyMapping.defaultStrategy, ProcessStrategyMapping::getByName |
+| `HEADERS` | Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2' | "" |
+| `PRODUCER_ACKS` | Producer acks config. Example : '0', '1' or 'all' | "0" |
+| `TOPICS_DISTRIBUTION_CONFIG_PATH` | Config path for Topics distribution | "/config/topics-config.yaml" |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `PARTITION_WEIGHTS` | List of partition weights, comma separated. Example : '1,1,1,1,1' | *(undefined)* |
+| `INPUT_WORKLOAD` | Input workload file name. Example : 'defaultArrivalRatesm.csv' | "defaultArrivalRatesm.csv" |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers, Example : 'localhost:9092' | *(undefined)* |
+| `DELAY_MS` | Delay between two messages in milliseconds. Example : 1000 | *(undefined)* |
+| `MESSAGES_COUNT` | Number of messages to send. Example : 10 | 10L |
+| `MESSAGE` | Message content. Example : 'Hello World !' | "Hello World !" |
+| `PRODUCER_ACKS` | Producer acks config. Example : '0', '1' or 'all' | "0" |
+| `HEADERS` | Headers to add to each message, comma separated. Example : 'header1:value1,header2:value2' | "" |
+| `ADDITIONAL_CONFIG` | Additional producer configuration in the form 'key1=value1,key2=value2' | "" |
+| `WORKLOAD` | Workload mapping strategy. Example : 'constant' | "constant" |
+| `SERVER_PORT` | Server port for the health check endpoint | 5002 |

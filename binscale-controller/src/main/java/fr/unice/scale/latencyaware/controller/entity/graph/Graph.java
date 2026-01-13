@@ -112,7 +112,7 @@ public class Graph<T extends NamedEntity> {
     }
 
     public Vertex<T> getVertex(String name) {
-        return vertices.values().stream().filter(v -> v.getGroup().getGroupName().equals(name)).findFirst().orElseThrow(()-> new NotFoundException("ConsumerGroup with name "+name+" not found") );
+        return vertices.values().stream().filter(v -> v.getGroup().getGroupName().equals(name)).findFirst().orElseThrow(() -> new NotFoundException("ConsumerGroup with name " + name + " not found"));
     }
 
     public List<Vertex<T>> getVertices() {
@@ -136,22 +136,27 @@ public class Graph<T extends NamedEntity> {
         }
 
         Queue<Vertex<T>> queue = new LinkedList<>(roots());
+        System.out.println("Queue : \n" + queue);
+        System.out.println("InDegree : \n" + inDegree);
 
         List<Vertex<T>> result = new ArrayList<>();
         while (!queue.isEmpty()) {
             Vertex<T> node = queue.poll();
+            System.out.println("Visiting Node : " + node);
             result.add(node);
 
-            for (BranchingFactor<T> child : childMap.get(node)) {
-                inDegree.put(child.getVertex(), inDegree.get(child.getVertex()) - 1);
-                if (inDegree.get(child.getVertex()) == 0) {
-                    queue.add(child.getVertex());
+            inDegree.forEach((k, v) -> {
+                inDegree.put(k, v - 1);
+                if (v - 1 == 0) {
+                    queue.add(k);
                 }
-            }
+            });
         }
 
+        System.out.println("Topological Sort Result : \n" + result);
+
         if (result.size() != childMap.size()) {
-            throw new IllegalStateException("Le graphe contient un cycle, tri topologique impossible.");
+            throw new IllegalStateException("The graph contains at least one cycle, topologic sort impossible.");
         }
 
         topologicalOrderList = result;
