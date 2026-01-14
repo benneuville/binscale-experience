@@ -98,7 +98,6 @@ Feel free to submit issues and enhancement requests.
 | `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
 
-
 ## ðŸ”§ Environment Variables
 
 *This part is auto generated.*

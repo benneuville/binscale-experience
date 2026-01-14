@@ -6,6 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import fr.unice.scale.latencyaware.common.error.exception.MetricResultEmptyException;
 import fr.unice.scale.latencyaware.controller.metric.ClientMetricCollector;
 import org.apache.hc.core5.net.URIBuilder;
 import org.slf4j.Logger;
@@ -46,21 +47,21 @@ public class PrometheusClient implements ClientMetricCollector {
         }
     }
 
-    public <T> T query(String request, Class<T> tClass) {
+    public <T> T query(String request, Class<T> tClass) throws MetricResultEmptyException {
         return query(request, TypeFactory.defaultInstance().constructType(tClass));
     }
 
-    public <T> T query(String request, TypeReference<T> typeReference) {
+    public <T> T query(String request, TypeReference<T> typeReference) throws MetricResultEmptyException {
         return query(request, mapper.getTypeFactory().constructType(typeReference.getType()));
     }
 
     public <K, V> Map<K, V> mappedResultQuery(String request, String mapKey,
-                                              Class<K> keyClass, Class<V> valueClass) {
+                                              Class<K> keyClass, Class<V> valueClass) throws MetricResultEmptyException {
         JSONObject response = JSONObject.parseObject(rawQuery(request));
 
         JSONArray results = response.getJSONObject("data")
                 .getJSONArray("result");
-
+        if (results.isEmpty()) throw new MetricResultEmptyException(request);
         Map<K, V> map = new LinkedHashMap<>();
 
         for (int i = 0; i < results.size(); i++) {
@@ -101,12 +102,15 @@ public class PrometheusClient implements ClientMetricCollector {
     }
 
     @Override
-    public <T> T query(String request, JavaType type) {
+    public <T> T query(String request, JavaType type) throws MetricResultEmptyException {
         JSONObject response = JSONObject.parseObject(rawQuery(request));
 
         JSONObject data = response.getJSONObject("data");
         String resultType = data.getString("resultType");
         JSONObject first = data.getJSONArray("result").getJSONObject(0);
+        if (first == null) {
+            throw new MetricResultEmptyException(request);
+        }
 
         Object toConvert;
 
