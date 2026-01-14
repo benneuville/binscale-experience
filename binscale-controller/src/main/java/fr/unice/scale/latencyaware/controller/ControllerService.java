@@ -57,7 +57,10 @@ public class ControllerService implements Runnable {
             init();
             while (true) {
                 Map<ConsumerGroup, CGMetaData> cgdatas = metricCollector.collectRawMetaData(graph);
-
+                if (cgdatas.isEmpty()) {
+                    log.warn("No ConsumerGroup MetaData collected, skipping this iteration");
+                    continue;
+                }
                 Map<ConsumerGroup, ScaleDecision> decisions = scalerProcessor.process(graph, cgdatas);
 
                 assignmentComponent.assignScale(graph, decisions);

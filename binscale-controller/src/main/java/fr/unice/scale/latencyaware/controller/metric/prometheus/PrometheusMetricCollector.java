@@ -1,5 +1,6 @@
 package fr.unice.scale.latencyaware.controller.metric.prometheus;
 
+import fr.unice.scale.latencyaware.common.error.exception.MetricResultEmptyException;
 import fr.unice.scale.latencyaware.common.utils.prometheus.SimpleQueryBuilder;
 import fr.unice.scale.latencyaware.common.utils.prometheus.enums.DistributionSummarySuffix;
 import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.DistributionSummaryMetricQueryBuilder;
@@ -43,7 +44,7 @@ public class PrometheusMetricCollector {
      *
      * @return map (PartitionId, LagValue)
      */
-    public Map<Integer, DoubleMetric> collectLagByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> collectLagByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         MetricBuilder.builder()
@@ -61,7 +62,7 @@ public class PrometheusMetricCollector {
      *
      * @return map (PartitionId, ArrivalRateValue)
      */
-    public Map<Integer, DoubleMetric> collectArrivalRateByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> collectArrivalRateByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         RateMetricQueryBuilder.builder().metric(
@@ -75,7 +76,7 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    public Map<Integer, DoubleMetric> latencyByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> latencyByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         SumMetricBuilder.builder()
@@ -89,7 +90,7 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    public Map<Integer, DoubleMetric> processingTimeByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> processingTimeByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         RateMetricQueryBuilder.builder()
@@ -104,7 +105,7 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    public Map<Integer, DoubleMetric> processingCountByPartition(ConsumerGroup consumerGroup) {
+    public Map<Integer, DoubleMetric> processingCountByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         RateMetricQueryBuilder.builder()
@@ -127,51 +128,56 @@ public class PrometheusMetricCollector {
      */
 
     public Map<ConsumerGroup, CGMetaData> collectRawMetaData(Graph<ConsumerGroup> graph) {
-        Map<ConsumerGroup, CGMetaData> consumerGroupMetaDatas = new HashMap<>();
-        for (ConsumerGroup cg : graph.topologicalSort().stream().map(Vertex::getGroup).collect(Collectors.toList())) {
-            CGMetaData metaData = new CGMetaData(cg, REB_TIME);
+        try {
+            Map<ConsumerGroup, CGMetaData> consumerGroupMetaDatas = new HashMap<>();
+            for (ConsumerGroup cg : graph.topologicalSort().stream().map(Vertex::getGroup).collect(Collectors.toList())) {
+                CGMetaData metaData = new CGMetaData(cg, REB_TIME);
 
-            Map<Integer, DoubleMetric> lagByPartition = collectLagByPartition(cg);
+                Map<Integer, DoubleMetric> lagByPartition = collectLagByPartition(cg);
 
-            for (Integer partitionId : lagByPartition.keySet()) {
-                metaData.getPartitionMetaData(partitionId).setLag(lagByPartition.get(partitionId).getValue().longValue());
-            }
-            Map<Integer, DoubleMetric> arrivalRateByPartition = collectArrivalRateByPartition(cg);
-            for (Integer partitionId : arrivalRateByPartition.keySet()) {
-                metaData.getPartitionMetaData(partitionId).setArrivalRate(arrivalRateByPartition.get(partitionId).getValue());
-            }
-
-            Map<Integer, DoubleMetric> latency = latencyByPartition(cg);
-            for (Integer partitionId : latency.keySet()) {
-                metaData.getPartitionMetaData(partitionId).setLatency(latency.get(partitionId).getValue());
-            }
-
-            Map<Integer, DoubleMetric> processingTime = processingTimeByPartition(cg);
-
-            for (Integer partitionId : processingTime.keySet()) {
-                metaData.getPartitionMetaData(partitionId).setProcessingTime(processingTime.get(partitionId).getValue());
-            }
-
-            Map<Integer, DoubleMetric> processingCount = processingCountByPartition(cg);
-
-            for (Integer partitionId : processingCount.keySet()) {
-                metaData.getPartitionMetaData(partitionId).setProcessingCount(processingCount.get(partitionId).getValue().longValue());
-            }
-
-            for (Consumer consumer : metaData.getConsumersMetaData().keySet()) {
-                double nbOfEventPolled = 0;
-                double processTimeOfEventPolled = .0;
-                for (Partition p : consumer.getAssignedPartitions()) {
-                    nbOfEventPolled += metaData.getPartitionMetaData(p).getProcessingCount();
-                    processTimeOfEventPolled += metaData.getPartitionMetaData(p).getProcessingTime();
+                for (Integer partitionId : lagByPartition.keySet()) {
+                    metaData.getPartitionMetaData(partitionId).setLag(lagByPartition.get(partitionId).getValue().longValue());
                 }
-            }
-            consumerGroupMetaDatas.put(cg, metaData);
-        }
+                Map<Integer, DoubleMetric> arrivalRateByPartition = collectArrivalRateByPartition(cg);
+                for (Integer partitionId : arrivalRateByPartition.keySet()) {
+                    metaData.getPartitionMetaData(partitionId).setArrivalRate(arrivalRateByPartition.get(partitionId).getValue());
+                }
 
-        log.info(consumerGroupMetaDatas.toString());
+                Map<Integer, DoubleMetric> latency = latencyByPartition(cg);
+                for (Integer partitionId : latency.keySet()) {
+                    metaData.getPartitionMetaData(partitionId).setLatency(latency.get(partitionId).getValue());
+                }
+
+                Map<Integer, DoubleMetric> processingTime = processingTimeByPartition(cg);
+
+                for (Integer partitionId : processingTime.keySet()) {
+                    metaData.getPartitionMetaData(partitionId).setProcessingTime(processingTime.get(partitionId).getValue());
+                }
+
+                Map<Integer, DoubleMetric> processingCount = processingCountByPartition(cg);
+
+                for (Integer partitionId : processingCount.keySet()) {
+                    metaData.getPartitionMetaData(partitionId).setProcessingCount(processingCount.get(partitionId).getValue().longValue());
+                }
+
+                for (Consumer consumer : metaData.getConsumersMetaData().keySet()) {
+                    double nbOfEventPolled = 0;
+                    double processTimeOfEventPolled = .0;
+                    for (Partition p : consumer.getAssignedPartitions()) {
+                        nbOfEventPolled += metaData.getPartitionMetaData(p).getProcessingCount();
+                        processTimeOfEventPolled += metaData.getPartitionMetaData(p).getProcessingTime();
+                    }
+                }
+                consumerGroupMetaDatas.put(cg, metaData);
+            }
+
+            log.info(consumerGroupMetaDatas.toString());
 //        return new HashMap<>();
-        return consumerGroupMetaDatas;
+            return consumerGroupMetaDatas;
+        } catch (MetricResultEmptyException e) {
+            log.warn("MetricResultEmptyException occurred during metrics collection: {}", e.getMessage());
+            return new HashMap<>();
+        }
     }
 
 }
