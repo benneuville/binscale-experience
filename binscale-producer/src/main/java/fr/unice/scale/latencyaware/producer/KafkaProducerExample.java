@@ -24,6 +24,9 @@ public class KafkaProducerExample {
         startServer();
 
         WORKLOAD.getWorkload().startWorkload(config, producer);
+        producer.close();
+        log.info("Workload completed. Exiting...");
+        System.exit(0);
     }
 
     private static void startServer() {
