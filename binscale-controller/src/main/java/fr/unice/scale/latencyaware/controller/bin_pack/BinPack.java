@@ -8,7 +8,6 @@ import fr.unice.scale.latencyaware.controller.entity.calculation.ConsumerCalcula
 import fr.unice.scale.latencyaware.controller.entity.calculation.PartitionCalculation;
 import fr.unice.scale.latencyaware.controller.entity.decision.ScaleDecision;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
-import fr.unice.scale.latencyaware.controller.entity.meta_data.PartitionMetaData;
 import fr.unice.scale.latencyaware.controller.utils.ConsumerConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -82,9 +81,15 @@ public class BinPack {
                                                                        double minLagCapacity,
                                                                        double minArrivalRate) {
 
-        Map<Partition, PartitionCalculation> parts = cgdatas.getPartitionsMetaData().values().stream()
-                .collect(Collectors.toMap(PartitionMetaData::getPartition, PartitionCalculation::new));
-        // min/max arrival rates and lags to partitions
+        Map<Partition, PartitionCalculation> parts = cgdatas.getPartitionsMetaData().values().stream().map(
+                pmd -> new PartitionCalculation(
+                        pmd, cgdatas.getAvgParentArrivalRate()
+                )
+        ).collect(Collectors.toMap(
+                PartitionCalculation::getPartition,
+                pc -> pc
+        ));
+
         parts.forEach(
                 (p, pc) -> {
                     pc.setMaxArrivalRate(maxArrivalRate);

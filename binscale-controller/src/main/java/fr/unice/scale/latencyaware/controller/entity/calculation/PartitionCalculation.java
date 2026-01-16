@@ -16,9 +16,18 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
     private double maxArrivalRate; // upscale
     private double minArrivalRate; // downscale
 
+    // For root
     public PartitionCalculation(PartitionMetaData metaData) {
         this.partition = metaData.getPartition();
         this.lag = metaData.getLag();
+        this.arrivalRate = metaData.getArrivalRate();
+        this.lagRebalancing = metaData.getLagRebalancing();
+    }
+
+    // For non-root
+    public PartitionCalculation(PartitionMetaData metaData, double parentArrivalRate) {
+        this.partition = metaData.getPartition();
+        this.lag = metaData.getLag() + parentArrivalRate;
         this.arrivalRate = metaData.getArrivalRate();
         this.lagRebalancing = metaData.getLagRebalancing();
     }
