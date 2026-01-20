@@ -171,7 +171,7 @@ public class PrometheusMetricCollector {
                 consumerGroupMetaDatas.put(cg, metaData);
             }
 
-            log.info(consumerGroupMetaDatas.toString());
+            log.info("Pulled data from Prometheus : {}", consumerGroupMetaDatas.values().toString());
 //        return new HashMap<>();
             return consumerGroupMetaDatas;
         } catch (MetricResultEmptyException e) {

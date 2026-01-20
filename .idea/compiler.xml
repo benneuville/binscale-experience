@@ -69,10 +69,12 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="binscale-common" options="" />
       <module name="binscale-consumer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="binscale-controller" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="binscale-producer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="i3s" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
+      <module name="parent-project" options="" />
     </option>
   </component>
 </project>

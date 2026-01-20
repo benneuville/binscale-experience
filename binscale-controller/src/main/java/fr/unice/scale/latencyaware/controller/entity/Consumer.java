@@ -1,4 +1,5 @@
 package fr.unice.scale.latencyaware.controller.entity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class Consumer {
 
     @Override
     public String toString() {
-        return "\nConsumer{" + "id=" + id +
-                ", assignedPartitions= \n" + assignedPartitions +
+        return "Consumer{" + "id=" + id +
+                ", assignedPartitions= " + assignedPartitions +
                 "}";
     }
 

@@ -26,7 +26,6 @@ public class PrometheusClient implements ClientMetricCollector {
     private static final Logger logger = LoggerFactory.getLogger(PrometheusClient.class);
 
     public String rawQuery(String promQL) {
-        logger.info("Querying Prometheus with query: {}", promQL);
         try {
             URI uri = new URIBuilder(PROM_URL)
                     .addParameter("query", promQL)

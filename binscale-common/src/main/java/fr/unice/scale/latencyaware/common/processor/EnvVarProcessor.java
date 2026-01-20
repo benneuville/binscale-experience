@@ -37,6 +37,12 @@ public class EnvVarProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         if (annotations.isEmpty()) return false;
 
+        String skipDoc = System.getProperty("skip.env.doc");
+        System.out.println("skip value : " + skipDoc);
+        if ("true".equals(skipDoc)) {
+            return false;
+        }
+
         markdown.append(ENV_SECTION_HEADER);
         markdown.append("*This part is auto generated.*\n\n");
         markdown.append("| Name | Description | Default value |\n");

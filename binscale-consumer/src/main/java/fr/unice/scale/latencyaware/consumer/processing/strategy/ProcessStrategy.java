@@ -31,9 +31,9 @@ public abstract class ProcessStrategy {
 
     private void processEvent(ConsumerRecord<String, EventCustomer> record) {
         double sleep = paretoDistribution.sample();
-        MetricsCollector.getInstance().collect(record, sleep);
         try {
             Thread.sleep((long) sleep);
+            MetricsCollector.getInstance().collect(record, sleep);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

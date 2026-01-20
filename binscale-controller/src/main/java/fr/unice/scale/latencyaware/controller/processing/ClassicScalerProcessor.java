@@ -28,13 +28,10 @@ public class ClassicScalerProcessor implements ScalerProcessor {
 
     @Override
     public Map<ConsumerGroup, ScaleDecision> process(Graph<ConsumerGroup> graph, Map<ConsumerGroup, CGMetaData> cgdatas) {
-        logger.info("Starting ClassicScalerProcessor processing...");
         if (graph == null || cgdatas == null) {
-            logger.warn("Graph or CGMetaData map is null. Returning empty decisions.");
             return new HashMap<>();
         }
         if (cgdatas.isEmpty()) {
-            logger.warn("ConsumerGroupMetaData map is empty. No decisions taken.");
             return new HashMap<>();
         }
         propagateArrivalRate(graph, cgdatas);
@@ -44,12 +41,10 @@ public class ClassicScalerProcessor implements ScalerProcessor {
         for (Map.Entry<ConsumerGroup, CGMetaData> entry : cgdatas.entrySet()) {
             decisions.put(entry.getKey(), BinPack.scaleDecisionEventConsumerWithLag(entry.getKey(), entry.getValue()));
         }
-        logger.info("ClassicScalerProcessor processing completed.");
         return decisions;
     }
 
     public void propagateArrivalRate(Graph<ConsumerGroup> graph, Map<ConsumerGroup, CGMetaData> cgdatas) {
-        logger.info("Propagating arrival rates through the graph...");
         List<Vertex<ConsumerGroup>> roots = graph.roots();
         if (roots.isEmpty()) {
             roots.add(graph.topologicalSort().get(0));
@@ -62,7 +57,6 @@ public class ClassicScalerProcessor implements ScalerProcessor {
     }
 
     protected void applyPropagationArrivalRate(List<Vertex<ConsumerGroup>> roots, Graph<ConsumerGroup> graph, Map<ConsumerGroup, CGMetaData> cgdatas) {
-        logger.info("Applying arrival rate propagation...");
         //trusted topological sorted
         List<Vertex<ConsumerGroup>> toVisit = new LinkedList<>(graph.topologicalSort());
 
