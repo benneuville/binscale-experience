@@ -1,5 +1,8 @@
 package fr.unice.scale.latencyaware.controller.metric.prometheus;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import fr.unice.scale.latencyaware.common.error.exception.MetricResultEmptyException;
 import fr.unice.scale.latencyaware.common.utils.prometheus.SimpleQueryBuilder;
 import fr.unice.scale.latencyaware.common.utils.prometheus.enums.DistributionSummarySuffix;
@@ -28,6 +31,7 @@ import static fr.unice.scale.latencyaware.controller.constant.Variables.getTimeR
 public class PrometheusMetricCollector {
 
     private PrometheusClient clientMetricCollector;
+    private ObjectWriter objectWriter = new ObjectMapper().writer();
 
     private Logger log = LoggerFactory.getLogger(PrometheusMetricCollector.class);
 
@@ -171,12 +175,15 @@ public class PrometheusMetricCollector {
                 consumerGroupMetaDatas.put(cg, metaData);
             }
 
-            log.info("Pulled data from Prometheus : {}", consumerGroupMetaDatas.values().toString());
+            log.info("Pulled data from Prometheus : {}", objectWriter.writeValueAsString(consumerGroupMetaDatas.values()));
 //        return new HashMap<>();
             return consumerGroupMetaDatas;
         } catch (MetricResultEmptyException e) {
             log.warn("MetricResultEmptyException occurred during metrics collection: {}", e.getMessage());
             return new HashMap<>();
+        } catch (JsonProcessingException e) {
+            log.warn("JsonProcessingException occurred during logging: {}", e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

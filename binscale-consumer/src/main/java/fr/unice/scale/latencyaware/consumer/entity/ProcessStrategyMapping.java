@@ -8,10 +8,13 @@ import fr.unice.scale.latencyaware.consumer.processing.strategy.ProcessStrategy;
 
 import java.util.Arrays;
 
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.SCALE;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.SHAPE;
+
 public enum ProcessStrategyMapping {
-    BALANCED("balanced", new BalanceProcessStrategy()),
-    DUPLICATED("duplicated", new DuplicateProcessStrategy()),
-    CUSTOM("custom", new CustomProcessStrategy());
+    BALANCED("balanced", new BalanceProcessStrategy(SCALE, SHAPE)),
+    DUPLICATED("duplicated", new DuplicateProcessStrategy(SCALE, SHAPE)),
+    CUSTOM("custom", new CustomProcessStrategy(SCALE, SHAPE));
 
     public final static ProcessStrategyMapping defaultStrategy = BALANCED;
     private final String name;

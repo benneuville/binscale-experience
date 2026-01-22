@@ -13,13 +13,14 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static fr.unice.scale.latencyaware.consumer.constant.Variables.SCALE;
-import static fr.unice.scale.latencyaware.consumer.constant.Variables.SHAPE;
-
 public abstract class ProcessStrategy {
-    private final ParetoDistribution paretoDistribution = new ParetoDistribution(SCALE, SHAPE);
+    private final ParetoDistribution paretoDistribution;
 
     private final Logger logger = LoggerFactory.getLogger(ProcessStrategy.class);
+
+    public ProcessStrategy(Double scale, Double shape) {
+        this.paretoDistribution = new ParetoDistribution(scale, shape);
+    }
 
     public List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events) {
         List<DistributedEventCustomer> res = process(config, events, this::processEvent);

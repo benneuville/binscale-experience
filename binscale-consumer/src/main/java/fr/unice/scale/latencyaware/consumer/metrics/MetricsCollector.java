@@ -69,12 +69,13 @@ public class MetricsCollector {
         Date insertionDate = new Date(timestamp.getTime());
 
         // export data in logs for Filebeat
-        logger.info("latency is {}, insertion time is {}, processing time is {}, event come from partition {} and position {}",
+        logger.info("latency is {}, insertion time is {}, processing time is {}, event come from partition {} and position {} time for process {}",
                 currentTimeMillis - record.timestamp(),
                 DATE_FORMAT.format(insertionDate),
                 DATE_FORMAT.format(currentDate),
                 record.partition(),
-                record.offset());
+                record.offset(),
+                processTime);
 
 
         getLatencyTimeMeasureByPartition(record.partition())

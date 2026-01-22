@@ -1,14 +1,15 @@
 package fr.unice.scale.latencyaware.controller.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.unice.scale.latencyaware.common.error.exception.NotFoundException;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.DATE_FORMAT;
 import static fr.unice.scale.latencyaware.controller.constant.Variables.FDOWN;
 import static fr.unice.scale.latencyaware.controller.constant.Variables.FUP;
 
@@ -21,13 +22,13 @@ public class ConsumerGroup implements NamedEntity {
     // MU
     private double maxDefinedProcessingRate;
     private List<Partition> topicPartitions;
-    private Instant lastUpScaleDecision = Instant.now();
+    private String lastUpScaleDecision;
     private List<Consumer> assignment = new ArrayList<>();
+    @JsonIgnore
     private KafkaConsumer<byte[], byte[]> metadataConsumer;
 
     // test constructor only
-    public ConsumerGroup() {
-
+    ConsumerGroup() {
     }
 
     public ConsumerGroup(String inputTopic, double maxDefinedProcessingRate, double wsla, String consumerName, String groupName, int partitionNumber, KafkaConsumer<byte[], byte[]> kafkaConsumer) {
@@ -41,6 +42,7 @@ public class ConsumerGroup implements NamedEntity {
         this.wsla = wsla;
         this.consumerName = name;
         this.kafkaGroupName = groupName;
+        this.lastUpScaleDecision = "N/A";
         topicPartitions = IntStream.range(0, partitionNumber)
                 .mapToObj(Partition::new).collect(Collectors.toList());
         metadataConsumer = kafkaConsumer;
@@ -104,12 +106,12 @@ public class ConsumerGroup implements NamedEntity {
         return wsla;
     }
 
-    public Instant getLastUpScaleDecision() {
+    public String getLastUpScaleDecision() {
         return lastUpScaleDecision;
     }
 
-    public void setLastUpScaleDecision(Instant lastUpScaleDecision) {
-        this.lastUpScaleDecision = lastUpScaleDecision;
+    public void setNowLastUpScaleDecision() {
+        this.lastUpScaleDecision = DATE_FORMAT.format(System.currentTimeMillis());
     }
 
     public String getInputTopic() {

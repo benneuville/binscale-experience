@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,7 +43,7 @@ public class BinPackTest {
                 consumer
         ));
 
-        consumerGroup.setLastUpScaleDecision(Instant.now());
+        consumerGroup.setNowLastUpScaleDecision();
 
         cgMetaData = new CGMetaData(consumerGroup, .5);
 
