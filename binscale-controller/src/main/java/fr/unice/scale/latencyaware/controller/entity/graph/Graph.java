@@ -136,13 +136,10 @@ public class Graph<T extends NamedEntity> {
         }
 
         Queue<Vertex<T>> queue = new LinkedList<>(roots());
-        System.out.println("Queue : \n" + queue);
-        System.out.println("InDegree : \n" + inDegree);
 
         List<Vertex<T>> result = new ArrayList<>();
         while (!queue.isEmpty()) {
             Vertex<T> node = queue.poll();
-            System.out.println("Visiting Node : " + node);
             result.add(node);
 
             inDegree.forEach((k, v) -> {
@@ -153,7 +150,7 @@ public class Graph<T extends NamedEntity> {
             });
         }
 
-        System.out.println("Topological Sort Result : \n" + result);
+        System.out.println("Topological Sort Result : " + result);
 
         if (result.size() != childMap.size()) {
             throw new IllegalStateException("The graph contains at least one cycle, topologic sort impossible.");

@@ -8,7 +8,6 @@ import fr.unice.scale.latencyaware.controller.entity.calculation.ConsumerCalcula
 import fr.unice.scale.latencyaware.controller.entity.calculation.PartitionCalculation;
 import fr.unice.scale.latencyaware.controller.entity.decision.ScaleDecision;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
-import fr.unice.scale.latencyaware.controller.entity.meta_data.PartitionMetaData;
 import fr.unice.scale.latencyaware.controller.utils.ConsumerConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,21 +23,14 @@ public class BinPack {
     private static final Logger log = LogManager.getLogger(BinPack.class);
 
     public static ScaleDecision scaleDecisionEventConsumerWithLag(ConsumerGroup group, CGMetaData cgdata) {
-        log.info("Currently we have this number of consumers group {} {}", group.getKafkaGroupName(), group.getAssignment().size());
-        log.info("Average processing rate for group {} : {}", group.getKafkaGroupName(), cgdata.getAvgEventProcessingRate());
         double maxLagCapacity = cgdata.getMaxLagCapacity();
-        log.info("Max Lag Capacity for group {} is {}", group.getKafkaGroupName(), maxLagCapacity);
         double maxArrivalRate = cgdata.getMaxAverageArrivalRate();
-        log.info("Max Processing Rate for group {} is {}", group.getKafkaGroupName(), maxArrivalRate);
 
         double minLagCapacity = cgdata.getMinLagCapacity();
-        log.info("Min Lag Capacity for group {} is {}", group.getKafkaGroupName(), minLagCapacity);
         double minProcessingRate = cgdata.getMinAverageArrivalRate();
-        log.info("Min Processing Rate for group {} is {}", group.getKafkaGroupName(), minProcessingRate);
 
         Map<Partition, PartitionCalculation> parts = computeConsumer(cgdata, maxLagCapacity, maxArrivalRate, minLagCapacity, minProcessingRate);
 
-        log.info("Binpack (UP) on -> Consumer group {}", group.getKafkaGroupName());
         List<ConsumerCalculation> upScaled = binPackAndScale(new ArrayList<>(parts.values()),
                 maxLagCapacity,
                 maxArrivalRate,
@@ -46,12 +38,11 @@ public class BinPack {
                 PartitionCalculation::getIndexedArrivalRateUpScale);
         // UP
         if (upScaled.size() > group.getAssignment().size()) {
-            log.info("Decided to upscale from {} to {}", group.getAssignment().size(), upScaled.size());
-            log.info("New assignment after upscale {}", upScaled.toString());
+            log.info("Binpack (UP) from {} to {}", group.getAssignment().size(), upScaled.size());
+            log.info("New assignment {}", upScaled.toString());
             return new ScaleDecision(upScaled, Action.UP);
         }
 
-        log.info("Binpack (DOWN) on -> Consumer group {}", group.getKafkaGroupName());
         List<ConsumerCalculation> downScaled = binPackAndScale(new ArrayList<>(parts.values()),
                 minLagCapacity,
                 minProcessingRate,
@@ -60,18 +51,18 @@ public class BinPack {
 
         // DOWN
         if (downScaled.size() < group.getAssignment().size()) {
-            log.info("Decided to downscale from {} to {}", group.getAssignment().size(), downScaled.size());
-            log.info("New assignment after downscale {}", downScaled.toString());
+            log.info("Binpack (DOWN) from {} to {}", group.getAssignment().size(), downScaled.size());
+            log.info("New assignment {}", downScaled.toString());
             return new ScaleDecision(downScaled, Action.DOWN);
         }
 
-        log.info("Binpack (REASS) on -> Consumer group {}", group.getKafkaGroupName());
         // REASS
         if (assignmentViolatesTheSLA(parts, group, maxLagCapacity, maxArrivalRate)) {
+            log.info("Binpack (REASS) {}", group.getKafkaGroupName());
             return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.REASS);
         }
 
-        log.info("Binpack (NONE) on -> Consumer group {}", group.getKafkaGroupName());
+        log.info("Binpack (NONE) {}", group.getKafkaGroupName());
         // NOTHING
         return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.NONE);
     }
@@ -82,9 +73,15 @@ public class BinPack {
                                                                        double minLagCapacity,
                                                                        double minArrivalRate) {
 
-        Map<Partition, PartitionCalculation> parts = cgdatas.getPartitionsMetaData().values().stream()
-                .collect(Collectors.toMap(PartitionMetaData::getPartition, PartitionCalculation::new));
-        // min/max arrival rates and lags to partitions
+        Map<Partition, PartitionCalculation> parts = cgdatas.getPartitionsMetaData().values().stream().map(
+                pmd -> new PartitionCalculation(
+                        pmd, cgdatas.getAvgParentArrivalRate()
+                )
+        ).collect(Collectors.toMap(
+                PartitionCalculation::getPartition,
+                pc -> pc
+        ));
+
         parts.forEach(
                 (p, pc) -> {
                     pc.setMaxArrivalRate(maxArrivalRate);

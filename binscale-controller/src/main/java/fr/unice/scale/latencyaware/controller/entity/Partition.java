@@ -23,7 +23,7 @@ public class Partition {
     public String toString() {
         return "Partition{" +
                 "id= " + id +
-                "}\n";
+                "}";
     }
 
     @Override

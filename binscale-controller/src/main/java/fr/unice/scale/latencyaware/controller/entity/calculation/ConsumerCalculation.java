@@ -39,10 +39,10 @@ public class ConsumerCalculation implements Comparable<ConsumerCalculation> {
 
     @Override
     public String toString() {
-        return "\nConsumer{" + "id=" + id +
+        return "Consumer{" + "id=" + id +
                 ", remainingArrivalCapacity= " + String.format("%.2f", remainingProcessingCapacity) +
                 ", remainingLagCapacity= " + remainingLagCapacity +
-                ", assignedPartitions= \n" + assignedPartitions +
+                ", assignedPartitions= " + assignedPartitions +
                 "}";
     }
 

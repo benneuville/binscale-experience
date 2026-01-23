@@ -19,6 +19,7 @@
         <kafka.version>2.7.0</kafka.version>
         <slf4j-simple.version>1.6.2</slf4j-simple.version>
         <maven.compiler.forceJavacCompilerUse>true</maven.compiler.forceJavacCompilerUse>
+        <skip.env.doc>true</skip.env.doc>
     </properties>
     <dependencies>
         <dependency>

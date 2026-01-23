@@ -64,6 +64,13 @@ public class CGMetaData {
         this.parentArrivalRate = parentArrivalRate;
     }
 
+    public double getAvgParentArrivalRate() {
+        if (partitionsMetaData.values().isEmpty()) {
+            return 0.0;
+        }
+        return parentArrivalRate / partitionsMetaData.size();
+    }
+
     public void addParentArrivalRate(double arrivalRate) {
         this.parentArrivalRate += arrivalRate;
     }
