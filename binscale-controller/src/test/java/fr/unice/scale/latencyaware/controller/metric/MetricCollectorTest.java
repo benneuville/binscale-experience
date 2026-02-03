@@ -3,7 +3,7 @@ package fr.unice.scale.latencyaware.controller.metric;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import fr.unice.scale.latencyaware.controller.binpack.MockConsumerGroup;
+import fr.unice.scale.latencyaware.controller.MockConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
 import org.junit.jupiter.api.BeforeEach;

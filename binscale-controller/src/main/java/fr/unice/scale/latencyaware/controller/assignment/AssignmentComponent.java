@@ -5,7 +5,7 @@ import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.decision.ScaleDecision;
 import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import fr.unice.scale.latencyaware.controller.utils.ConsumerConverter;
-import io.fabric8.kubernetes.client.KubernetesClientBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,10 @@ import java.util.Map;
 public class AssignmentComponent {
     private final Logger log = LoggerFactory.getLogger(AssignmentComponent.class);
 
-    public AssignmentComponent() {
+    private final KubernetesClient kubernetesClient;
+
+    public AssignmentComponent(KubernetesClient kubernetesClient) {
+        this.kubernetesClient = kubernetesClient;
     }
 
     public void assignScale(Graph<ConsumerGroup> graph, Map<ConsumerGroup, ScaleDecision> decisions) {
@@ -38,7 +41,7 @@ public class AssignmentComponent {
             case UP:
             case DOWN:
                 new Thread(() -> {
-                    (new KubernetesClientBuilder().build()).apps().deployments().inNamespace("default").withName(group.getConsumerName()).scale(decision.getAssociations().size());
+                    kubernetesClient.apps().deployments().inNamespace("default").withName(group.getConsumerName()).scale(decision.getAssociations().size());
                     log.info("Decision : group {} : scaled {} to {}", group.getKafkaGroupName(), decision.getAction().name(), decision.getAssociations());
                 }).start();
                 return ConsumerConverter.convertConsumers(decision.getAssociations());

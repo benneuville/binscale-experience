@@ -12,7 +12,7 @@ public class CGMetaData {
 
     private Map<Partition, PartitionMetaData> partitionsMetaData = new HashMap<>();
     private Map<Consumer, ConsumerMetaData> consumersMetaData = new HashMap<>();
-    private double parentArrivalRate = 0;
+    private double parentArrivalRate = 0.0;
 
     public CGMetaData(ConsumerGroup consumerGroup, double rebalancingTime) {
         this.consumerGroup = consumerGroup;
@@ -109,11 +109,15 @@ public class CGMetaData {
     }
 
     public double getTotalArrivalRate() {
+        return getArrivalRate() + getParentArrivalRate();
+    }
+
+    public double getArrivalRate() {
         return this.partitionsMetaData.values().stream().map(PartitionMetaData::getArrivalRate).reduce(0.0, Double::sum);
     }
 
-    public void resetArrivalRate() {
-        this.parentArrivalRate = 0;
+    public void resetParentalArrivalRate() {
+        this.parentArrivalRate = 0.0;
     }
 
     public double getMaxLagCapacity() {

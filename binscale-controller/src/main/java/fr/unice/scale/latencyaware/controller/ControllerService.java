@@ -1,5 +1,6 @@
 package fr.unice.scale.latencyaware.controller;
 
+import fr.unice.scale.latencyaware.controller.admin.AdminComponent;
 import fr.unice.scale.latencyaware.controller.assignment.AssignmentComponent;
 import fr.unice.scale.latencyaware.controller.config.DistributionNodeConfigBuilder;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
@@ -13,6 +14,8 @@ import fr.unice.scale.latencyaware.controller.metric.prometheus.PrometheusMetric
 import fr.unice.scale.latencyaware.controller.processing.ClassicScalerProcessor;
 import fr.unice.scale.latencyaware.controller.processing.ScalerProcessor;
 import fr.unice.scale.latencyaware.controller.server.AssignmentServer;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +33,10 @@ public class ControllerService implements Runnable {
 
     private AssignmentServer server;
 
+    private AdminComponent adminComponent;
+
+    private KubernetesClient kubernetesClient;
+
 
     public ControllerService() {
     }
@@ -45,10 +52,12 @@ public class ControllerService implements Runnable {
         GraphDistributionConfig config = DistributionNodeConfigBuilder.fromEnv();
 
         graph = graphBuilder.buildGraph(config);
+        kubernetesClient = new KubernetesClientBuilder().build();
 
         this.metricCollector = new PrometheusMetricCollector();
         this.scalerProcessor = new ClassicScalerProcessor();
-        this.assignmentComponent = new AssignmentComponent();
+        this.assignmentComponent = new AssignmentComponent(kubernetesClient);
+        this.adminComponent = new AdminComponent(kubernetesClient);
     }
 
     @Override
@@ -64,6 +73,7 @@ public class ControllerService implements Runnable {
                 Map<ConsumerGroup, ScaleDecision> decisions = scalerProcessor.process(graph, cgdatas);
 
                 assignmentComponent.assignScale(graph, decisions);
+                adminComponent.waitAllConsumerGroupsStable(graph);
                 log.info("Sleeping for {} millisecond", DI);
                 log.info("******************************************");
                 Thread.sleep(DI.longValue());
