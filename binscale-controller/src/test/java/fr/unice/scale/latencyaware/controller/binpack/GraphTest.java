@@ -1,6 +1,7 @@
 package fr.unice.scale.latencyaware.controller.binpack;
 
 
+import fr.unice.scale.latencyaware.controller.MockConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import org.junit.jupiter.api.BeforeEach;

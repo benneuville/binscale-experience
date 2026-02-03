@@ -42,7 +42,7 @@ public class ConsumerGroup implements NamedEntity {
         this.wsla = wsla;
         this.consumerName = name;
         this.kafkaGroupName = groupName;
-        this.lastUpScaleDecision = "N/A";
+        this.lastUpScaleDecision = DATE_FORMAT.format(System.currentTimeMillis());
         topicPartitions = IntStream.range(0, partitionNumber)
                 .mapToObj(Partition::new).collect(Collectors.toList());
         metadataConsumer = kafkaConsumer;

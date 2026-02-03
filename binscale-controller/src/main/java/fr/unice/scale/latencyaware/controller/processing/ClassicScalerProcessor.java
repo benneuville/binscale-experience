@@ -50,10 +50,9 @@ public class ClassicScalerProcessor implements ScalerProcessor {
             roots.add(graph.topologicalSort().get(0));
         }
         for (CGMetaData data : cgdatas.values()) {
-            data.resetArrivalRate();
+            data.resetParentalArrivalRate();
         }
         applyPropagationArrivalRate(roots, graph, cgdatas);
-
     }
 
     protected void applyPropagationArrivalRate(List<Vertex<ConsumerGroup>> roots, Graph<ConsumerGroup> graph, Map<ConsumerGroup, CGMetaData> cgdatas) {
@@ -64,10 +63,9 @@ public class ClassicScalerProcessor implements ScalerProcessor {
             toVisit.remove(root);
             CGMetaData currentData = cgdatas.get(root.getGroup());
             double totalAR = currentData.getTotalArrivalRate();
-            // To facilitate calculations for root, totalArrivalRate = parentArrivalRate
-            currentData.setParentArrivalRate(totalAR);
             double avgLT = currentData.getAvgEventProcessingRate();
             for (BranchingFactor<ConsumerGroup> child : graph.getChildBranchingFactors(root)) {
+
                 CGMetaData childData = cgdatas.get(child.getVertex().getGroup());
                 childData.addParentArrivalRate((totalAR + avgLT) * child.getFactor()); // (ArrivalRate(parent) + Lag(parent)) * BF(parent->child)
             }

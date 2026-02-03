@@ -28,6 +28,9 @@ public final class Variables extends CommonVariables {
     public static final String REQUEST_TIME_UNIT = EnvUtils.envOrDefault("REQUEST_TIME_UNIT", "s");
     @EnvVar(description = "Scaling strategy selector between : 'naive'")
     public static final ScalingStrategyMapping SCALING_STRATEGY = EnvUtils.envOrDefault("SCALING_STRATEGY", ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName);
+    @EnvVar(description = "Namespace of the Kubernetes cluster")
+    public static final String NAMESPACE = EnvUtils.envOrDefault("NAMESPACE", "default");
+
     public static final String ARRIVAL_SERVICE = "arrivalservice";
 
     // Constants

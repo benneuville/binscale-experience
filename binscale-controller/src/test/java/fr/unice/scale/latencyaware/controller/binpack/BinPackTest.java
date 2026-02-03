@@ -1,6 +1,7 @@
 package fr.unice.scale.latencyaware.controller.binpack;
 
 
+import fr.unice.scale.latencyaware.controller.MockConsumerGroup;
 import fr.unice.scale.latencyaware.controller.bin_pack.BinPack;
 import fr.unice.scale.latencyaware.controller.constant.Action;
 import fr.unice.scale.latencyaware.controller.entity.Consumer;
@@ -11,6 +12,7 @@ import fr.unice.scale.latencyaware.controller.entity.meta_data.PartitionMetaData
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.SetEnvironmentVariable;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class BinPackTest {
     private CGMetaData cgMetaData;
 
     @BeforeEach
+    @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     void setUp() {
 
         Consumer consumer = new Consumer("0");
@@ -62,6 +65,7 @@ public class BinPackTest {
     }
 
     @Test
+    @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     public void testUpscaleLag() {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
             pmd.setLag(10);
@@ -74,6 +78,7 @@ public class BinPackTest {
     }
 
     @Test
+    @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     public void testUpscaleArrivalRate() {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
             pmd.setLag(5);
@@ -87,6 +92,7 @@ public class BinPackTest {
     }
 
     @Test
+    @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     public void testDownscale() {
         Consumer consumer1 = new Consumer("0");
         Consumer consumer2 = new Consumer("1");
@@ -112,6 +118,7 @@ public class BinPackTest {
     }
 
     @Test
+    @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     void testReassignment() {
         Consumer consumer1 = new Consumer("0");
         Consumer consumer2 = new Consumer("1");
@@ -140,6 +147,7 @@ public class BinPackTest {
     }
 
     @Test
+    @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     void testNone() {
         Consumer consumer1 = new Consumer("0");
         Consumer consumer2 = new Consumer("1");
