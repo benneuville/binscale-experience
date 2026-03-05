@@ -11,31 +11,14 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
     private final double lagRebalancing;
     private double maxLagCapacity; // upscale
     private double minLagCapacity; // downscale
-    private double maxProcessingCapacity; // upscale
-    private double minProcessingCapacity; // downscale
     private double maxArrivalRate; // upscale
     private double minArrivalRate; // downscale
 
-    // For root
-    public PartitionCalculation(PartitionMetaData metaData) {
-        this.partition = metaData.getPartition();
-        this.lag = metaData.getLag();
-        this.arrivalRate = metaData.getArrivalRate();
-        this.lagRebalancing = metaData.getLagRebalancing();
-    }
-
     // For non-root
-    public PartitionCalculation(PartitionMetaData metaData, double parentArrivalRate) {
+    public PartitionCalculation(PartitionMetaData metaData, double arrivalRate) {
         this.partition = metaData.getPartition();
-        this.lag = metaData.getLag() + parentArrivalRate;
-        this.arrivalRate = metaData.getArrivalRate();
-        this.lagRebalancing = metaData.getLagRebalancing();
-    }
-
-    public PartitionCalculation(Partition partition, PartitionMetaData metaData) {
-        this.partition = partition;
         this.lag = metaData.getLag();
-        this.arrivalRate = metaData.getArrivalRate();
+        this.arrivalRate = arrivalRate;
         this.lagRebalancing = metaData.getLagRebalancing();
     }
 
@@ -57,22 +40,6 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
 
     public double getLagRebalancing() {
         return lagRebalancing;
-    }
-
-    public double getMaxProcessingCapacity() {
-        return maxProcessingCapacity;
-    }
-
-    public void setMaxProcessingCapacity(double maxProcessingCapacity) {
-        this.maxProcessingCapacity = maxProcessingCapacity;
-    }
-
-    public double getMinProcessingCapacity() {
-        return minProcessingCapacity;
-    }
-
-    public void setMinProcessingCapacity(double minProcessingCapacity) {
-        this.minProcessingCapacity = minProcessingCapacity;
     }
 
     public Partition getPartition() {

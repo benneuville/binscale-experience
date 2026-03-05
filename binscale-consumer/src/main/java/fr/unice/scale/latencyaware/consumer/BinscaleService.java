@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.List;
 
-import static fr.unice.scale.latencyaware.consumer.constant.Variables.PROCESSING_STRATEGY;
-import static fr.unice.scale.latencyaware.consumer.constant.Variables.TIME_TO_COMMIT;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.*;
 
 public class BinscaleService implements Runnable {
     private final Logger log = LoggerFactory.getLogger(BinscaleService.class);
@@ -60,10 +59,18 @@ public class BinscaleService implements Runnable {
     @Override
     public void run() {
         log.info("Starting Binscale Consumer Service...");
+        if (TIME_BEFORE_AVAILABILITY != 0L) {
+            try {
+                log.info("Consumer in launch phase, waiting {} ms before being available", TIME_BEFORE_AVAILABILITY);
+                Thread.sleep(TIME_BEFORE_AVAILABILITY);
+            } catch (InterruptedException e) {
+                shutdown();
+                throw new RuntimeException(e);
+            }
+        }
 
         try {
             while (running) {
-                producer.setTimestampNow();
                 ConsumerRecords<String, EventCustomer> events = consumer.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()));
                 if (!events.isEmpty()) {
                     List<DistributedEventCustomer> processed = distributor.distribute(events);

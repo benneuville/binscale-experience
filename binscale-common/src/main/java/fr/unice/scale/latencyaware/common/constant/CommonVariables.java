@@ -23,6 +23,10 @@ public class CommonVariables {
             "org.apache.kafka.common.serialization.StringSerializer";
     public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy'T'HH:mm:ss.SSS");
 
+    public final static String HEADER_GROUP_ID_KEY = "groupId";
+
+    public static final String EXTERNAL_GROUP_NAME = "unknown";
+
     static {
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     }

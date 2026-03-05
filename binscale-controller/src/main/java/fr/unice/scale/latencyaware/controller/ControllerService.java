@@ -11,7 +11,6 @@ import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
 import fr.unice.scale.latencyaware.controller.graph.GraphBuilder;
 import fr.unice.scale.latencyaware.controller.graph.GraphBuilderImpl;
 import fr.unice.scale.latencyaware.controller.metric.prometheus.PrometheusMetricCollector;
-import fr.unice.scale.latencyaware.controller.processing.ClassicScalerProcessor;
 import fr.unice.scale.latencyaware.controller.processing.ScalerProcessor;
 import fr.unice.scale.latencyaware.controller.server.AssignmentServer;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 import static fr.unice.scale.latencyaware.controller.constant.Variables.DI;
+import static fr.unice.scale.latencyaware.controller.constant.Variables.SCALING_STRATEGY;
 
 public class ControllerService implements Runnable {
     public static Graph<ConsumerGroup> graph;
@@ -55,7 +55,7 @@ public class ControllerService implements Runnable {
         kubernetesClient = new KubernetesClientBuilder().build();
 
         this.metricCollector = new PrometheusMetricCollector();
-        this.scalerProcessor = new ClassicScalerProcessor();
+        this.scalerProcessor = SCALING_STRATEGY.getProcessor();
         this.assignmentComponent = new AssignmentComponent(kubernetesClient);
         this.adminComponent = new AdminComponent(kubernetesClient);
     }

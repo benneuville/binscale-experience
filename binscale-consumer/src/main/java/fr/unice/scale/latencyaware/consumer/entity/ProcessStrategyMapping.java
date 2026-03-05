@@ -5,6 +5,8 @@ import fr.unice.scale.latencyaware.consumer.processing.strategy.BalanceProcessSt
 import fr.unice.scale.latencyaware.consumer.processing.strategy.CustomProcessStrategy;
 import fr.unice.scale.latencyaware.consumer.processing.strategy.DuplicateProcessStrategy;
 import fr.unice.scale.latencyaware.consumer.processing.strategy.ProcessStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -17,10 +19,11 @@ public enum ProcessStrategyMapping {
     CUSTOM("custom", new CustomProcessStrategy(SCALE, SHAPE));
 
     public final static ProcessStrategyMapping defaultStrategy = BALANCED;
+    private final Logger logger = LoggerFactory.getLogger(ProcessStrategyMapping.class);
     private final String name;
     private final ProcessStrategy strategyInstance;
 
-    ProcessStrategyMapping(String strategyName, ProcessStrategy strategyInstance) {
+    private ProcessStrategyMapping(String strategyName, ProcessStrategy strategyInstance) {
         this.name = strategyName;
         this.strategyInstance = strategyInstance;
     }

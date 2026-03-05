@@ -16,6 +16,8 @@ public class MetricUtils {
         public static final String KAFKA_TOPIC_PARTITION_CURRENT_OFFSET = "kafka_topic_partition_current_offset";
         public static final String TAG_KAFKA_CONSUMER_GROUP = "consumergroup";
         public static final String TAG_KAFKA_PARTITION = "partition";
+
+        public static final String TAG_PROVIDER_GROUP_ID = "provider_group_id";
         public static final String TAG_POD = "pod";
         public static final String TAG_KAFKA_TOPIC = "topic";
     }

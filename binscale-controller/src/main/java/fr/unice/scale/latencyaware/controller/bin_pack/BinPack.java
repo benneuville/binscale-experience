@@ -17,19 +17,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class BinPack {
     private static final Logger log = LogManager.getLogger(BinPack.class);
 
-    public static ScaleDecision scaleDecisionEventConsumerWithLag(ConsumerGroup group, CGMetaData cgdata) {
+    public static ScaleDecision scaleDecisionEventConsumerWithLag(ConsumerGroup group, CGMetaData cgdata, Map<Partition, PartitionCalculation> parts) {
         double maxLagCapacity = cgdata.getMaxLagCapacity();
         double maxArrivalRate = cgdata.getMaxAverageArrivalRate();
 
         double minLagCapacity = cgdata.getMinLagCapacity();
-        double minProcessingRate = cgdata.getMinAverageArrivalRate();
-
-        Map<Partition, PartitionCalculation> parts = computeConsumer(cgdata, maxLagCapacity, maxArrivalRate, minLagCapacity, minProcessingRate);
+        double minArrivalRate = cgdata.getMinAverageArrivalRate();
 
         List<ConsumerCalculation> upScaled = binPackAndScale(new ArrayList<>(parts.values()),
                 maxLagCapacity,
@@ -45,7 +42,7 @@ public class BinPack {
 
         List<ConsumerCalculation> downScaled = binPackAndScale(new ArrayList<>(parts.values()),
                 minLagCapacity,
-                minProcessingRate,
+                minArrivalRate,
                 PartitionCalculation::getIndexedLagCapacityDownScale,
                 PartitionCalculation::getIndexedArrivalRateDownScale);
 
@@ -59,38 +56,12 @@ public class BinPack {
         // REASS
         if (assignmentViolatesTheSLA(parts, group, maxLagCapacity, maxArrivalRate)) {
             log.info("Binpack (REASS) {}", group.getKafkaGroupName());
-            return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.REASS);
+            return new ScaleDecision(reassignedPartitions(new ArrayList<>(parts.values()), group), Action.REASS);
         }
 
         log.info("Binpack (NONE) {}", group.getKafkaGroupName());
         // NOTHING
         return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.NONE);
-    }
-
-    public static Map<Partition, PartitionCalculation> computeConsumer(CGMetaData cgdatas,
-                                                                       double maxLagCapacity,
-                                                                       double maxArrivalRate,
-                                                                       double minLagCapacity,
-                                                                       double minArrivalRate) {
-
-        Map<Partition, PartitionCalculation> parts = cgdatas.getPartitionsMetaData().values().stream().map(
-                pmd -> new PartitionCalculation(
-                        pmd, cgdatas.getAvgParentArrivalRate()
-                )
-        ).collect(Collectors.toMap(
-                PartitionCalculation::getPartition,
-                pc -> pc
-        ));
-
-        parts.forEach(
-                (p, pc) -> {
-                    pc.setMaxArrivalRate(maxArrivalRate);
-                    pc.setMaxLagCapacity(maxLagCapacity);
-                    pc.setMinArrivalRate(minArrivalRate);
-                    pc.setMinLagCapacity(minLagCapacity);
-                }
-        );
-        return parts;
     }
 
     public static List<ConsumerCalculation> binPackAndScale(List<PartitionCalculation> parts,
@@ -143,12 +114,31 @@ public class BinPack {
             double sumLag = 0;
             for (Partition p : c.getAssignedPartitions()) {
                 PartitionCalculation pc = parts.get(p);
-                sumLag += pc.getIndexedLagCapacityUpScale();
-                sumProcessingCapacityRate += pc.getIndexedArrivalRateUpScale();
+                sumLag += pc.getLag();
+                sumProcessingCapacityRate += pc.getArrivalRate();
             }
             if (sumLag > maxLagCapacity || sumProcessingCapacityRate > maxProcessingCapacity)
                 return true;
         }
         return false;
+    }
+
+    public static List<ConsumerCalculation> reassignedPartitions(List<PartitionCalculation> parts,
+                                                                 ConsumerGroup group) {
+        List<ConsumerCalculation> consumers = ConsumerConverter.convert(group.getAssignment());
+        for (PartitionCalculation currentPartCalc : parts) {
+            int i;
+            consumers.sort(Collections.reverseOrder());
+            for (i = 0; i < group.getAssignment().size(); i++) {
+                if (consumers.get(i).getRemainingLagCapacity() >= currentPartCalc.getIndexedLagCapacityUpScale()
+                        && consumers.get(i).getRemainingProcessingCapacity() >= currentPartCalc.getIndexedArrivalRateUpScale()) {
+                    consumers.get(i).assignPartition(currentPartCalc.getPartition(),
+                            currentPartCalc.getIndexedLagCapacityUpScale(),
+                            currentPartCalc.getIndexedArrivalRateUpScale());
+                    break;
+                }
+            }
+        }
+        return consumers;
     }
 }

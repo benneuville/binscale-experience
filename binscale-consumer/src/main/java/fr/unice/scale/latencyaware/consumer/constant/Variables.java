@@ -28,8 +28,10 @@ public final class Variables extends CommonVariables {
     public static final Long MESSAGE_COUNT = EnvUtils.envOrDefault("MESSAGE_COUNT", 10L);
     @EnvVar(description = "Client rack")
     public static final String CLIENT_RACK = EnvUtils.envOrDefault("CLIENT_RACK", null);
-    @EnvVar(description = "Max poll records parameter. Max number of events returned in a call to Kafka topic.")
-    public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 500);
+    //    @EnvVar(description = "Max poll records parameter. Max number of events returned in a call to Kafka topic.")
+    public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 200);
+    @EnvVar(description = "Number of events consumed per seconds.")
+    public static final Integer CONSUMPTION_RATE = EnvUtils.envOrDefault("CONSUMPTION_RATE", 200);
     @EnvVar(description = "Kafka session timeout in milliseconds")
     public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "3000");
     @EnvVar(description = "Heartbeat interval in milliseconds")
@@ -42,6 +44,8 @@ public final class Variables extends CommonVariables {
     public static final String PRODUCER_ACKS = EnvUtils.envOrDefault("PRODUCER_ACKS", "0");
     @EnvVar(description = "Config path for Topics distribution")
     public static final String TOPICS_DISTRIBUTION_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_DISTRIBUTION_CONFIG_PATH", "/config/topics-config.yaml");
+    @EnvVar(description = "Time before consumer availability (in ms). Consumer will be up and running but dont consume events until this time has passed. Could simulate a connection to a db or any other external dependency that takes time.")
+    public static final long TIME_BEFORE_AVAILABILITY = EnvUtils.envOrDefault("TIME_BEFORE_AVAILABILITY", 0L);
 
     // CONSTANTS
     public static final String MAX_BLOCK_MS_CONFIG = "0";

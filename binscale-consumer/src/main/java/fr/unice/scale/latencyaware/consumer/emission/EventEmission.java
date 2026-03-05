@@ -14,10 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.GROUP_ID;
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_GROUP_ID_KEY;
+
 public class EventEmission {
     private final static Logger logger = LoggerFactory.getLogger(EventEmission.class);
     private final Map<ProducerTopicDistribution, KafkaProducer<String, EventCustomer>> producers;
-    private long timestampNow = System.currentTimeMillis();
 
     public EventEmission(DistributionConfig config) {
         this.producers = new HashMap<>();
@@ -30,10 +32,6 @@ public class EventEmission {
         logger.info("Initialized EventEmission with {} producers", this.producers.size());
     }
 
-    public void setTimestampNow() {
-        this.timestampNow = System.currentTimeMillis();
-    }
-
     public void publish(List<DistributedEventCustomer> processed) {
         if (producers.isEmpty()) return;
         for (DistributedEventCustomer distributedEvent : processed) {
@@ -42,10 +40,12 @@ public class EventEmission {
                     distributedEvent.getEvents().size(),
                     distributedEvent.getTargetTopic().getName());
             for (EventCustomer event : distributedEvent.getEvents()) {
-                producer.send(new ProducerRecord<>(
+                ProducerRecord<String, EventCustomer> record = new ProducerRecord<>(
                         distributedEvent.getTargetTopic().getName(),
                         event
-                ));
+                );
+                record.headers().add(HEADER_GROUP_ID_KEY, GROUP_ID.getBytes());
+                producer.send(record);
             }
         }
     }

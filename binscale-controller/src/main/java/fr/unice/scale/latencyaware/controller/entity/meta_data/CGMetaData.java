@@ -21,8 +21,12 @@ public class CGMetaData {
         }
 
         for (Consumer c : consumerGroup.getAssignment()) {
-            consumersMetaData.put(c, new ConsumerMetaData(c));
+            consumersMetaData.put(c, new ConsumerMetaData(c, 0)); //TODO give the dynamic processing capacity
         }
+    }
+
+    public double getLag() { // lag requested by partition is the rate during DI
+        return partitionsMetaData.values().stream().map(PartitionMetaData::getLag).reduce(0L, Long::sum);
     }
 
     public double getAvgEventProcessingRate() {
@@ -42,6 +46,27 @@ public class CGMetaData {
             }
         }
         return totalProcessingRate / consumerGroup.getAssignment().size();
+    }
+
+    public double getAvgTotalInputArrivalRate() {
+        if (partitionsMetaData.values().isEmpty()) {
+            return 0.0;
+        }
+        return getTotalInputArrivalRate() / partitionsMetaData.size();
+    }
+
+    public double getAvgTotalExternalArrivalRate() {
+        if (partitionsMetaData.values().isEmpty()) {
+            return 0.0;
+        }
+        return getTotalExternalArrivalRate() / partitionsMetaData.size();
+    }
+
+    public double getAvgLag() {
+        if (partitionsMetaData.values().isEmpty()) {
+            return 0.0;
+        }
+        return getLag() / partitionsMetaData.size();
     }
 
     public Map<Consumer, ConsumerMetaData> getConsumersMetaData() {
@@ -108,12 +133,12 @@ public class CGMetaData {
         this.partitionsMetaData.put(partition, metaData);
     }
 
-    public double getTotalArrivalRate() {
-        return getArrivalRate() + getParentArrivalRate();
+    public Double getTotalInputArrivalRate() {
+        return this.partitionsMetaData.values().stream().map(PartitionMetaData::getTotalInputArrivalRate).reduce(0.0, Double::sum);
     }
 
-    public double getArrivalRate() {
-        return this.partitionsMetaData.values().stream().map(PartitionMetaData::getArrivalRate).reduce(0.0, Double::sum);
+    public Double getTotalExternalArrivalRate() {
+        return this.partitionsMetaData.values().stream().map(PartitionMetaData::getTotalExternalArrivalRate).reduce(0.0, Double::sum);
     }
 
     public void resetParentalArrivalRate() {

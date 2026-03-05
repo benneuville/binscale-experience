@@ -7,6 +7,7 @@ import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.SetEnvironmentVariable;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -21,6 +22,7 @@ public class GraphTest {
     }
 
     @Test
+    @SetEnvironmentVariable(key = "TOPIC", value = "topic-test")
     public void testAcyclicArbitraryGraph() {
         graph.addVertex("latency1", new MockConsumerGroup("latency-group-1", 1, 1));
         graph.addVertex("latency2", new MockConsumerGroup("latency-group-2", 1, 1));

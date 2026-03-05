@@ -22,6 +22,10 @@ public abstract class ProcessStrategy {
         this.paretoDistribution = new ParetoDistribution(scale, shape);
     }
 
+    public ParetoDistribution getParetoDistribution() {
+        return paretoDistribution;
+    }
+
     public List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events) {
         List<DistributedEventCustomer> res = process(config, events, this::processEvent);
         this.logger.info(res.toString());
@@ -32,11 +36,14 @@ public abstract class ProcessStrategy {
 
     private void processEvent(ConsumerRecord<String, EventCustomer> record) {
         double sleep = paretoDistribution.sample();
-        try {
-            Thread.sleep((long) sleep);
-            MetricsCollector.getInstance().collect(record, sleep);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+//        double sleep = 1000 / CONSUMPTION_RATE;
+        if (Double.isFinite(sleep)) {
+            try {
+                Thread.sleep((long) sleep);
+                MetricsCollector.getInstance().collect(record, sleep);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

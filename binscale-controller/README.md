@@ -62,25 +62,3 @@ The project supports the following scaling parameters:
 | `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
 
-## ðŸ”§ Environment Variables
-
-*This part is auto generated.*
-
-| Name | Description | Default value |
-|-----|--------------|-------------------|
-| `DI` | DI value in milliseconds for the controller loop sleep time | *(non dÃ©fini)* |
-| `WSLA` | WSLA value in seconds | *(non dÃ©fini)* |
-| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(non dÃ©fini)* |
-| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(non dÃ©fini)* |
-| `MU` | MU value in seconds for the controller calculations | *(non dÃ©fini)* |
-| `FUP` | FUP value for the upscaling threshold | *(non dÃ©fini)* |
-| `FDOWN` | FDOWN value for the downscaling threshold | *(non dÃ©fini)* |
-| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(non dÃ©fini)* |
-| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
-<<<<<<< HEAD
-| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | "2s" |
-| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
-=======
-| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
-| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
->>>>>>> 646ddaabef899a07ef88cbe6dd3f1c87dfd7b6c8

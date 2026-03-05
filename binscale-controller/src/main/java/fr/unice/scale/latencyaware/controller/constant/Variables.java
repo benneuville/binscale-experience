@@ -8,7 +8,7 @@ import fr.unice.scale.latencyaware.controller.entity.ScalingStrategyMapping;
 public final class Variables extends CommonVariables {
 
     @EnvVar(description = "DI value in milliseconds for the controller loop sleep time")
-    public static final Double DI = EnvUtils.envDouble("DI");
+    public static final Double DI = EnvUtils.envDouble("DI"); // Decision Interval Value in MS
     @EnvVar(description = "Number of partitions for the topic")
     public static final Integer NUMBER_PARTITIONS = EnvUtils.envInt("NUMBER_PARTITIONS");
     // REBALANCING TIME will have to be determined and not a static value
@@ -30,6 +30,8 @@ public final class Variables extends CommonVariables {
     public static final ScalingStrategyMapping SCALING_STRATEGY = EnvUtils.envOrDefault("SCALING_STRATEGY", ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName);
     @EnvVar(description = "Namespace of the Kubernetes cluster")
     public static final String NAMESPACE = EnvUtils.envOrDefault("NAMESPACE", "default");
+    @EnvVar(description = "Waiting interval (in ms) before checking consumers readiness after a scaling operation")
+    public static final Long WAITING_INTERVAL = EnvUtils.envOrDefault("WAITING_INTERVAL", 250L);
 
     public static final String ARRIVAL_SERVICE = "arrivalservice";
 
