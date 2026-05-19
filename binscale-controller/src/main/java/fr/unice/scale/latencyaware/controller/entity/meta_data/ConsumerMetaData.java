@@ -4,17 +4,21 @@ import fr.unice.scale.latencyaware.controller.entity.Consumer;
 
 public class ConsumerMetaData {
 
-    private double avgProcessingCapacity;
+    private double dynamicProcessingCapacity;
 
     private Consumer consumer;
 
-    public ConsumerMetaData(Consumer consumer) {
-        this.avgProcessingCapacity = 0;
+    public ConsumerMetaData(Consumer consumer, double dynamicProcessingCapacity) {
+        this.dynamicProcessingCapacity = dynamicProcessingCapacity;
         this.consumer = consumer;
     }
 
-    public double getAvgProcessingCapacity() {
-        return avgProcessingCapacity;
+    public double getDynamicProcessingCapacity() {
+        return dynamicProcessingCapacity;
+    }
+
+    public void setDynamicProcessingCapacity(double dynamicProcessingCapacity) {
+        this.dynamicProcessingCapacity = dynamicProcessingCapacity;
     }
 
     public Consumer getConsumer() {
@@ -27,9 +31,9 @@ public class ConsumerMetaData {
 
     @Override
     public String toString() {
-        return "ConsumerMetaData{"+
+        return "ConsumerMetaData{" +
                 "consumer=" + consumer.getId() +
-                ", avgProcessingCapacity=" + avgProcessingCapacity +
+                ", avgProcessingCapacity=" + dynamicProcessingCapacity +
                 "}";
     }
 }

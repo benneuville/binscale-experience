@@ -38,10 +38,10 @@ public class PrometheusClient implements ClientMetricCollector {
 
             CompletableFuture<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body);
             String res = response.get();
-            logger.info("Querying Prometheus result : {}", res);
+//            logger.info("Querying Prometheus result : {}", res);
             return res;
         } catch (Exception e) {
-            logger.error("Error querying Prometheus with query {}: {}", promQL, e.getMessage());
+//            logger.error("Error querying Prometheus with query {}: {}", promQL, e.getMessage());
             return null;
         }
     }
@@ -52,6 +52,67 @@ public class PrometheusClient implements ClientMetricCollector {
 
     public <T> T query(String request, TypeReference<T> typeReference) throws MetricResultEmptyException {
         return query(request, mapper.getTypeFactory().constructType(typeReference.getType()));
+    }
+
+    public <K, V> Map<K, List<V>> mappedResultQuery(String request, String mapKey, List<String> otherTagsForValue,
+                                                    Class<K> keyClass, Class<V> valueClass) throws MetricResultEmptyException {
+        JSONObject response = JSONObject.parseObject(rawQuery(request));
+//        logger.info("Prometheus request: {}", request);
+
+        JSONArray results = response.getJSONObject("data")
+                .getJSONArray("result");
+        if (results.isEmpty()) throw new MetricResultEmptyException(request);
+        Map<K, List<V>> map = new LinkedHashMap<>();
+
+        for (int i = 0; i < results.size(); i++) {
+            JSONObject entry = results.getJSONObject(i);
+
+            String keyStr = entry.getJSONObject("metric").getString(mapKey);
+            K key = mapper.convertValue(keyStr, keyClass);
+
+            V value;
+
+            if (entry.containsKey("value")) {
+                // VECTOR: [ts, val]
+                JSONArray valueArr = entry.getJSONArray("value");
+                Map<String, Object> val = new HashMap<>();
+                val.put("timestamp", valueArr.getDouble(0).longValue());
+                val.put("metric", valueArr.getString(1));
+                for (String tag : otherTagsForValue) {
+                    String tagValue = entry.getJSONObject("metric").getString(tag);
+                    val.put(tag, tagValue);
+                }
+
+                value = mapper.convertValue(val, valueClass);
+
+            } else if (entry.containsKey("values")) {
+                JSONArray valuesArr = entry.getJSONArray("values");
+
+                JSONArray last = valuesArr.getJSONArray(valuesArr.size() - 1);
+                Map<String, Object> val = new HashMap<>();
+                val.put("timestamp", last.getDouble(0).longValue());
+                val.put("metric", last.getString(1));
+                for (String tag : otherTagsForValue) {
+                    String tagValue = entry.getJSONObject("metric").getString(tag);
+                    val.put(tag, tagValue);
+                }
+
+                value = mapper.convertValue(val, valueClass);
+
+            } else {
+                throw new IllegalStateException("Prometheus result contains neither 'value' nor 'values'");
+            }
+
+            if (!map.containsKey(key)) {
+                List<V> values = new ArrayList<>();
+                values.add(value);
+                map.put(key, values);
+            } else {
+                map.get(key).add(value);
+            }
+        }
+
+        return map;
     }
 
     public <K, V> Map<K, V> mappedResultQuery(String request, String mapKey,

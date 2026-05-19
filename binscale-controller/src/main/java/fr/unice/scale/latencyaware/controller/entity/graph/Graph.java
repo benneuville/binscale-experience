@@ -5,11 +5,15 @@ import com.google.common.collect.Sets;
 import fr.unice.scale.latencyaware.common.error.exception.NotFoundException;
 import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.NamedEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Graph<T extends NamedEntity> {
+
+    private Logger log = LoggerFactory.getLogger(Graph.class);
     private Map<String, Vertex<T>> vertices = new HashMap<>();
     private Map<Vertex<T>, Set<BranchingFactor<T>>> childMap = new HashMap<>();
 
@@ -58,6 +62,7 @@ public class Graph<T extends NamedEntity> {
     }
 
     public Set<BranchingFactor<T>> getChildBranchingFactors(Vertex<T> vertex) {
+        log.info("Child branching factors : {} : {}", vertex, childMap.getOrDefault(vertex, Collections.emptySet()).toString());
         return childMap.getOrDefault(vertex, Collections.emptySet());
     }
 

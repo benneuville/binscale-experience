@@ -21,8 +21,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.DATE_FORMAT;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.BOOTSTRAP_SERVERS;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.NAMESPACE;
+import static fr.unice.scale.latencyaware.controller.constant.Variables.*;
 
 public class AdminComponent {
 
@@ -61,24 +60,25 @@ public class AdminComponent {
         while (!allStable) {
             try {
                 log.info("Waiting consumers group to scale...");
-                Thread.sleep(250);
+                Thread.sleep(WAITING_INTERVAL);
                 kubernetesClient.apps().deployments().inNamespace(NAMESPACE).withLabel("app", "latency").list()
                         .getItems().forEach(d ->
                                 log.info(" - Deployment {} : {}/{}", d.getMetadata().getName(),
                                         d.getStatus().getReadyReplicas() != null ? d.getStatus().getReadyReplicas() : 0,
                                         d.getSpec().getReplicas())
                         );
-                allStable = admin.describeConsumerGroups(
-                                consumerGroups.stream().map(ConsumerGroup::getGroupName).collect(Collectors.toList()))
-                        .all().get().values().stream().allMatch(cgDescription ->
-                                cgDescription.state().equals(ConsumerGroupState.STABLE)
-                        )
-                        &&
-                        kubernetesClient.apps().deployments().inNamespace(NAMESPACE).withLabel("app", "latency").list()
-                                .getItems().stream().allMatch(d ->
-                                        d.getStatus().getReadyReplicas() != null &&
-                                                d.getStatus().getReadyReplicas().equals(d.getSpec().getReplicas())
-                                );
+                allStable =
+                        admin.describeConsumerGroups(
+                                        consumerGroups.stream().map(ConsumerGroup::getGroupName).collect(Collectors.toList()))
+                                .all().get().values().stream().allMatch(cgDescription ->
+                                        cgDescription.state().equals(ConsumerGroupState.STABLE)
+                                )
+                                &&
+                                kubernetesClient.apps().deployments().inNamespace(NAMESPACE).withLabel("app", "latency").list()
+                                        .getItems().stream().allMatch(d ->
+                                                d.getStatus().getReadyReplicas() != null &&
+                                                        d.getStatus().getReadyReplicas().equals(d.getSpec().getReplicas())
+                                        );
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }

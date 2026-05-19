@@ -5,6 +5,7 @@ import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.Meter;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.header.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.*;
 import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables;
 import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables.*;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.EXTERNAL_GROUP_NAME;
 
 public class MetricsCollector {
     private static final Logger logger = LoggerFactory.getLogger(MetricsCollector.class);
@@ -68,19 +70,25 @@ public class MetricsCollector {
         Timestamp timestamp = new Timestamp(record.timestamp());
         Date insertionDate = new Date(timestamp.getTime());
 
+        Header groupIdHeader = record.headers().lastHeader(HEADER_GROUP_ID_KEY);
+        String groupId = EXTERNAL_GROUP_NAME;
+        if (groupIdHeader != null) {
+            groupId = new String(groupIdHeader.value());
+        }
+
         // export data in logs for Filebeat
-        logger.info("latency is {}, insertion time is {}, processing time is {}, event come from partition {} and position {} time for process {}",
+        logger.info("latency is {}, insertion time is {}, processing time is {}, event come from partition {} and position {} time for process {} and it is from node {} ",
                 currentTimeMillis - record.timestamp(),
                 DATE_FORMAT.format(insertionDate),
                 DATE_FORMAT.format(currentDate),
                 record.partition(),
                 record.offset(),
-                processTime);
-
+                processTime,
+                groupId);
 
         getLatencyTimeMeasureByPartition(record.partition())
                 .setDuration(System.currentTimeMillis() - record.timestamp());
-        processingTimeSummary.withTag(TAG_KAFKA_PARTITION, String.valueOf(record.partition())).record(processTime);
+        processingTimeSummary.withTags(TAG_KAFKA_PARTITION, String.valueOf(record.partition()), TAG_PROVIDER_GROUP_ID, groupId).record(processTime);
     }
 
     public void resetLatency() {

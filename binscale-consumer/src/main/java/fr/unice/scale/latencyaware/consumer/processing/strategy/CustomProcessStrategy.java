@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class CustomProcessStrategy extends ProcessStrategy {
-    public CustomProcessStrategy(Double scale, Double shape) {
-        super(scale, shape);
+    public CustomProcessStrategy() {
+        super();
     }
 
     @Override

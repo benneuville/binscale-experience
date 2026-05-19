@@ -1,6 +1,5 @@
 package fr.unice.scale.latencyaware.controller.metric.prometheus;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import fr.unice.scale.latencyaware.common.error.exception.MetricResultEmptyException;
@@ -16,11 +15,13 @@ import fr.unice.scale.latencyaware.controller.entity.Partition;
 import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import fr.unice.scale.latencyaware.controller.entity.graph.Vertex;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
+import fr.unice.scale.latencyaware.controller.entity.metric.ArrivalRatePerProviderMetric;
 import fr.unice.scale.latencyaware.controller.entity.metric.DoubleMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -109,6 +110,30 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
+    public Map<Integer, List<ArrivalRatePerProviderMetric>> processingArrivalRatePerProvider(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
+        SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
+                .query(
+                        SumMetricBuilder.builder()
+                                .metric(RateMetricQueryBuilder.builder()
+                                        .metric(MetricBuilder.builder()
+                                                .name(DistributionSummaryMetricQueryBuilder.builder()
+                                                        .metric(EVENTS_PROCESSING_TIME)
+                                                        .suffix(DistributionSummarySuffix.COUNT)
+                                                        .build()
+                                                )
+                                                .addTag(TAG_KAFKA_TOPIC, consumerGroup.getInputTopic())
+                                                .timeWindow(getTimeRange())
+                                                .build()
+                                        )
+                                        .build()
+                                )
+                                .addByTag(TAG_KAFKA_PARTITION)
+                                .addByTag(TAG_PROVIDER_GROUP_ID)
+                                .build()
+                );
+        return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, List.of(TAG_PROVIDER_GROUP_ID), Integer.class, ArrivalRatePerProviderMetric.class);
+    }
+
     public Map<Integer, DoubleMetric> processingCountByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
@@ -136,24 +161,35 @@ public class PrometheusMetricCollector {
             Map<ConsumerGroup, CGMetaData> consumerGroupMetaDatas = new HashMap<>();
             for (ConsumerGroup cg : graph.topologicalSort().stream().map(Vertex::getGroup).collect(Collectors.toList())) {
                 CGMetaData metaData = new CGMetaData(cg, REB_TIME);
+                Map<Integer, List<ArrivalRatePerProviderMetric>> aRPerProvider = processingArrivalRatePerProvider(cg);
+                for (Integer partitionId : aRPerProvider.keySet()) {
+                    for (ArrivalRatePerProviderMetric ar : aRPerProvider.get(partitionId)) {
+                        metaData.getPartitionMetaData(partitionId).putArrivalRate(ar.getProviderGroupId(), ar.getValue());
+                    }
+                }
 
                 Map<Integer, DoubleMetric> lagByPartition = collectLagByPartition(cg);
-
+                // AVG
+                Double avgLag = lagByPartition.values().stream().reduce(0.0, (sum, metric) -> sum + metric.getValue(), Double::sum) / lagByPartition.size();
                 for (Integer partitionId : lagByPartition.keySet()) {
-                    metaData.getPartitionMetaData(partitionId).setLag(lagByPartition.get(partitionId).getValue().longValue());
+//                    metaData.getPartitionMetaData(partitionId).setLag(lagByPartition.get(partitionId).getValue().longValue());
+                    metaData.getPartitionMetaData(partitionId).setLag(avgLag.longValue());
                 }
-                Map<Integer, DoubleMetric> arrivalRateByPartition = collectArrivalRateByPartition(cg);
-                for (Integer partitionId : arrivalRateByPartition.keySet()) {
-                    metaData.getPartitionMetaData(partitionId).setArrivalRate(arrivalRateByPartition.get(partitionId).getValue());
-                }
+                // TODO: May be removeable bc of arPerProvider : ARPartition -> Sum(arPerProvider(partition))
+//                Map<Integer, DoubleMetric> arrivalRateByPartition = collectArrivalRateByPartition(cg);
+//                for (Integer partitionId : arrivalRateByPartition.keySet()) {
+//                    metaData.getPartitionMetaData(partitionId).setArrivalRate(arrivalRateByPartition.get(partitionId).getValue());
+//                }
 
                 Map<Integer, DoubleMetric> latency = latencyByPartition(cg);
+                // AVG
+                double avgLatency = latency.values().stream().reduce(0.0, (sum, metric) -> sum + metric.getValue(), Double::sum) / latency.size();
                 for (Integer partitionId : latency.keySet()) {
-                    metaData.getPartitionMetaData(partitionId).setLatency(latency.get(partitionId).getValue());
+//                    metaData.getPartitionMetaData(partitionId).setLatency(latency.get(partitionId).getValue());
+                    metaData.getPartitionMetaData(partitionId).setLatency(avgLatency);
                 }
 
                 Map<Integer, DoubleMetric> processingTime = processingTimeByPartition(cg);
-
                 for (Integer partitionId : processingTime.keySet()) {
                     metaData.getPartitionMetaData(partitionId).setProcessingTime(processingTime.get(partitionId).getValue());
                 }
@@ -171,20 +207,23 @@ public class PrometheusMetricCollector {
                         nbOfEventPolled += metaData.getPartitionMetaData(p).getProcessingCount();
                         processTimeOfEventPolled += metaData.getPartitionMetaData(p).getProcessingTime();
                     }
+                    if (nbOfEventPolled > 0) {
+                        metaData.getConsumerMetaData(consumer).setDynamicProcessingCapacity(nbOfEventPolled);
+                    }
                 }
                 consumerGroupMetaDatas.put(cg, metaData);
             }
 
-            log.info("Pulled data from Prometheus : {}", objectWriter.writeValueAsString(consumerGroupMetaDatas.values()));
+//            log.info("Pulled data from Prometheus : {}", objectWriter.writeValueAsString(consumerGroupMetaDatas.values()));
 //        return new HashMap<>();
             return consumerGroupMetaDatas;
         } catch (MetricResultEmptyException e) {
             log.warn("MetricResultEmptyException occurred during metrics collection: {}", e.getMessage());
             return new HashMap<>();
-        } catch (JsonProcessingException e) {
+        } /*catch (JsonProcessingException e) {
             log.warn("JsonProcessingException occurred during logging: {}", e.getMessage());
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
 }

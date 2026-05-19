@@ -3,24 +3,20 @@ package fr.unice.scale.latencyaware.controller.processing;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.PartitionMetaData;
 
-/**
- * This scaler processor implements the binpack classic scaling strategy.
- * <br>
- * Include here the logic to propagate arrival rates through the graph for t+1.
- * <br><br>
- * <i>This implementation is based on M. Ezzeddine work </i>
- */
-public class ClassicScalerProcessor extends ScalerProcessor {
+public class ReactiveScalerProcessor extends ScalerProcessor {
 
+    @Override
     protected double getArrivalRateForPartitionCalculation(CGMetaData cgdata, PartitionMetaData partitionMetaData) {
-        return cgdata.getAvgParentArrivalRate() + partitionMetaData.getTotalExternalArrivalRate();
+        return cgdata.getAvgTotalInputArrivalRate();
     }
 
+    @Override
     protected double getRootArrivalRate(CGMetaData data) {
         return data.getTotalInputArrivalRate();
     }
 
+    @Override
     protected double getPropagatedParentalArrivalRate(CGMetaData data) {
-        return data.getParentArrivalRate();
+        return 0.0;
     }
 }

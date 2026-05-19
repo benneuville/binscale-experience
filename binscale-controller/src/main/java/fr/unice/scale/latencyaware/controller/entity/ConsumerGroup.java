@@ -19,7 +19,7 @@ public class ConsumerGroup implements NamedEntity {
     private String inputTopic;
     private String consumerName;
     private String kafkaGroupName;
-    // MU
+    // MU -> Is defined for the start only !important
     private double maxDefinedProcessingRate;
     private List<Partition> topicPartitions;
     private String lastUpScaleDecision;
@@ -90,16 +90,8 @@ public class ConsumerGroup implements NamedEntity {
         return consumerName;
     }
 
-    public void setConsumerName(String consumerName) {
-        this.consumerName = consumerName;
-    }
-
     public double getMaxDefinedProcessingRate() {
         return maxDefinedProcessingRate;
-    }
-
-    public void setMaxDefinedProcessingRate(double maxDefinedProcessingRate) {
-        this.maxDefinedProcessingRate = maxDefinedProcessingRate;
     }
 
     public double getWsla() {

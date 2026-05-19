@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class DuplicateProcessStrategy extends ProcessStrategy {
-    public DuplicateProcessStrategy(Double scale, Double shape) {
-        super(scale, shape);
+    public DuplicateProcessStrategy() {
     }
 
     @Override
