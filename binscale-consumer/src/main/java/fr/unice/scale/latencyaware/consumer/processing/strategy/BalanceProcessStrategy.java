@@ -14,8 +14,8 @@ import java.util.function.Consumer;
 public class BalanceProcessStrategy extends ProcessStrategy {
     private static int currentTopicDistributionPosition = 0;
 
-    public BalanceProcessStrategy(Double scale, Double shape) {
-        super(scale, shape);
+    public BalanceProcessStrategy() {
+        super();
     }
 
     @Override

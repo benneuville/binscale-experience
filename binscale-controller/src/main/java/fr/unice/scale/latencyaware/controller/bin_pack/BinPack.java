@@ -22,11 +22,11 @@ public class BinPack {
     private static final Logger log = LogManager.getLogger(BinPack.class);
 
     public static ScaleDecision scaleDecisionEventConsumerWithLag(ConsumerGroup group, CGMetaData cgdata, Map<Partition, PartitionCalculation> parts) {
-        double maxLagCapacity = cgdata.getMaxLagCapacity();
-        double maxArrivalRate = cgdata.getMaxAverageArrivalRate();
+        double maxLagCapacity = cgdata.getDynamicMaxLagCapacity();
+        double maxArrivalRate = cgdata.getDynamicMaxAverageArrivalRate();
 
-        double minLagCapacity = cgdata.getMinLagCapacity();
-        double minArrivalRate = cgdata.getMinAverageArrivalRate();
+        double minLagCapacity = cgdata.getDynamicMinLagCapacity();
+        double minArrivalRate = cgdata.getDynamicMinAverageArrivalRate();
 
         List<ConsumerCalculation> upScaled = binPackAndScale(new ArrayList<>(parts.values()),
                 maxLagCapacity,
@@ -61,14 +61,15 @@ public class BinPack {
 
         log.info("Binpack (NONE) {}", group.getKafkaGroupName());
         // NOTHING
+        log.info("Assignment {}", group.getAssignment());
         return new ScaleDecision(ConsumerConverter.convert(group.getAssignment(), parts, maxLagCapacity, maxArrivalRate), Action.NONE);
     }
 
     public static List<ConsumerCalculation> binPackAndScale(List<PartitionCalculation> parts,
                                                             double maxLagCapacity,
-                                                            double maxConsumptionRate,
+                                                            double maxProcessingCapacity,
                                                             Function<PartitionCalculation, Double> getAvgLagCapacity,
-                                                            Function<PartitionCalculation, Double> getAvgEventProcessRate) {
+                                                            Function<PartitionCalculation, Double> getAvgArrivalRate) {
         parts.sort(Collections.reverseOrder());
 
         int consumerCount = 1;
@@ -77,7 +78,7 @@ public class BinPack {
             int j;
             consumers.clear();
             for (int t = 0; t < consumerCount; t++) {
-                consumers.add(new ConsumerCalculation(String.valueOf(t), maxLagCapacity, maxConsumptionRate));
+                consumers.add(new ConsumerCalculation(String.valueOf(t), maxLagCapacity, maxProcessingCapacity));
             }
             log.info("Creating {} consumers for binpack", consumerCount);
 
@@ -87,10 +88,10 @@ public class BinPack {
                 PartitionCalculation currentPartCalc = parts.get(j);
                 for (i = 0; i < consumerCount; i++) {
                     if (consumers.get(i).getRemainingLagCapacity() >= getAvgLagCapacity.apply(currentPartCalc)
-                            && consumers.get(i).getRemainingProcessingCapacity() >= getAvgEventProcessRate.apply(currentPartCalc)) {
+                            && consumers.get(i).getRemainingProcessingCapacity() >= getAvgArrivalRate.apply(currentPartCalc)) {
                         consumers.get(i).assignPartition(currentPartCalc.getPartition(),
                                 getAvgLagCapacity.apply(currentPartCalc),
-                                getAvgEventProcessRate.apply(currentPartCalc));
+                                getAvgArrivalRate.apply(currentPartCalc));
                         break;
                     }
                 }

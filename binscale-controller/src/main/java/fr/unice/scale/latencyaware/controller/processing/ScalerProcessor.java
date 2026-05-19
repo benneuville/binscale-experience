@@ -27,11 +27,11 @@ public abstract class ScalerProcessor {
     private ObjectWriter objectWriter = new ObjectMapper().writer();
 
     public Map<Partition, PartitionCalculation> computeConsumer(CGMetaData cgdata) {
-        double maxLagCapacity = cgdata.getMaxLagCapacity();
-        double maxArrivalRate = cgdata.getMaxAverageArrivalRate();
+        double maxLagCapacity = cgdata.getDynamicMaxLagCapacity();
+        double maxArrivalRate = cgdata.getDynamicMaxAverageArrivalRate();
 
-        double minLagCapacity = cgdata.getMinLagCapacity();
-        double minArrivalRate = cgdata.getMinAverageArrivalRate();
+        double minLagCapacity = cgdata.getDynamicMinLagCapacity();
+        double minArrivalRate = cgdata.getDynamicMinAverageArrivalRate();
 
         Map<Partition, PartitionCalculation> parts = cgdata.getPartitionsMetaData().values().stream().map(
                 pmd -> new PartitionCalculation(

@@ -37,21 +37,19 @@ public class AssignmentComponent {
     private List<Consumer> assign(Graph<ConsumerGroup> graph, Map.Entry<ConsumerGroup, ScaleDecision> decisionEntry) {
         ScaleDecision decision = decisionEntry.getValue();
         ConsumerGroup group = graph.getVertex(decisionEntry.getKey()).getGroup();
+        log.info("Decision for {} : {}", group.getConsumerName(), decision.getAssociations().size());
         switch (decision.getAction()) {
             case UP:
             case DOWN:
                 new Thread(() -> {
                     kubernetesClient.apps().deployments().inNamespace("default").withName(group.getConsumerName()).scale(decision.getAssociations().size());
-                    log.info("Decision : group {} : scaled {} to {}", group.getKafkaGroupName(), decision.getAction().name(), decision.getAssociations());
                 }).start();
                 return ConsumerConverter.convertConsumers(decision.getAssociations());
             case REASS:
                 group.getMetadataConsumer().enforceRebalance();
-                log.info("Decision : group {} : reassignment {}", group.getKafkaGroupName(), decision.getAssociations());
                 return ConsumerConverter.convertConsumers(decision.getAssociations());
             case NONE:
             default:
-                log.info("Decision : group {} : no action", group.getKafkaGroupName());
                 return group.getAssignment();
         }
     }

@@ -207,6 +207,9 @@ public class PrometheusMetricCollector {
                         nbOfEventPolled += metaData.getPartitionMetaData(p).getProcessingCount();
                         processTimeOfEventPolled += metaData.getPartitionMetaData(p).getProcessingTime();
                     }
+                    if (nbOfEventPolled > 0) {
+                        metaData.getConsumerMetaData(consumer).setDynamicProcessingCapacity(nbOfEventPolled);
+                    }
                 }
                 consumerGroupMetaDatas.put(cg, metaData);
             }

@@ -4,7 +4,7 @@ import fr.unice.scale.latencyaware.controller.entity.Consumer;
 
 public class ConsumerMetaData {
 
-    private final double dynamicProcessingCapacity;
+    private double dynamicProcessingCapacity;
 
     private Consumer consumer;
 
@@ -15,6 +15,10 @@ public class ConsumerMetaData {
 
     public double getDynamicProcessingCapacity() {
         return dynamicProcessingCapacity;
+    }
+
+    public void setDynamicProcessingCapacity(double dynamicProcessingCapacity) {
+        this.dynamicProcessingCapacity = dynamicProcessingCapacity;
     }
 
     public Consumer getConsumer() {

@@ -90,4 +90,9 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
     public int compareTo(PartitionCalculation o) {
         return Double.compare(this.getArrivalRate(), o.getArrivalRate());
     }
+
+    @Override
+    public String toString() {
+        return partition.getId() + " : arrivalRate = " + getArrivalRate() + ", lag = " + getLag();
+    }
 }

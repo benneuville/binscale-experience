@@ -39,7 +39,7 @@ public class PartitionMetaData {
         this.processingCount = processingCount;
     }
 
-    public double getProcessingCapacity() {
+    public double getProcessingRate() {
         if (processingCount == 0) {
             return 0.0;
         }
@@ -47,7 +47,7 @@ public class PartitionMetaData {
     }
 
     public double getLagRebalancing() {
-        return getProcessingCapacity() * REBALANCING_TIME;
+        return getProcessingRate() * REBALANCING_TIME;
     }
 
     public double getLatency() {

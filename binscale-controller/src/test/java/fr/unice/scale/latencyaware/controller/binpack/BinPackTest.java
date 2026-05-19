@@ -61,7 +61,7 @@ public class BinPackTest {
         cgMetaData = new CGMetaData(consumerGroup, .5);
 
         consumerGroup.getTopicPartitions().forEach((p) -> {
-                    cgMetaData.setPartitionMetaData(p, new PartitionMetaData(p, 2));
+                    cgMetaData.setPartitionMetaData(p, new PartitionMetaData(p, 0));
                 }
         );
 
@@ -69,8 +69,8 @@ public class BinPackTest {
             pmd.setLatency(100);
             pmd.setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 10.0));
             pmd.setLag(10);
-            pmd.setProcessingCount(100);
-            pmd.setProcessingTime(100);
+            pmd.setProcessingCount(200);
+            pmd.setProcessingTime(1000);
         });
     }
 
@@ -78,7 +78,7 @@ public class BinPackTest {
     @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
     public void testUpscaleLag() {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
-            pmd.setLag(10);
+            pmd.setLag(20);
         });
         partitionCalculations = scaler.computeConsumer(cgMetaData);
         ScaleDecision decision = BinPack.scaleDecisionEventConsumerWithLag(consumerGroup, cgMetaData, partitionCalculations);
@@ -93,7 +93,7 @@ public class BinPackTest {
     public void testUpscaleArrivalRate() {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
             pmd.setLag(5);
-            pmd.setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 20.0));
+            pmd.setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 50.0));
         });
         partitionCalculations = scaler.computeConsumer(cgMetaData);
         ScaleDecision decision = BinPack.scaleDecisionEventConsumerWithLag(consumerGroup, cgMetaData, partitionCalculations);
@@ -105,6 +105,7 @@ public class BinPackTest {
 
     @Test
     @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
+    @SetEnvironmentVariable(key = "REBALANCING_TIME", value = "0")
     public void testDownscale() {
         Consumer consumer1 = new Consumer("0");
         Consumer consumer2 = new Consumer("1");
@@ -119,8 +120,6 @@ public class BinPackTest {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
             pmd.setLag(1);
             pmd.setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 5.0));
-            pmd.setProcessingCount(1);
-            pmd.setProcessingTime(1);
         });
         partitionCalculations = scaler.computeConsumer(cgMetaData);
         ScaleDecision decision = BinPack.scaleDecisionEventConsumerWithLag(consumerGroup, cgMetaData, partitionCalculations);
@@ -146,10 +145,8 @@ public class BinPackTest {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
             pmd.setLag(5);
             pmd.setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 10.0));
-            pmd.setProcessingCount(1);
-            pmd.setProcessingTime(1);
         });
-        cgMetaData.getPartitionMetaData(0).setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 80.0));
+        cgMetaData.getPartitionMetaData(0).setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 160.0));
         cgMetaData.getPartitionMetaData(0).setLag(24);
         partitionCalculations = scaler.computeConsumer(cgMetaData);
 
@@ -176,8 +173,6 @@ public class BinPackTest {
         cgMetaData.getPartitionsMetaData().forEach((p, pmd) -> {
             pmd.setLag(5);
             pmd.setArrivalRate(Map.of(EXTERNAL_GROUP_NAME, 20.0));
-            pmd.setProcessingCount(1);
-            pmd.setProcessingTime(1);
         });
         partitionCalculations = scaler.computeConsumer(cgMetaData);
         ScaleDecision decision = BinPack.scaleDecisionEventConsumerWithLag(consumerGroup, cgMetaData, partitionCalculations);

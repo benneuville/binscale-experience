@@ -29,25 +29,6 @@ public class CGMetaData {
         return partitionsMetaData.values().stream().map(PartitionMetaData::getLag).reduce(0L, Long::sum);
     }
 
-    public double getAvgEventProcessingRate() {
-        double totalProcessingRate = 0.0;
-
-        for (Consumer c : consumerGroup.getAssignment()) {
-            double consumerProcessingCount = 0.0;
-            double consumerProcessingSum = 0.0;
-            for (Partition p : c.getAssignedPartitions()) {
-                PartitionMetaData pMetaData = partitionsMetaData.get(p);
-                consumerProcessingSum += pMetaData.getProcessingTime();
-                consumerProcessingCount += pMetaData.getProcessingCount();
-            }
-            if (consumerProcessingCount > 0) {
-                double consumerAvgProcessingRate = consumerProcessingSum / consumerProcessingCount;
-                totalProcessingRate += consumerAvgProcessingRate;
-            }
-        }
-        return totalProcessingRate / consumerGroup.getAssignment().size();
-    }
-
     public double getAvgTotalInputArrivalRate() {
         if (partitionsMetaData.values().isEmpty()) {
             return 0.0;
@@ -145,20 +126,46 @@ public class CGMetaData {
         this.parentArrivalRate = 0.0;
     }
 
-    public double getMaxLagCapacity() {
+    public double getStaticMaxLagCapacity() {
         return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFup();
     }
 
-    public double getMaxAverageArrivalRate() {
+    public double getStaticMaxAverageArrivalRate() {
         return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getFup();
     }
 
-    public double getMinLagCapacity() {
+    public double getStaticMinLagCapacity() {
         return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFdown();
     }
 
-    public double getMinAverageArrivalRate() {
+    public double getStaticMinAverageArrivalRate() {
         return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getFdown();
+    }
+
+    public double getConsumerGroupDynamicProcessingCapacity() {
+//        Double processingCapacity = 0.;
+//        for (Consumer consumer : this.consumerGroup.getAssignment()) {
+//            processingCapacity += consumer.getAssignedPartitions().stream().map(partition -> partitionsMetaData.get(partition)).map(PartitionMetaData::getProcessingRate).reduce(0.0, Double::sum) / consumer.getAssignedPartitions().size();
+//
+//        }
+//        return processingCapacity / this.consumerGroup.getAssignment().size();
+        return 1000 / (this.partitionsMetaData.values().stream().map(PartitionMetaData::getProcessingRate).reduce(0.0, Double::sum) / this.partitionsMetaData.values().size());
+    }
+
+    public double getDynamicMaxLagCapacity() {
+        return getConsumerGroupDynamicProcessingCapacity() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFup();
+    }
+
+    public double getDynamicMaxAverageArrivalRate() {
+        return getConsumerGroupDynamicProcessingCapacity() * this.getConsumerGroup().getFup();
+    }
+
+    public double getDynamicMinLagCapacity() {
+        return getConsumerGroupDynamicProcessingCapacity() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFdown();
+    }
+
+    public double getDynamicMinAverageArrivalRate() {
+        return getConsumerGroupDynamicProcessingCapacity() * this.getConsumerGroup().getFdown();
     }
 
     @Override

@@ -13,17 +13,13 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.CONSUMPTION_RATE;
+
 public abstract class ProcessStrategy {
-    private final ParetoDistribution paretoDistribution;
 
     private final Logger logger = LoggerFactory.getLogger(ProcessStrategy.class);
 
-    public ProcessStrategy(Double scale, Double shape) {
-        this.paretoDistribution = new ParetoDistribution(scale, shape);
-    }
-
-    public ParetoDistribution getParetoDistribution() {
-        return paretoDistribution;
+    public ProcessStrategy() {
     }
 
     public List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events) {
@@ -35,8 +31,7 @@ public abstract class ProcessStrategy {
     public abstract List<DistributedEventCustomer> process(DistributionConfig config, ConsumerRecords<String, EventCustomer> events, Consumer<ConsumerRecord<String, EventCustomer>> eventProcessor);
 
     private void processEvent(ConsumerRecord<String, EventCustomer> record) {
-        double sleep = paretoDistribution.sample();
-//        double sleep = 1000 / CONSUMPTION_RATE;
+        double sleep = 1000. / CONSUMPTION_RATE;
         if (Double.isFinite(sleep)) {
             try {
                 Thread.sleep((long) sleep);
