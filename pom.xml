@@ -11,6 +11,7 @@
         <module>binscale-controller</module>
         <module>binscale-consumer</module>
         <module>binscale-producer</module>
+        <module>binscale-e2e-analyzer</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

@@ -64,7 +64,7 @@ This diagram illustrates the global interaction between the components of the ap
 
 ![Sequence diagram](./assets/producer_sequence_diagram.png)
 
-## 🔧 Environment Variables
+## ðŸ”§ Environment Variables
 
 *This part is auto generated.*
 

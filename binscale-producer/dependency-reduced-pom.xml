@@ -80,6 +80,7 @@
           <compilerArgs>
             <arg>-processor</arg>
             <arg>fr.unice.scale.latencyaware.common.processor.EnvVarProcessor</arg>
+            <arg>-Aproject.basedir=${project.basedir}</arg>
           </compilerArgs>
           <annotationProcessorPaths>
             <annotationProcessorPath>

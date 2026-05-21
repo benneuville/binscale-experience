@@ -45,7 +45,7 @@ The project supports the following scaling parameters:
 - FDOWN (Downscaling threshold)
 
 
-## 🔧 Environment Variables
+## ðŸ”§ Environment Variables
 
 *This part is auto generated.*
 
@@ -61,4 +61,6 @@ The project supports the following scaling parameters:
 | `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
 | `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
 
