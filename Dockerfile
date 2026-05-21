@@ -32,6 +32,8 @@ COPY binscale-controller/src/main/resources/log4j2.properties /bin/log4j2.proper
 # Copy binscale-controller JAR
 ADD binscale-controller/target/binscale-controller-1.0-SNAPSHOT.jar /app/Controller.jar
 
+COPY binscale-e2e-analyzer/target/binscale-e2e-analyzer-1.0-SNAPSHOT.jar /app/e2e-analyzer.jar
+
 
 ## COPY ./scripts/ /bin
 # COPY graphcontroller2/src/main/resources/log4j2.properties /bin/log4j2.properties

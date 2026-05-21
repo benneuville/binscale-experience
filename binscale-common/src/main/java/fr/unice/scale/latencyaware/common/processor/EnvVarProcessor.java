@@ -69,8 +69,13 @@ public class EnvVarProcessor extends AbstractProcessor {
             }
         }
         try {
-            Path projectRoot = Paths.get("").toAbsolutePath();
-            Path readme = projectRoot.resolve("README.md");
+            String projectRoot = processingEnv.getOptions().get("project.basedir");
+            if(projectRoot == null) {
+                System.err.println("project.basedir option is not set. Cannot update README.md with environment variables documentation.");
+                return false;
+            }
+            Path readme = Paths.get(projectRoot, "README.md");
+            System.out.println("project root : " + projectRoot);
 
             String existing = Files.exists(readme) ? Files.readString(readme) : "";
 
