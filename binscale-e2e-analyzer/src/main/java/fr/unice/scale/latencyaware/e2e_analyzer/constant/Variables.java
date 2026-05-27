@@ -11,8 +11,6 @@ public final class Variables extends CommonVariables {
     public static final Boolean ASYNC_COMMIT = EnvUtils.envBool("ASYNC_COMMIT");
     @EnvVar(description = "Bootstrap servers, Example : 'localhost:9092'")
     public static final String BOOTSTRAP_SERVERS = EnvUtils.envString("BOOTSTRAP_SERVERS");
-    @EnvVar(description = "Sleep time")
-    public static final Integer SLEEP = EnvUtils.envOrDefault("SLEEP", 0);
     @EnvVar(description = "Additional consumer configuration in the form 'key1=value1,key2=value2'")
     public static final String ADDITIONAL_CONFIG = EnvUtils.envOrDefault("ADDITIONAL_CONFIG", "");
     @EnvVar(description = "Time to commit parameter")
