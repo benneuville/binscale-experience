@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.GROUP_ID;
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_GROUP_ID_KEY;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.GROUP_ID;
 
 public class EventEmission {
     private final static Logger logger = LoggerFactory.getLogger(EventEmission.class);

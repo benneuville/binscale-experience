@@ -17,7 +17,8 @@ import java.util.Map;
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.*;
 import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables;
 import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables.*;
-import static fr.unice.scale.latencyaware.consumer.constant.Variables.EXTERNAL_GROUP_NAME;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.GROUP_ID;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.TOPIC;
 
 public class MetricsCollector {
     private static final Logger logger = LoggerFactory.getLogger(MetricsCollector.class);

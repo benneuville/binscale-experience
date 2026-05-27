@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Properties;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.*;
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.STRING_DESERIALIZER;
 
 public class KafkaConsumerConfig {
     private static final Logger log = LogManager.getLogger(KafkaConsumerConfig.class);
@@ -22,10 +22,6 @@ public class KafkaConsumerConfig {
         this.topic = topic;
         this.groupId = groupId;
 
-    }
-
-    public static KafkaConsumerConfig fromEnv() {
-        return new KafkaConsumerConfig(KAFKA_BOOTSTRAP_SERVERS, TOPIC, GROUP_ID);
     }
 
     public static Properties createProperties(KafkaConsumerConfig config) {
@@ -67,7 +63,6 @@ public class KafkaConsumerConfig {
                 ", groupId='" + groupId + '\'' +
                 ", autoOffsetReset='" + autoOffsetReset + '\'' +
                 ", enableAutoCommit='" + enableAutoCommit + '\'' +
-
                 '}';
     }
 }

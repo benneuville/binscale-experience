@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
  * Define environment variables and theirs default value
  */
 public final class Variables extends CommonVariables {
-
+    @EnvVar(description = "Topic name. Example : 'testtopic1'")
+    public static final String TOPIC = EnvUtils.envString("TOPIC");
     @EnvVar(description = "List of partition weights, comma separated. Example : '1,1,1,1,1'")
     public static final List<Integer> PARTITION_WEIGHTS = EnvUtils.env("PARTITION_WEIGHTS", s -> Arrays.stream((s.split(",")))
             .map(Integer::parseInt)
