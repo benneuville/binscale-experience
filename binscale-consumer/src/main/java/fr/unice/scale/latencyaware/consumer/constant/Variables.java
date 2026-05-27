@@ -7,6 +7,10 @@ import fr.unice.scale.latencyaware.consumer.entity.ProcessStrategyMapping;
 
 public final class Variables extends CommonVariables {
     // Environment variables
+    @EnvVar(description = "Input topic name. Example : 'testtopic1'")
+    public static final String TOPIC = EnvUtils.envString("TOPIC");
+    @EnvVar(description = "Input Group ID for the consumer. Example : 'testgroup1'")
+    public static final String GROUP_ID = EnvUtils.envOrDefault("GROUP_ID", "");
     @EnvVar(description = "Scale parameter")
     public static final Double SCALE = EnvUtils.envDouble("SCALE");
     @EnvVar(description = "Time to commit parameter")

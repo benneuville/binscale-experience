@@ -12,9 +12,9 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.GROUP_ID;
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.TOPIC;
 import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.GROUP_ID;
+import static fr.unice.scale.latencyaware.consumer.constant.Variables.TOPIC;
 
 public class EmissionInterceptor implements
         ProducerInterceptor<String, EventCustomer> {
