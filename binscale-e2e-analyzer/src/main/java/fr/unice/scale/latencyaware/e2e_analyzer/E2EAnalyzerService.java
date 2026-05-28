@@ -5,6 +5,7 @@ import fr.unice.scale.latencyaware.e2e_analyzer.config.BinscaleE2EIngestionConfi
 import fr.unice.scale.latencyaware.e2e_analyzer.config.E2EAnalyzerConfigBuilder;
 import fr.unice.scale.latencyaware.e2e_analyzer.entity.E2EAnalyzerConfig;
 import fr.unice.scale.latencyaware.e2e_analyzer.entity.Topic;
+import fr.unice.scale.latencyaware.e2e_analyzer.entity.event.E2EEventMapper;
 import fr.unice.scale.latencyaware.e2e_analyzer.ingestion.E2EAnalyzerEventIngestion;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
@@ -20,7 +21,7 @@ public class E2EAnalyzerService implements Runnable {
     public void run() {
         E2EAnalyzerConfig config = E2EAnalyzerConfigBuilder.fromEnv();
         List<E2EAnalyzerEventIngestion> evIngest = new ArrayList<>();
-
+        E2EEventMapper e2eEventsMapper = new E2EEventMapper();
         for (Topic t : config.getTopics()) {
             evIngest.add(new E2EAnalyzerEventIngestion(BinscaleE2EIngestionConfig.fromEnv(t.getName())));
         }
