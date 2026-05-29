@@ -28,7 +28,7 @@ public class BalanceProcessStrategy extends ProcessStrategy {
             if (!config.getOutput().isEmpty()) {
                 currentTopicDistributionPosition = (currentTopicDistributionPosition + 1) % config.getOutput().size();
                 DistributedEventCustomer distributedEvent = distributedEvents.get(currentTopicDistributionPosition);
-                distributedEvent.addEvent(eventCustomer.value());
+                distributedEvent.addEvent(eventCustomer);
             }
             // Simulate processing
             eventProcessor.accept(eventCustomer);

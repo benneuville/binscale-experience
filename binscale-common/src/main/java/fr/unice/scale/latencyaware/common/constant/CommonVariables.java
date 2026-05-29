@@ -21,6 +21,8 @@ public class CommonVariables {
 
     public final static String HEADER_GROUP_ID_KEY = "groupId";
 
+    public final static String HEADER_EVENT_ID = "eventId";
+
     public static final String EXTERNAL_GROUP_NAME = "unknown";
 
     static {

@@ -1,13 +1,14 @@
 package fr.unice.scale.latencyaware.consumer.entity;
 
 import fr.unice.scale.latencyaware.common.entity.EventCustomer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DistributedEventCustomer {
     private ProducerTopicDistribution targetTopic;
-    private List<EventCustomer> events;
+    private List<ConsumerRecord<String, EventCustomer>> events;
 
     public DistributedEventCustomer() {
     }
@@ -17,7 +18,7 @@ public class DistributedEventCustomer {
         this.events = new ArrayList<>();
     }
 
-    public DistributedEventCustomer(ProducerTopicDistribution targetTopic, List<EventCustomer> events) {
+    public DistributedEventCustomer(ProducerTopicDistribution targetTopic, List<ConsumerRecord<String, EventCustomer>> events) {
         this.targetTopic = targetTopic;
         this.events = events;
     }
@@ -30,19 +31,19 @@ public class DistributedEventCustomer {
         this.targetTopic = targetTopic;
     }
 
-    public List<EventCustomer> getEvents() {
+    public List<ConsumerRecord<String, EventCustomer>> getEvents() {
         return events;
     }
 
-    public void setEvents(List<EventCustomer> events) {
+    public void setEvents(List<ConsumerRecord<String, EventCustomer>> events) {
         this.events = events;
     }
 
-    public void addEvent(EventCustomer event) {
+    public void addEvent(ConsumerRecord<String, EventCustomer> event) {
         this.events.add(event);
     }
 
-    public void addAllEvents(List<EventCustomer> events) {
+    public void addAllEvents(List<ConsumerRecord<String, EventCustomer>> events) {
         this.events.addAll(events);
     }
 

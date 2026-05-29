@@ -21,12 +21,12 @@ public class CustomProcessStrategy extends ProcessStrategy {
         List<DistributedEventCustomer> distributedEvents = new ArrayList<>();
         int originalEventSize = events.count();
         int index = 0;
-        List<EventCustomer> eventList = new ArrayList<>();
+        List<ConsumerRecord<String, EventCustomer>> eventList = new ArrayList<>();
 
         for (ConsumerRecord<String, EventCustomer> eventCustomer : events) {
             // Simulate processing
             eventProcessor.accept(eventCustomer);
-            eventList.add(eventCustomer.value());
+            eventList.add(eventCustomer);
         }
 
         for (ProducerTopicDistribution topic : config.getOutput()) {

@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 import static fr.unice.scale.latencyaware.producer.constant.Variables.PARTITION_WEIGHTS;
+import static fr.unice.scale.latencyaware.producer.constant.Variables.PRODUCER_ID;
 
 public class NonUniformWorkload extends AbstractWorkload {
     final Logger log = LogManager.getLogger(NonUniformWorkload.class);
@@ -49,9 +50,11 @@ public class NonUniformWorkload extends AbstractWorkload {
 
 
                 for (long j = 0; j < messagesPerPartition; j++) {
-                    EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
-                    producer.send(new ProducerRecord<String, EventCustomer>(config.getTopic(),
-                            partitionIndex, null, UUID.randomUUID().toString(), custm));
+                    String id = PRODUCER_ID + "-" + UUID.randomUUID();
+                    EventCustomer custm = new EventCustomer(rnd.nextInt(), id);
+                    ProducerRecord<String, EventCustomer> ev = new ProducerRecord<>(config.getTopic(),
+                            partitionIndex, null, id, custm);
+                    producer.send(ev);
                     partitionMessageCounts.put(partitionIndex, partitionMessageCounts.get(partitionIndex) + 1);
                 }
 
@@ -64,9 +67,11 @@ public class NonUniformWorkload extends AbstractWorkload {
             long remainingMessages = totalMessages % totalWeight;
             for (long j = 0; j < remainingMessages; j++) {
                 int partition = (int) (j % partitionWeights.size());
-                EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
-                producer.send(new ProducerRecord<String, EventCustomer>(config.getTopic(),
-                        partition, null, UUID.randomUUID().toString(), custm));
+                String id = PRODUCER_ID + "-" + UUID.randomUUID();
+                EventCustomer custm = new EventCustomer(rnd.nextInt(), id);
+                ProducerRecord<String, EventCustomer> ev = new ProducerRecord<>(config.getTopic(),
+                        partition, null, id, custm);
+                producer.send(ev);
                 partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);
                 log.info("sent 1 remaining message to partition {}", partition);
             }

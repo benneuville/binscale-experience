@@ -5,6 +5,7 @@ import fr.unice.scale.latencyaware.consumer.config.BinscaleProducerConfig;
 import fr.unice.scale.latencyaware.consumer.entity.DistributedEventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
 import fr.unice.scale.latencyaware.consumer.entity.ProducerTopicDistribution;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_EVENT_ID;
 import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_GROUP_ID_KEY;
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.GROUP_ID;
 
@@ -39,10 +41,11 @@ public class EventEmission {
             logger.info("Publishing {} events to topic {}",
                     distributedEvent.getEvents().size(),
                     distributedEvent.getTargetTopic().getName());
-            for (EventCustomer event : distributedEvent.getEvents()) {
+            for (ConsumerRecord<String, EventCustomer> event : distributedEvent.getEvents()) {
                 ProducerRecord<String, EventCustomer> record = new ProducerRecord<>(
                         distributedEvent.getTargetTopic().getName(),
-                        event
+                        event.key(),
+                        event.value()
                 );
                 record.headers().add(HEADER_GROUP_ID_KEY, GROUP_ID.getBytes());
                 producer.send(record);

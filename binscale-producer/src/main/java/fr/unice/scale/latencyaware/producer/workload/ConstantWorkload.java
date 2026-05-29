@@ -12,6 +12,9 @@ import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_EVENT_ID;
+import static fr.unice.scale.latencyaware.producer.constant.Variables.PRODUCER_ID;
+
 public class ConstantWorkload extends AbstractWorkload {
     static Instant start = Instant.now();
     final Logger log = LogManager.getLogger(ConstantWorkload.class);
@@ -30,9 +33,11 @@ public class ConstantWorkload extends AbstractWorkload {
 
             //   loop over each sample
             for (long j = 0; j < 150; j++) {
-                EventCustomer custm = new EventCustomer(rnd.nextInt(), UUID.randomUUID().toString());
-                producer.send(new ProducerRecord<String, EventCustomer>(config.getTopic(),
-                        null, null, UUID.randomUUID().toString(), custm));
+                String id = PRODUCER_ID + "-" + UUID.randomUUID();
+                EventCustomer custm = new EventCustomer(rnd.nextInt(), id);
+                ProducerRecord<String, EventCustomer> ev = new ProducerRecord<>(config.getTopic(),
+                        null, null, id, custm);
+                producer.send(ev);
             }
 
             log.info("sent {} events Per Second ", 150);
