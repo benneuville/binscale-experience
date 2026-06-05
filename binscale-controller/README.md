@@ -83,3 +83,611 @@ The project supports the following scaling parameters:
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
 | `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
 | `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+
+## ðŸ”§ Environment Variables
+
+*This part is auto generated.*
+
+| Name | Description | Default value |
+|-----|--------------|-------------------|
+| `DI` | DI value in milliseconds for the controller loop sleep time | *(undefined)* |
+| `NUMBER_PARTITIONS` | Number of partitions for the topic | *(undefined)* |
+| `REB_TIME` | REB_TIME value in seconds for the rebalancing time | *(undefined)* |
+| `FUP` | FUP value for the upscaling threshold | *(undefined)* |
+| `FDOWN` | FDOWN value for the downscaling threshold | *(undefined)* |
+| `BOOTSTRAP_SERVERS` | Bootstrap servers. Example : 'localhost:9092' | *(undefined)* |
+| `TOPICS_CONFIG_PATH` | Path to config file | "/config/controller-config.yaml" |
+| `REQUEST_TIME_RANGE` | Range time in seconds for the metrics calculation | 2 |
+| `REQUEST_TIME_UNIT` | Range time in seconds for the metrics calculation | "s" |
+| `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
+| `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
+| `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |

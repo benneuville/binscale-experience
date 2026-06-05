@@ -27,4 +27,8 @@ public final class Variables extends CommonVariables {
     @EnvVar(description = "Path to topic config file")
     public static final String TOPICS_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_CONFIG_PATH", "/config/e2e-analyzer-config.yaml");
 
+    @EnvVar(description = "Path to topic config file")
+    public static final String EXPORT_PATH = EnvUtils.envOrDefault("EXPORT_PATH", "/export/export-e2e-analyze.json");
+
+    public static final String E2E_EVENT_TRACKER_FETCH_ALL = "e2e_event_tracker_fetch_all";
 }
