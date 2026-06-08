@@ -27,16 +27,12 @@ import static fr.unice.scale.latencyaware.e2e_analyzer.constant.Variables.TIME_T
 @Service
 public class E2EAnalyzerService {
     private final EventMerger eventMerger;
-    private final ExporterService exporter;
     private final Logger log = LoggerFactory.getLogger(E2EAnalyzerService.class);
 
     private final List<E2EAnalyzerEventIngestion> evIngest;
-    private ModeState state;
 
-    public E2EAnalyzerService(EventMerger eventMerger, ExporterService exporter) {
+    public E2EAnalyzerService(EventMerger eventMerger) {
         this.eventMerger = eventMerger;
-        this.exporter = exporter;
-        this.state = ModeState.MERGING;
         this.evIngest = new ArrayList<>();
     }
 
@@ -49,16 +45,13 @@ public class E2EAnalyzerService {
             evIngest.add(new E2EAnalyzerEventIngestion(BinscaleE2EIngestionConfig.fromEnv(t.getName())));
         }
 
-        while (ModeState.MERGING.equals(this.state) && !isAllEventProcessed()) {
+        while (true) {
             List<ConsumerRecords<String, EventCustomer>> events = evIngest.stream().map(ei -> ei.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()))).collect(Collectors.toList());
             eventMerger.eventMerger(events);
+            if (isAllEventProcessed()) {
+                break;
+            }
         }
-
-        List<E2EEventTracker> eventTrackers = eventMerger.getAllEventTrackers();
-        log.info("{}", eventTrackers);
-        exporter.exportEvents(eventTrackers);
-
-
     }
 
     private boolean isAllEventProcessed() {
@@ -76,7 +69,7 @@ public class E2EAnalyzerService {
         return true;
     }
 
-    public void changeMode(ModeState modeState) {
-        this.state = modeState;
+    public List<E2EEventTracker> getAllEventTrackers() {
+        return eventMerger.getAllEventTrackers();
     }
 }

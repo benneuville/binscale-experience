@@ -20,7 +20,7 @@ public class ConsumerGroup implements NamedEntity {
     private String consumerName;
     private String kafkaGroupName;
     // MU -> Is defined for the start only !important
-    private double maxDefinedProcessingRate;
+    private double processingRateFallBack;
     private List<Partition> topicPartitions;
     private String lastUpScaleDecision;
     private List<Consumer> assignment = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ConsumerGroup implements NamedEntity {
     public ConsumerGroup(String inputTopic, Integer size, double maxDefinedProcessingRate,
                          double wsla, String name, String groupName, int partitionNumber, KafkaConsumer<byte[], byte[]> kafkaConsumer) {
         this.inputTopic = inputTopic;
-        this.maxDefinedProcessingRate = maxDefinedProcessingRate;
+        this.processingRateFallBack = maxDefinedProcessingRate;
         this.wsla = wsla;
         this.consumerName = name;
         this.kafkaGroupName = groupName;
@@ -90,8 +90,12 @@ public class ConsumerGroup implements NamedEntity {
         return consumerName;
     }
 
-    public double getMaxDefinedProcessingRate() {
-        return maxDefinedProcessingRate;
+    public double getProcessingRateFallBack() {
+        return processingRateFallBack;
+    }
+
+    public void setProcessingRateFallBack(double processingRateFallBack) {
+        this.processingRateFallBack = processingRateFallBack;
     }
 
     public double getWsla() {

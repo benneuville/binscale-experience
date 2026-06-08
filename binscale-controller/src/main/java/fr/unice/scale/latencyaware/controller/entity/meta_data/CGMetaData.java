@@ -126,20 +126,20 @@ public class CGMetaData {
         this.parentArrivalRate = 0.0;
     }
 
-    public double getStaticMaxLagCapacity() {
-        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFup();
+    public double getFallBackMaxLagCapacity() {
+        return this.consumerGroup.getProcessingRateFallBack() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFup();
     }
 
-    public double getStaticMaxAverageArrivalRate() {
-        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getFup();
+    public double getFallBackMaxAverageArrivalRate() {
+        return this.consumerGroup.getProcessingRateFallBack() * this.getConsumerGroup().getFup();
     }
 
-    public double getStaticMinLagCapacity() {
-        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFdown();
+    public double getFallBackMinLagCapacity() {
+        return this.consumerGroup.getProcessingRateFallBack() * this.getConsumerGroup().getWsla() * this.getConsumerGroup().getFdown();
     }
 
-    public double getStaticMinAverageArrivalRate() {
-        return this.consumerGroup.getMaxDefinedProcessingRate() * this.getConsumerGroup().getFdown();
+    public double getFallBackMinAverageArrivalRate() {
+        return this.consumerGroup.getProcessingRateFallBack() * this.getConsumerGroup().getFdown();
     }
 
     public double getConsumerGroupDynamicProcessingCapacity() {
@@ -149,7 +149,12 @@ public class CGMetaData {
 //
 //        }
 //        return processingCapacity / this.consumerGroup.getAssignment().size();
-        return 1000 / (this.partitionsMetaData.values().stream().map(PartitionMetaData::getProcessingRate).reduce(0.0, Double::sum) / this.partitionsMetaData.values().size());
+        double totalProcessingRate = this.partitionsMetaData.values().stream().map(PartitionMetaData::getProcessingRate).reduce(0.0, Double::sum);
+        if (totalProcessingRate == 0)
+            totalProcessingRate = this.consumerGroup.getProcessingRateFallBack();
+        else
+            this.consumerGroup.setProcessingRateFallBack(totalProcessingRate);
+        return 1000 / (totalProcessingRate / this.partitionsMetaData.values().size());
     }
 
     public double getDynamicMaxLagCapacity() {
