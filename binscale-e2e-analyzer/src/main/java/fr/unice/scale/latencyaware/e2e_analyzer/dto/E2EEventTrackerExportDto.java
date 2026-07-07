@@ -2,7 +2,6 @@ package fr.unice.scale.latencyaware.e2e_analyzer.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.scale.latencyaware.e2e_analyzer.entity.model.E2EEvent;
-import fr.unice.scale.latencyaware.e2e_analyzer.entity.model.E2EEventTracker;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -14,9 +13,9 @@ public class E2EEventTrackerExportDto {
     @JsonProperty
     private final List<E2EEvent> events;
 
-    public E2EEventTrackerExportDto(E2EEventTracker tracker) {
-        this.events = tracker.getEvents();
-        this.id = tracker.getId();
+    public E2EEventTrackerExportDto(String id, List<E2EEvent> events) {
+        this.events = events;
+        this.id = id;
     }
 
     @JsonProperty("endToEndDurationMs")

@@ -18,9 +18,9 @@ public class HibernateUtil {
                 String dbPassword = System.getenv("DB_PASSWORD");
 
                 Map<String, Object> properties = new HashMap<>();
-                properties.put("jakarta.persistence.jdbc.url", dbUrl);
-                properties.put("jakarta.persistence.jdbc.user", dbUser);
-                properties.put("jakarta.persistence.jdbc.password", dbPassword);
+                properties.put("spring.datasource.url", dbUrl);
+                properties.put("spring.datasource.user", dbUser);
+                properties.put("spring.datasource.password", dbPassword);
 
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("event-analysis-pu", properties);
                 sessionFactory = emf.unwrap(SessionFactory.class);

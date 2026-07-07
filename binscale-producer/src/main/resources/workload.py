@@ -1,18 +1,30 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Lire les données à partir du fichier CSV
-data = pd.read_csv('defaultArrivalRatesm.csv', header=None, names=['time', 'arrival_rate'])
+# 1. Charger le CSV (remplace 'data.csv' par ton fichier)
+data = pd.read_csv('2h.csv', header=None, names=['Temps', 'Flux'])
 
-# Tracer les données
-plt.figure(figsize=(10, 6))
-plt.plot(data['time'], data['arrival_rate'], markersize=3, linestyle='-', color='b', linewidth=1)  # Ligne plus fine et marqueurs plus petits
+# 2. Créer la figure
+plt.figure(figsize=(16, 6))
 
-# Ajouter des titres et des étiquettes
-plt.title('Arrival Rate of Events at Time t (λ_p^t)', fontsize=16)
-plt.xlabel('Time (t)', fontsize=14)
-plt.ylabel('Arrival Rate (events/sec) (λ_p^t)', fontsize=14)
+plt.fill_between(data['Temps'], data['Flux'],
+                 color='#5C669F',
+                 alpha=1)
 
-# Afficher le graphique
-plt.grid(True)
+plt.plot(data['Temps'], data['Flux'],
+         marker='.',
+         linestyle='-',
+         color='#5C669F',
+         linewidth=2,
+         markersize=6)
+
+# 3. Personnalisation
+plt.title('Workload applied', fontsize=14, pad=20)
+plt.xlabel('Time (s)', fontsize=12)
+plt.ylabel('Workload', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.3)  # Grille discrète
+
+# 4. Sauvegarder en haute résolution
+plt.tight_layout()
+plt.savefig('flux_donnees.png', dpi=300, bbox_inches='tight')  # 300 DPI pour impression
 plt.show()

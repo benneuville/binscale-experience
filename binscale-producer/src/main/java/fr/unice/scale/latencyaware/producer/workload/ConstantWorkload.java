@@ -37,6 +37,7 @@ public class ConstantWorkload extends AbstractWorkload {
                 EventCustomer custm = new EventCustomer(rnd.nextInt(), id);
                 ProducerRecord<String, EventCustomer> ev = new ProducerRecord<>(config.getTopic(),
                         null, null, id, custm);
+                ev.headers().add(HEADER_EVENT_ID, id.getBytes());
                 producer.send(ev);
             }
 

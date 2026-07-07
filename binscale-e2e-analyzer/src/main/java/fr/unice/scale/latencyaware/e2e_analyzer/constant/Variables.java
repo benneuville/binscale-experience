@@ -22,9 +22,9 @@ public final class Variables extends CommonVariables {
     public static final String CLIENT_RACK = EnvUtils.envOrDefault("CLIENT_RACK", null);
     public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 500);
     @EnvVar(description = "Kafka session timeout in milliseconds")
-    public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "3000");
+    public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "30000");
     @EnvVar(description = "Heartbeat interval in milliseconds")
-    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "1000");
+    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "10000");
     @EnvVar(description = "Path to topic config file")
     public static final String TOPICS_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_CONFIG_PATH", "/config/e2e-analyzer-config.yaml");
 

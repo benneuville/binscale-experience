@@ -2,12 +2,14 @@ package fr.unice.scale.latencyaware.e2e_analyzer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.Instant;
 import java.util.Objects;
 
 @Entity
 @Table(name = "e2e_event")
+@BatchSize(size = 1000)
 public class E2EEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +21,10 @@ public class E2EEvent {
 
     @Column(nullable = false)
     private Instant timestamp;
-    @ManyToOne
-    @JoinColumn(name = "tracker_id", nullable = false)
+
+    @Column(name = "tracker_id", nullable = false)
     @JsonIgnore
-    private E2EEventTracker tracker;
+    private String trackerId;
 
     public E2EEvent() {
     }
@@ -32,10 +34,10 @@ public class E2EEvent {
         this.timestamp = timestamp;
     }
 
-    public E2EEvent(String nodeOrigin, Instant timestamp, E2EEventTracker tracker) {
+    public E2EEvent(String nodeOrigin, Instant timestamp, String trackerId) {
         this.nodeOrigin = nodeOrigin;
         this.timestamp = timestamp;
-        this.tracker = tracker;
+        this.trackerId = trackerId;
     }
 
 
@@ -63,12 +65,14 @@ public class E2EEvent {
         this.timestamp = timestamp;
     }
 
-    public E2EEventTracker getTracker() {
-        return tracker;
+    @JsonIgnore
+    public String getTrackerId() {
+        return trackerId;
     }
 
-    public void setTracker(E2EEventTracker tracker) {
-        this.tracker = tracker;
+    @JsonIgnore
+    public void setTrackerId(String trackerId) {
+        this.trackerId = trackerId;
     }
 
     @Override

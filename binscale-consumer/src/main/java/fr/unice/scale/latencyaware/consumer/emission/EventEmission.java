@@ -44,10 +44,12 @@ public class EventEmission {
             for (ConsumerRecord<String, EventCustomer> event : distributedEvent.getEvents()) {
                 ProducerRecord<String, EventCustomer> record = new ProducerRecord<>(
                         distributedEvent.getTargetTopic().getName(),
+
                         event.key(),
                         event.value()
                 );
                 record.headers().add(HEADER_GROUP_ID_KEY, GROUP_ID.getBytes());
+                record.headers().add(event.headers().lastHeader(HEADER_EVENT_ID));
                 producer.send(record);
             }
         }

@@ -149,12 +149,10 @@ public class CGMetaData {
 //
 //        }
 //        return processingCapacity / this.consumerGroup.getAssignment().size();
-        double totalProcessingRate = this.partitionsMetaData.values().stream().map(PartitionMetaData::getProcessingRate).reduce(0.0, Double::sum);
-        if (totalProcessingRate == 0)
-            totalProcessingRate = this.consumerGroup.getProcessingRateFallBack();
-        else
-            this.consumerGroup.setProcessingRateFallBack(totalProcessingRate);
-        return 1000 / (totalProcessingRate / this.partitionsMetaData.values().size());
+        double totalProcessingRate = this.partitionsMetaData.values().stream().map(PartitionMetaData::getProcessingRate).filter(d -> d > 0).reduce(0.0, Double::sum);
+        if (totalProcessingRate > 0)
+            this.consumerGroup.setProcessingRateFallBack(1000 / (totalProcessingRate / this.partitionsMetaData.values().stream().map(PartitionMetaData::getProcessingRate).filter(d -> d > 0).count()));
+        return this.consumerGroup.getProcessingRateFallBack();
     }
 
     public double getDynamicMaxLagCapacity() {

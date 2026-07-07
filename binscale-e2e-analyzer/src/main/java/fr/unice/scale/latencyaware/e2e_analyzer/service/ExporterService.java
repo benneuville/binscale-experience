@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import fr.unice.scale.latencyaware.e2e_analyzer.dto.E2EEventTrackerExportDto;
-import fr.unice.scale.latencyaware.e2e_analyzer.entity.model.E2EEventTracker;
+import fr.unice.scale.latencyaware.e2e_analyzer.entity.model.E2EEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,21 +30,20 @@ public class ExporterService {
                 .enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public void exportEvents(List<E2EEventTracker> eventTrackers) {
+    public void exportEvents(Map<String, List<E2EEvent>> eventTrackers) {
         exportEvents(eventTrackers, EXPORT_PATH);
     }
 
-    public void exportEvents(List<E2EEventTracker> eventTrackers, String filename) {
+    public void exportEvents(Map<String, List<E2EEvent>> eventTrackers, String filename) {
         try {
-            List<E2EEventTrackerExportDto> dtos = eventTrackers.stream()
-                    .map(E2EEventTrackerExportDto::new)
-                    .collect(Collectors.toList());
+            List<E2EEventTrackerExportDto> events = eventTrackers.entrySet().stream().map((e) -> new E2EEventTrackerExportDto(e.getKey(), e.getValue())).collect(Collectors.toList());
+
             Map<String, Object> exportData = Map.of(
                     "metadata", Map.of(
                             "timestamp", Instant.now().toString(),
-                            "count", eventTrackers.size()
+                            "count", events.size()
                     ),
-                    "data", dtos
+                    "data", events
             );
 
             objectMapper.writeValue(new File(filename), exportData);

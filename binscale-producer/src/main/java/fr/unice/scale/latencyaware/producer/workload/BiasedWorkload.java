@@ -54,6 +54,7 @@ public class BiasedWorkload extends AbstractWorkload {
                     EventCustomer custm = new EventCustomer(rnd.nextInt(), id);
                     ProducerRecord<String, EventCustomer> ev = new ProducerRecord<>(config.getTopic(),
                             partitionIndex, null, id, custm);
+                    ev.headers().add(HEADER_EVENT_ID, id.getBytes());
                     producer.send(ev);
                     partitionMessageCounts.put(partitionIndex, partitionMessageCounts.get(partitionIndex) + 1);
                 }
@@ -71,6 +72,7 @@ public class BiasedWorkload extends AbstractWorkload {
                 EventCustomer custm = new EventCustomer(rnd.nextInt(), id);
                 ProducerRecord<String, EventCustomer> ev = new ProducerRecord<>(config.getTopic(),
                         partition, null, id, custm);
+                ev.headers().add(HEADER_EVENT_ID, id.getBytes());
                 producer.send(ev);
                 partitionMessageCounts.put(partition, partitionMessageCounts.get(partition) + 1);
                 log.info("sent 1 remaining message to partition {}", partition);
