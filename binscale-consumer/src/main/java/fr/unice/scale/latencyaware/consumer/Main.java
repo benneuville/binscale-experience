@@ -7,6 +7,4 @@ public class Main {
         service.init();
         service.run();
     }
-
-
 }

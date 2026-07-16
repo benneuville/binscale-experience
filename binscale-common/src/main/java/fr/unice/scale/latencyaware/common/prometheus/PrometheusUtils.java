@@ -1,4 +1,5 @@
-package fr.unice.scale.latencyaware.consumer.metrics;
+package fr.unice.scale.latencyaware.common.prometheus;
+
 
 import com.sun.net.httpserver.HttpServer;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
@@ -18,7 +19,7 @@ public class PrometheusUtils {
     public static void initPrometheus() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-            server.createContext("/prometheus", httpExchange -> {
+            server.createContext("/fr/unice/scale/latencyaware/common/prometheus", httpExchange -> {
                 String response = prometheusRegistry.scrape();
                 httpExchange.sendResponseHeaders(200, response.getBytes().length);
                 try (OutputStream os = httpExchange.getResponseBody()) {

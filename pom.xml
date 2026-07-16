@@ -12,6 +12,7 @@
         <module>binscale-consumer</module>
         <module>binscale-producer</module>
         <module>binscale-e2e-analyzer</module>
+        <module>binscale-exporter</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

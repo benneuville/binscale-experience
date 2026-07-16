@@ -1,7 +1,7 @@
 package fr.unice.scale.latencyaware.consumer.config;
 
+import fr.unice.scale.latencyaware.common.emission.interceptor.EmissionInterceptor;
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
-import fr.unice.scale.latencyaware.consumer.emission.EmissionInterceptor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
