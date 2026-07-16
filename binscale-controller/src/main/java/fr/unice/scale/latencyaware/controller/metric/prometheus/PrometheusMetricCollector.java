@@ -26,8 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables.*;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.REB_TIME;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.getTimeRange;
+import static fr.unice.scale.latencyaware.controller.constant.Variables.*;
 
 public class PrometheusMetricCollector {
 
@@ -143,7 +142,7 @@ public class PrometheusMetricCollector {
                                                 .metric(EVENTS_PROCESSING_TIME)
                                                 .suffix(DistributionSummarySuffix.COUNT).build())
                                         .addTag(TAG_KAFKA_TOPIC, consumerGroup.getInputTopic())
-                                        .timeWindow(getTimeRange())
+                                        .timeWindow(getPRTimeRange())
                                 ).build()
                 );
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);

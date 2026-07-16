@@ -20,14 +20,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.16.0/micrometer-core-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-commons/1.16.0/micrometer-commons-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-observation/1.16.0/micrometer-observation-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-registry-prometheus/1.16.0/micrometer-registry-prometheus-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-core/1.4.2/prometheus-metrics-core-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-model/1.4.2/prometheus-metrics-model-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-config/1.4.2/prometheus-metrics-config-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-tracer-common/1.4.2/prometheus-metrics-tracer-common-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-formats/1.4.2/prometheus-metrics-exposition-formats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-textformats/1.4.2/prometheus-metrics-exposition-textformats-1.4.2.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.13.3/log4j-core-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.13.3/log4j-slf4j-impl-2.13.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.43.1/grpc-netty-shaded-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" />
@@ -50,6 +59,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar" />
         </processorPath>
         <module name="binscale-consumer" />
       </profile>
@@ -65,14 +91,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.16.0/micrometer-core-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-commons/1.16.0/micrometer-commons-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-observation/1.16.0/micrometer-observation-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-registry-prometheus/1.16.0/micrometer-registry-prometheus-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-core/1.4.2/prometheus-metrics-core-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-model/1.4.2/prometheus-metrics-model-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-config/1.4.2/prometheus-metrics-config-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-tracer-common/1.4.2/prometheus-metrics-tracer-common-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-formats/1.4.2/prometheus-metrics-exposition-formats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-textformats/1.4.2/prometheus-metrics-exposition-textformats-1.4.2.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.13.3/log4j-core-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.13.3/log4j-slf4j-impl-2.13.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.43.1/grpc-netty-shaded-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" />
@@ -95,6 +130,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar" />
         </processorPath>
         <module name="binscale-e2e-analyzer" />
       </profile>
@@ -110,14 +162,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.16.0/micrometer-core-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-commons/1.16.0/micrometer-commons-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-observation/1.16.0/micrometer-observation-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-registry-prometheus/1.16.0/micrometer-registry-prometheus-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-core/1.4.2/prometheus-metrics-core-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-model/1.4.2/prometheus-metrics-model-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-config/1.4.2/prometheus-metrics-config-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-tracer-common/1.4.2/prometheus-metrics-tracer-common-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-formats/1.4.2/prometheus-metrics-exposition-formats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-textformats/1.4.2/prometheus-metrics-exposition-textformats-1.4.2.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.13.3/log4j-core-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.13.3/log4j-slf4j-impl-2.13.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.43.1/grpc-netty-shaded-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" />
@@ -140,6 +201,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar" />
         </processorPath>
         <module name="binscale-producer" />
       </profile>
@@ -155,14 +233,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.16.0/micrometer-core-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-commons/1.16.0/micrometer-commons-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-observation/1.16.0/micrometer-observation-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-registry-prometheus/1.16.0/micrometer-registry-prometheus-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-core/1.4.2/prometheus-metrics-core-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-model/1.4.2/prometheus-metrics-model-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-config/1.4.2/prometheus-metrics-config-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-tracer-common/1.4.2/prometheus-metrics-tracer-common-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-formats/1.4.2/prometheus-metrics-exposition-formats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-textformats/1.4.2/prometheus-metrics-exposition-textformats-1.4.2.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.13.3/log4j-core-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.13.3/log4j-slf4j-impl-2.13.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.43.1/grpc-netty-shaded-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" />
@@ -185,6 +272,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar" />
         </processorPath>
         <module name="binscale-controller" />
       </profile>
@@ -199,14 +303,23 @@
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.16.0/micrometer-core-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-commons/1.16.0/micrometer-commons-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-observation/1.16.0/micrometer-observation-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-registry-prometheus/1.16.0/micrometer-registry-prometheus-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-core/1.4.2/prometheus-metrics-core-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-model/1.4.2/prometheus-metrics-model-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-config/1.4.2/prometheus-metrics-config-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-tracer-common/1.4.2/prometheus-metrics-tracer-common-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-formats/1.4.2/prometheus-metrics-exposition-formats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-textformats/1.4.2/prometheus-metrics-exposition-textformats-1.4.2.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.13.3/log4j-core-2.13.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-slf4j-impl/2.13.3/log4j-slf4j-impl-2.13.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.43.1/grpc-netty-shaded-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" />
@@ -229,8 +342,96 @@
           <entry name="$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar" />
         </processorPath>
         <module name="binscale-common" />
+      </profile>
+      <profile name="Annotation profile for binscale-exporter" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="project.basedir" value="C:\Users\bneuv\Documents\exp-PhD\binscale-experience\binscale-exporter" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/binscale-common/target/classes" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.18.1/jackson-databind-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.18.1/jackson-annotations-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.18.1/jackson-core-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.1/jackson-dataformat-yaml-2.18.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.16.0/micrometer-core-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-commons/1.16.0/micrometer-commons-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-observation/1.16.0/micrometer-observation-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micrometer/micrometer-registry-prometheus/1.16.0/micrometer-registry-prometheus-1.16.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-core/1.4.2/prometheus-metrics-core-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-model/1.4.2/prometheus-metrics-model-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-config/1.4.2/prometheus-metrics-config-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-tracer-common/1.4.2/prometheus-metrics-tracer-common-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-formats/1.4.2/prometheus-metrics-exposition-formats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/prometheus/prometheus-metrics-exposition-textformats/1.4.2/prometheus-metrics-exposition-textformats-1.4.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-netty-shaded/1.43.1/grpc-netty-shaded-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/checkerframework/checker-compat-qual/2.5.5/checker-compat-qual-2.5.5.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.9.0/error_prone_annotations-2.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/perfmark/perfmark-api/0.23.0/perfmark-api-0.23.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-core/1.43.1/grpc-core-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.19/animal-sniffer-annotations-1.19.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-services/1.43.1/grpc-services-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java-util/3.19.1/protobuf-java-util-3.19.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf/1.43.1/grpc-protobuf-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-api/1.43.1/grpc-api-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-context/1.43.1/grpc-context-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/3.19.1/protobuf-java-3.19.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-protobuf-lite/1.43.1/grpc-protobuf-lite-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/grpc/grpc-stub/1.43.1/grpc-stub-1.43.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar" />
+          <entry name="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar" />
+        </processorPath>
+        <module name="binscale-exporter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -250,6 +451,7 @@
       <module name="binscale-consumer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor -Aproject.basedir=C:\Users\bneuv\Documents\exp-PhD\binscale-experience\binscale-consumer" />
       <module name="binscale-controller" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor -Aproject.basedir=C:\Users\bneuv\Documents\exp-PhD\binscale-experience\binscale-controller" />
       <module name="binscale-e2e-analyzer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor -Aproject.basedir=C:\Users\bneuv\Documents\exp-PhD\binscale-experience\binscale-e2e-analyzer" />
+      <module name="binscale-exporter" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor -Aproject.basedir=C:\Users\bneuv\Documents\exp-PhD\binscale-experience\binscale-exporter" />
       <module name="binscale-producer" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor -Aproject.basedir=C:\Users\bneuv\Documents\exp-PhD\binscale-experience\binscale-producer" />
       <module name="i3s" options="-processor fr.unice.scale.latencyaware.common.processor.EnvVarProcessor" />
       <module name="parent-project" options="" />

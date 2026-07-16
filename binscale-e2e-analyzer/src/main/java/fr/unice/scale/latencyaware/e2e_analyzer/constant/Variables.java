@@ -3,6 +3,7 @@ package fr.unice.scale.latencyaware.e2e_analyzer.constant;
 import fr.unice.scale.latencyaware.common.constant.CommonVariables;
 import fr.unice.scale.latencyaware.common.doc.EnvVar;
 import fr.unice.scale.latencyaware.common.utils.EnvUtils;
+import fr.unice.scale.latencyaware.e2e_analyzer.entity.ModeState;
 
 public final class Variables extends CommonVariables {
 
@@ -19,12 +20,19 @@ public final class Variables extends CommonVariables {
     public static final Long MESSAGE_COUNT = EnvUtils.envOrDefault("MESSAGE_COUNT", 10L);
     @EnvVar(description = "Client rack")
     public static final String CLIENT_RACK = EnvUtils.envOrDefault("CLIENT_RACK", null);
-    public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 200);
+    public static final int MAX_POLL_RECORDS = EnvUtils.envOrDefault("MAX_POLL_RECORDS", 500);
     @EnvVar(description = "Kafka session timeout in milliseconds")
-    public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "3000");
+    public static final String SESSION_TIMEOUT_MS = EnvUtils.envOrDefault("SESSION_TIMEOUT_MS", "30000");
     @EnvVar(description = "Heartbeat interval in milliseconds")
-    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "1000");
+    public static final String HEARTBEAT_INTERVAL_MS = EnvUtils.envOrDefault("HEARTBEAT_INTERVAL_MS", "10000");
     @EnvVar(description = "Path to topic config file")
     public static final String TOPICS_CONFIG_PATH = EnvUtils.envOrDefault("TOPICS_CONFIG_PATH", "/config/e2e-analyzer-config.yaml");
 
+    @EnvVar(description = "Path to topic config file")
+    public static final String EXPORT_PATH = EnvUtils.envOrDefault("EXPORT_PATH", "/export/export-e2e-analyze.json");
+
+    @EnvVar(description = "Mode of the e2e analyzer (CONSUME / EXPORT)")
+    public static final ModeState MODE = EnvUtils.env("MODE", ModeState::valueOf);
+
+    public static final String E2E_EVENT_TRACKER_FETCH_ALL = "e2e_event_tracker_fetch_all";
 }

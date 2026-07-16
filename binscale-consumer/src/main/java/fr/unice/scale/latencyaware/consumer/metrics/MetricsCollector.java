@@ -1,6 +1,7 @@
 package fr.unice.scale.latencyaware.consumer.metrics;
 
 import fr.unice.scale.latencyaware.common.entity.EventCustomer;
+import fr.unice.scale.latencyaware.common.prometheus.PrometheusUtils;
 import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.Meter;

@@ -24,7 +24,7 @@ public class DuplicateProcessStrategy extends ProcessStrategy {
         for (ConsumerRecord<String, EventCustomer> eventCustomer : events) {
             // Simulate processing
             eventProcessor.accept(eventCustomer);
-            distributedEvents.forEach(t -> t.addEvent(eventCustomer.value()));
+            distributedEvents.forEach(t -> t.addEvent(eventCustomer));
         }
 
         return distributedEvents;

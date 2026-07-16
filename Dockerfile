@@ -1,14 +1,11 @@
-FROM openjdk:11.0.16-jdk
-##dockerfile
-# Update and install necessary packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    openjdk-11-jdk \
-    openssl \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+FROM eclipse-temurin:17-jdk
 
-# Set JAVA_HOME environment variable
-ENV JAVA_HOME /usr/lib/jvm/java
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
 
 # Set default command and entrypoint
 CMD ["echo", "No default command specified"]

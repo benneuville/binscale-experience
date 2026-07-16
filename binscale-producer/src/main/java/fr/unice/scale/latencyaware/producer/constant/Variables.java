@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
  * Define environment variables and theirs default value
  */
 public final class Variables extends CommonVariables {
+
+    @EnvVar(description = "producer id/name to identify event provenance")
+    public static final String PRODUCER_ID = EnvUtils.envString("PRODUCER_ID");
     @EnvVar(description = "Topic name. Example : 'testtopic1'")
     public static final String TOPIC = EnvUtils.envString("TOPIC");
     @EnvVar(description = "List of partition weights, comma separated. Example : '1,1,1,1,1'")

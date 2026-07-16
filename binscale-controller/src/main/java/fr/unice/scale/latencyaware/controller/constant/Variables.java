@@ -40,4 +40,8 @@ public final class Variables extends CommonVariables {
     public static String getTimeRange() {
         return REQUEST_TIME_RANGE + REQUEST_TIME_UNIT;
     }
+
+    public static String getPRTimeRange() {
+        return REQUEST_TIME_RANGE + REQUEST_TIME_UNIT;
+    }
 }
