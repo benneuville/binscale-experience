@@ -118,6 +118,7 @@ public class PrometheusClient implements ClientMetricCollector {
     public <K, V> Map<K, V> mappedResultQuery(String request, String mapKey,
                                               Class<K> keyClass, Class<V> valueClass) throws MetricResultEmptyException {
         JSONObject response = JSONObject.parseObject(rawQuery(request));
+        logger.info("| Query : {} \n| Response : {}", request, response.toJSONString());
 
         JSONArray results = response.getJSONObject("data")
                 .getJSONArray("result");
@@ -164,9 +165,12 @@ public class PrometheusClient implements ClientMetricCollector {
     @Override
     public <T> T query(String request, JavaType type) throws MetricResultEmptyException {
         JSONObject response = JSONObject.parseObject(rawQuery(request));
-
+        logger.info("|| Query : {} \n|| Response : {}", request, response.toJSONString());
         JSONObject data = response.getJSONObject("data");
         String resultType = data.getString("resultType");
+        if (data.getJSONArray("result").isEmpty()) {
+            throw new MetricResultEmptyException(request);
+        }
         JSONObject first = data.getJSONArray("result").getJSONObject(0);
         if (first == null) {
             throw new MetricResultEmptyException(request);

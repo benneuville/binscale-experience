@@ -26,7 +26,7 @@ public class EnvVarProcessor extends AbstractProcessor {
 
     private static StringBuilder markdown = new StringBuilder();
 
-    private final String ENV_SECTION_HEADER = "## 🔧 Environment Variables\n\n";
+    private final String ENV_SECTION_HEADER = "## Environment Variables\n\n";
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -80,7 +80,7 @@ public class EnvVarProcessor extends AbstractProcessor {
             String existing = Files.exists(readme) ? Files.readString(readme) : "";
 
             Pattern sectionPattern = Pattern.compile(
-                    "(?s)## . Environment Variables\\s*.*?(?=\\n## |\\Z)"
+                    "(?s)## Environment Variables\\s*.*?(?=\\n## |\\Z)"
             );
 
             Matcher sectionMatcher = sectionPattern.matcher(existing);

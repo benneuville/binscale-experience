@@ -57,6 +57,13 @@ public class BinscaleE2EIngestionConfig extends KafkaConsumerConfig {
         props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, config.getHeartbeatIntervalMs());
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, config.getSessionTimeoutMs());
         props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, StickyAssignor.class.getName());
+        // Added for sync
+        props.put(ConsumerConfig.METADATA_MAX_AGE_CONFIG, "300000");
+        props.put(ConsumerConfig.RECONNECT_BACKOFF_MS_CONFIG, "1000");
+        props.put(ConsumerConfig.RECONNECT_BACKOFF_MAX_MS_CONFIG, "10000");
+        props.put(ConsumerConfig.RETRY_BACKOFF_MS_CONFIG, "1000");
+        props.put(ConsumerConfig.RETRY_BACKOFF_MAX_MS_CONFIG, "5000");
+        
 
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok = new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -121,7 +128,7 @@ public class BinscaleE2EIngestionConfig extends KafkaConsumerConfig {
                 ", clientRack='" + clientRack + '\'' +
                 ", messageCount=" + messageCount +
                 ", additionalConfig='" + additionalConfig + '\'' +
-                '}';
+                '}' ;
     }
 }
 

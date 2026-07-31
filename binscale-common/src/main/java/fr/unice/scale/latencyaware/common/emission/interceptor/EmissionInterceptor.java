@@ -8,6 +8,8 @@ import io.micrometer.core.instrument.DistributionSummary;
 import org.apache.kafka.clients.producer.ProducerInterceptor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +19,14 @@ import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariabl
 
 public class EmissionInterceptor implements
         ProducerInterceptor<String, EventCustomer> {
-
     public static Map<String, DistributionSummary> topicToDist = new HashMap<>();
+    public Logger log = LoggerFactory.getLogger(EmissionInterceptor.class);
+    private String topic;
 
-    private final String topic;
+    private String groupId;
 
-    private final String groupId;
+    public EmissionInterceptor() {
+    }
 
     public EmissionInterceptor(String topic) {
         this.topic = topic;
@@ -38,7 +42,6 @@ public class EmissionInterceptor implements
     public ProducerRecord<String, EventCustomer> onSend
             (ProducerRecord<String, EventCustomer> producerRecord) {
         String topicto = producerRecord.topic();
-
         DistributionSummary dist = topicToDist.get(topicto);
 
         if (dist == null) {
@@ -64,7 +67,12 @@ public class EmissionInterceptor implements
     }
 
     @Override
-    public void configure(Map<String, ?> map) {
-
+    public void configure(Map<String, ?> configs) {
+        this.topic = (String) configs.get("emission.interceptor.topic");
+        this.groupId = (String) configs.get("emission.interceptor.groupId");
+        if (this.groupId == null) {
+            this.groupId = EXTERNAL_GROUP_NAME;
+        }
+        log.info(groupId);
     }
 }

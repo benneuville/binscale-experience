@@ -1,6 +1,7 @@
 package fr.unice.scale.latencyaware.producer.config;
 
 import fr.unice.scale.latencyaware.common.utils.CustomerSerializer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,6 +60,13 @@ public class BinscaleKafkaProducerConfig {
         // NO BATCH SENDING
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
+        // Added for sync
+        props.put(ProducerConfig.METADATA_MAX_AGE_CONFIG, "300000");
+        props.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG, "1000");
+        props.put(ProducerConfig.RECONNECT_BACKOFF_MAX_MS_CONFIG, "10000");
+        props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, "1000");
+        props.put(ProducerConfig.RETRY_BACKOFF_MAX_MS_CONFIG, "5000");
+
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -119,6 +127,6 @@ public class BinscaleKafkaProducerConfig {
                 ", acks='" + acks + '\'' +
                 ", headers='" + headers + '\'' +
                 ", additionalConfig='" + additionalConfig + '\'' +
-                '}';
+                '}' ;
     }
 }

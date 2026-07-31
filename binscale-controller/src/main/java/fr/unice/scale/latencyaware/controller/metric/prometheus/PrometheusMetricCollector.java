@@ -5,23 +5,18 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import fr.unice.scale.latencyaware.common.error.exception.MetricResultEmptyException;
 import fr.unice.scale.latencyaware.common.utils.prometheus.SimpleQueryBuilder;
 import fr.unice.scale.latencyaware.common.utils.prometheus.enums.DistributionSummarySuffix;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.DistributionSummaryMetricQueryBuilder;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.MetricBuilder;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.RateMetricQueryBuilder;
-import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.SumMetricBuilder;
+import fr.unice.scale.latencyaware.common.utils.prometheus.metrics.*;
 import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.Partition;
 import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import fr.unice.scale.latencyaware.controller.entity.graph.Vertex;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
-import fr.unice.scale.latencyaware.controller.entity.metric.ArrivalRatePerProviderMetric;
 import fr.unice.scale.latencyaware.controller.entity.metric.DoubleMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -61,25 +56,6 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    /**
-     * Raw arrival rate metric collection per partition for a ConsumerGroup
-     *
-     * @return map (PartitionId, ArrivalRateValue)
-     */
-    public Map<Integer, DoubleMetric> collectArrivalRateByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
-        SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
-                .query(
-                        RateMetricQueryBuilder.builder().metric(
-                                MetricBuilder.builder()
-                                        .name(KAFKA_TOPIC_PARTITION_CURRENT_OFFSET)
-                                        .addTag(TAG_KAFKA_TOPIC, consumerGroup.getInputTopic())
-                                        .timeWindow(getTimeRange())
-                                        .build()
-                        ).build()
-                );
-        return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
-    }
-
     public Map<Integer, DoubleMetric> latencyByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
@@ -109,15 +85,14 @@ public class PrometheusMetricCollector {
         return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, Integer.class, DoubleMetric.class);
     }
 
-    public Map<Integer, List<ArrivalRatePerProviderMetric>> processingArrivalRatePerProvider(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
+    public Map<String, DoubleMetric> totalArrivalRatePerProvider(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
         SimpleQueryBuilder queryBuilder = SimpleQueryBuilder.builder()
                 .query(
                         SumMetricBuilder.builder()
                                 .metric(RateMetricQueryBuilder.builder()
                                         .metric(MetricBuilder.builder()
-                                                .name(DistributionSummaryMetricQueryBuilder.builder()
-                                                        .metric(EVENTS_PROCESSING_TIME)
-                                                        .suffix(DistributionSummarySuffix.COUNT)
+                                                .name(CounterMetricQueryBuilder.builder()
+                                                        .metric(MESSAGE_COUNTER_NAME)
                                                         .build()
                                                 )
                                                 .addTag(TAG_KAFKA_TOPIC, consumerGroup.getInputTopic())
@@ -126,11 +101,12 @@ public class PrometheusMetricCollector {
                                         )
                                         .build()
                                 )
-                                .addByTag(TAG_KAFKA_PARTITION)
+//                                .addByTag(TAG_KAFKA_PARTITION)
                                 .addByTag(TAG_PROVIDER_GROUP_ID)
                                 .build()
                 );
-        return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_KAFKA_PARTITION, List.of(TAG_PROVIDER_GROUP_ID), Integer.class, ArrivalRatePerProviderMetric.class);
+        log.info("Query buided on arrival rate {}", queryBuilder.build());
+        return clientMetricCollector.mappedResultQuery(queryBuilder.build(), TAG_PROVIDER_GROUP_ID, String.class, DoubleMetric.class);
     }
 
     public Map<Integer, DoubleMetric> processingCountByPartition(ConsumerGroup consumerGroup) throws MetricResultEmptyException {
@@ -160,28 +136,23 @@ public class PrometheusMetricCollector {
             Map<ConsumerGroup, CGMetaData> consumerGroupMetaDatas = new HashMap<>();
             for (ConsumerGroup cg : graph.topologicalSort().stream().map(Vertex::getGroup).collect(Collectors.toList())) {
                 CGMetaData metaData = new CGMetaData(cg, REB_TIME);
-                Map<Integer, List<ArrivalRatePerProviderMetric>> aRPerProvider = processingArrivalRatePerProvider(cg);
-                for (Integer partitionId : aRPerProvider.keySet()) {
-                    for (ArrivalRatePerProviderMetric ar : aRPerProvider.get(partitionId)) {
-                        metaData.getPartitionMetaData(partitionId).putArrivalRate(ar.getProviderGroupId(), ar.getValue());
-                    }
+                Map<String, DoubleMetric> aRPerProvider = totalArrivalRatePerProvider(cg);
+                for (Map.Entry<String, DoubleMetric> ar : aRPerProvider.entrySet()) {
+                    // AVG AR per Provider
+                    Double avgARperProvider = ar.getValue().getValue() / metaData.getPartitionsMetaData().size();
+                    metaData.getPartitionsMetaData().values().forEach(pmd -> pmd.putArrivalRate(ar.getKey(), avgARperProvider));
                 }
 
                 Map<Integer, DoubleMetric> lagByPartition = collectLagByPartition(cg);
-                // AVG
+                // AVG lag
                 Double avgLag = lagByPartition.values().stream().reduce(0.0, (sum, metric) -> sum + metric.getValue(), Double::sum) / lagByPartition.size();
                 for (Integer partitionId : lagByPartition.keySet()) {
 //                    metaData.getPartitionMetaData(partitionId).setLag(lagByPartition.get(partitionId).getValue().longValue());
                     metaData.getPartitionMetaData(partitionId).setLag(avgLag.longValue());
                 }
-                // TODO: May be removeable bc of arPerProvider : ARPartition -> Sum(arPerProvider(partition))
-//                Map<Integer, DoubleMetric> arrivalRateByPartition = collectArrivalRateByPartition(cg);
-//                for (Integer partitionId : arrivalRateByPartition.keySet()) {
-//                    metaData.getPartitionMetaData(partitionId).setArrivalRate(arrivalRateByPartition.get(partitionId).getValue());
-//                }
 
                 Map<Integer, DoubleMetric> latency = latencyByPartition(cg);
-                // AVG
+                // AVG latency
                 double avgLatency = latency.values().stream().reduce(0.0, (sum, metric) -> sum + metric.getValue(), Double::sum) / latency.size();
                 for (Integer partitionId : latency.keySet()) {
 //                    metaData.getPartitionMetaData(partitionId).setLatency(latency.get(partitionId).getValue());

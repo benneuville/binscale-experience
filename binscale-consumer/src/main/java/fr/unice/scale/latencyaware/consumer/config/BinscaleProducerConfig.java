@@ -62,6 +62,15 @@ public class BinscaleProducerConfig {
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
         props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, Collections.singletonList(EmissionInterceptor.class));
+        props.put("emission.interceptor.topic", config.getTopic());
+        props.put("emission.interceptor.groupId", GROUP_ID);
+        // Added for sync
+        props.put(ProducerConfig.METADATA_MAX_AGE_CONFIG, "300000");
+        props.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG, "1000");
+        props.put(ProducerConfig.RECONNECT_BACKOFF_MAX_MS_CONFIG, "10000");
+        props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, "1000");
+        props.put(ProducerConfig.RETRY_BACKOFF_MAX_MS_CONFIG, "5000");
+
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -107,6 +116,6 @@ public class BinscaleProducerConfig {
                 ", acks='" + acks + '\'' +
                 ", headers='" + headers + '\'' +
                 ", additionalConfig='" + additionalConfig + '\'' +
-                '}';
+                '}' ;
     }
 }
