@@ -21,7 +21,7 @@ public class CGMetaData {
         }
 
         for (Consumer c : consumerGroup.getAssignment()) {
-            consumersMetaData.put(c, new ConsumerMetaData(c, 0)); //TODO give the dynamic processing capacity
+            consumersMetaData.put(c, new ConsumerMetaData(c, 0));
         }
     }
 

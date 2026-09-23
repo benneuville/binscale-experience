@@ -11,8 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.SetEnvironmentVariable;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables.*;
-import static fr.unice.scale.latencyaware.controller.constant.Variables.getTimeRange;
+import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables.EVENTS_PROCESSING_TIME;
+import static fr.unice.scale.latencyaware.common.utils.MetricUtils.MetricVariables.TAG_KAFKA_TOPIC;
 
 @ExtendWith(MockitoExtension.class)
 public class PrometheusMetricCollectorTest {
@@ -33,18 +33,22 @@ public class PrometheusMetricCollectorTest {
                                         .metric(MetricBuilder.builder()
                                                 .name(DistributionSummaryMetricQueryBuilder.builder()
                                                         .metric(EVENTS_PROCESSING_TIME)
-                                                        .suffix(DistributionSummarySuffix.COUNT)
-                                                        .build()
-                                                )
+                                                        .suffix(DistributionSummarySuffix.COUNT).build())
                                                 .addTag(TAG_KAFKA_TOPIC, "topic")
-                                                .timeWindow(getTimeRange())
-                                                .build()
-                                        )
-                                        .build()
-                                )
-                                .addByTag(TAG_KAFKA_PARTITION)
-                                .addByTag(TAG_PROVIDER_GROUP_ID)
-                                .build()
+                                                .timeWindow("5s")
+                                        ).build()
+                                ).build()
+                                + "/" +
+                                SumMetricBuilder.builder()
+                                        .metric(RateMetricQueryBuilder.builder()
+                                                .metric(MetricBuilder.builder()
+                                                        .name(DistributionSummaryMetricQueryBuilder.builder()
+                                                                .metric(EVENTS_PROCESSING_TIME)
+                                                                .suffix(DistributionSummarySuffix.SUM).build())
+                                                        .addTag(TAG_KAFKA_TOPIC, "topic")
+                                                        .timeWindow("5s")
+                                                ).build()
+                                        ).build()
                 );
         System.out.println(queryBuilder.build());
 

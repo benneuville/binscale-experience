@@ -14,13 +14,6 @@ ENTRYPOINT ["echo", "No entrypoint specified"]
 # Copy producer JAR
 COPY binscale-producer/target/binscale-producer-1.0-SNAPSHOT.jar /app/producer.jar
 
-#COPY ./scripts/ /bin
-##COPY restructurebinpack/src/main/resources/log4j2.properties /bin/log4j2.properties
-
-##ADD restructurebinpack/target/restructure-1.0-SNAPSHOT.jar /app/Controller.jar
-#CMD ["java", "DEBUG_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005" , "-jar" , "/Controller-1.0-SNAPSHOT.jar"]
-# ENTRYPOINT [ "sh", "-c", "java $DEBUG_OPTIONS -jar /restructure-1.0-SNAPSHOT.jar" 
-
 # Copy binscale-consumer JAR
 COPY binscale-consumer/target/binscale-consumer-1.0-SNAPSHOT.jar /app/consumer.jar
 
@@ -31,16 +24,7 @@ ADD binscale-controller/target/binscale-controller-1.0-SNAPSHOT.jar /app/Control
 
 COPY binscale-e2e-analyzer/target/binscale-e2e-analyzer-1.0-SNAPSHOT.jar /app/e2e-analyzer.jar
 
-
-## COPY ./scripts/ /bin
-# COPY graphcontroller2/src/main/resources/log4j2.properties /bin/log4j2.properties
-# ADD graphcontroller2/target/graphcontroller2-1.0-SNAPSHOT.jar /app/Controller.jar
-# ENTRYPOINT [ "sh", "-c", "java $DEBUG_OPTIONS -jar /graphcontroller2-1.0-SNAPSHOT.jar" ]
-
-
-
-# Copy multipleConsumers JAR
-# COPY multipleConsumers/target/multipleConsumers-1.0-SNAPSHOT.jar /app/consumer.jar
+COPY binscale-exporter/target/binscale-exporter-1.0-SNAPSHOT.jar /app/exporter.jar
 
 
 

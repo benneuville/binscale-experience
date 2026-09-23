@@ -62,6 +62,9 @@ public class BinscaleProducerConfig {
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomerSerializer.class.getName());
         props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, Collections.singletonList(EmissionInterceptor.class));
+        props.put("emission.interceptor.topic", config.getTopic());
+        props.put("emission.interceptor.groupId", GROUP_ID);
+
         if (!config.getAdditionalConfig().isEmpty()) {
             StringTokenizer tok =
                     new StringTokenizer(config.getAdditionalConfig(), ", \t\n\r");
@@ -107,6 +110,6 @@ public class BinscaleProducerConfig {
                 ", acks='" + acks + '\'' +
                 ", headers='" + headers + '\'' +
                 ", additionalConfig='" + additionalConfig + '\'' +
-                '}';
+                '}' ;
     }
 }

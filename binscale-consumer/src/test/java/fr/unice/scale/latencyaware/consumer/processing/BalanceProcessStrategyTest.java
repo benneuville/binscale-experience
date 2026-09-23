@@ -4,6 +4,7 @@ import fr.unice.scale.latencyaware.common.entity.EventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributedEventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
 import fr.unice.scale.latencyaware.consumer.entity.ProcessStrategyMapping;
+import fr.unice.scale.latencyaware.consumer.entity.ProducerTopicDistribution;
 import fr.unice.scale.latencyaware.consumer.processing.strategy.ProcessStrategy;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.SetEnvironmentVariable;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,35 @@ public class BalanceProcessStrategyTest {
     public void testStrategy() {
         List<DistributedEventCustomer> eventsDistributed = balanceProcessStrategy.process(distributionConfig, consumerRecords);
         assertEquals(0, eventsDistributed.size());
+    }
+
+    @Test
+    public void testDistrib() {
+
+        DistributionConfig config = new DistributionConfig();
+        config.setOutput(List.of(new ProducerTopicDistribution("topic1", 1F), new ProducerTopicDistribution("topic2", 0.65F)));
+        int originalEventSize = 10;
+        List<ConsumerRecord<String, EventCustomer>> eventList = new ArrayList<>();
+        for (int i = 0; i < originalEventSize; i++) {
+            eventList.add(new ConsumerRecord<>("topic0", i, i, "topic0-" + i, new EventCustomer(i, "name")));
+        }
+
+        int index = 0;
+
+        List<DistributedEventCustomer> distributedEvents = new ArrayList<>();
+
+
+        for (ProducerTopicDistribution topic : config.getOutput()) {
+            int numberEventsForTopic = Math.round(originalEventSize * topic.getRatio());
+            DistributedEventCustomer distributedEvent = new DistributedEventCustomer(topic);
+            for (int i = 0; i < numberEventsForTopic; i++) {
+                distributedEvent.addEvent(eventList.get((index + i) % originalEventSize));
+            }
+            distributedEvents.add(distributedEvent);
+            index = (index + numberEventsForTopic) % originalEventSize;
+        }
+
+        System.out.println(distributedEvents);
     }
 
 }

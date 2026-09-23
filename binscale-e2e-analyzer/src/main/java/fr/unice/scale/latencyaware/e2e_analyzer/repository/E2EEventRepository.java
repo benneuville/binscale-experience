@@ -17,6 +17,7 @@ public interface E2EEventRepository extends JpaRepository<E2EEvent, Long> {
                     jsonb_build_object(
                         'id', id,
                         'nodeOrigin', node_origin,
+                        'previousNode', previous_node,
                         'timestamp', timestamp
                     ) ORDER BY timestamp
                 ) as events

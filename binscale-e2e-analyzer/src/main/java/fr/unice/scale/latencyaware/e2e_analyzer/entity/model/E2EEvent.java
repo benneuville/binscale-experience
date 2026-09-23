@@ -19,12 +19,19 @@ public class E2EEvent {
     @Column(name = "node_origin", nullable = false)
     private String nodeOrigin;
 
+    @Column(name = "previous_node", nullable = false)
+    private String previousNode;
+
     @Column(nullable = false)
     private Instant timestamp;
 
     @Column(name = "tracker_id", nullable = false)
     @JsonIgnore
     private String trackerId;
+
+    // Latency between previousNode and nodeOrigin
+    @Transient
+    private int latency = 0;
 
     public E2EEvent() {
     }
@@ -34,8 +41,9 @@ public class E2EEvent {
         this.timestamp = timestamp;
     }
 
-    public E2EEvent(String nodeOrigin, Instant timestamp, String trackerId) {
+    public E2EEvent(String nodeOrigin, String previousNode, Instant timestamp, String trackerId) {
         this.nodeOrigin = nodeOrigin;
+        this.previousNode = previousNode;
         this.timestamp = timestamp;
         this.trackerId = trackerId;
     }
@@ -55,6 +63,26 @@ public class E2EEvent {
 
     public void setNodeOrigin(String nodeOrigin) {
         this.nodeOrigin = nodeOrigin;
+    }
+
+    public String getPreviousNode() {
+        return this.previousNode;
+    }
+
+    public void setPreviousNode(String previousNode) {
+        this.previousNode = previousNode;
+    }
+
+    public int getLatency() {
+        return this.latency;
+    }
+
+    public void setLatency(int latency) {
+        this.latency = latency;
+    }
+
+    public void setLatency(Instant previousNodeInstant) {
+        this.latency = Math.abs(previousNodeInstant.compareTo(this.timestamp));
     }
 
     public Instant getTimestamp() {
@@ -80,14 +108,17 @@ public class E2EEvent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         E2EEvent e2EEvent = (E2EEvent) o;
-        return Objects.equals(id, e2EEvent.id);
+        return Objects.equals(id, e2EEvent.id)
+                || (
+                Objects.equals(timestamp, e2EEvent.timestamp)
+                        && nodeOrigin.equals(e2EEvent.nodeOrigin)
+                        && previousNode.equals(e2EEvent.previousNode));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(timestamp.getEpochSecond()) + Objects.hash(nodeOrigin) + Objects.hash(previousNode);
     }
-
 
     @Override
     public String toString() {

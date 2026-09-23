@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_EVENT_ID;
-import static fr.unice.scale.latencyaware.common.constant.CommonVariables.HEADER_GROUP_ID_KEY;
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.*;
 import static fr.unice.scale.latencyaware.consumer.constant.Variables.GROUP_ID;
 
 public class EventEmission {
@@ -48,6 +47,7 @@ public class EventEmission {
                         event.key(),
                         event.value()
                 );
+                record.headers().add(HEADER_PREVIOUS_GROUP_ID_KEY, event.headers().lastHeader(HEADER_GROUP_ID_KEY).value());
                 record.headers().add(HEADER_GROUP_ID_KEY, GROUP_ID.getBytes());
                 record.headers().add(event.headers().lastHeader(HEADER_EVENT_ID));
                 producer.send(record);

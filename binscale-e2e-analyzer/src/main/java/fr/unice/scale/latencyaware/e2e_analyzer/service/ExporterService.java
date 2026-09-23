@@ -36,7 +36,8 @@ public class ExporterService {
 
     public void exportEvents(Map<String, List<E2EEvent>> eventTrackers, String filename) {
         try {
-            List<E2EEventTrackerExportDto> events = eventTrackers.entrySet().stream().map((e) -> new E2EEventTrackerExportDto(e.getKey(), e.getValue())).collect(Collectors.toList());
+            List<E2EEventTrackerExportDto> events = eventTrackers.entrySet().stream().map(
+                    (e) -> new E2EEventTrackerExportDto(e.getKey(), e.getValue())).collect(Collectors.toList());
 
             Map<String, Object> exportData = Map.of(
                     "metadata", Map.of(

@@ -50,6 +50,7 @@ public class E2EAnalyzerService {
         for (Topic topic : config.getTopics()) {
             evIngest.add(new E2EAnalyzerEventIngestion(BinscaleE2EIngestionConfig.fromEnv(topic.getName()), offsetRepository));
         }
+        log.info("⏳ En attente de l'assignation des partitions...");
 
         while (true) {
             boolean isAssigned = false;
@@ -66,7 +67,6 @@ public class E2EAnalyzerService {
                 log.info("✅ Partition assignée. Démarrage du traitement...");
                 break;
             }
-            log.info("⏳ En attente de l'assignation des partitions...");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -116,7 +116,6 @@ public class E2EAnalyzerService {
         List<ConsumerRecord<String, EventCustomer>> batchToSend = new ArrayList<>(messageBuffer);
         messageBuffer.clear();
 
-        log.debug("Envoi d'un batch de {} messages", batchToSend.size());
         eventMerger.eventMerger(batchToSend);
     }
 

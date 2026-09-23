@@ -42,7 +42,7 @@ public class ControllerService implements Runnable {
     }
 
     public void init() {
-
+        log.info("Controller initialisation...");
         server = new AssignmentServer(5002);
         Thread serverthread = new Thread(server);
         serverthread.start();
@@ -62,6 +62,7 @@ public class ControllerService implements Runnable {
 
     @Override
     public void run() {
+        log.info("Controller starting...");
         try {
             init();
             while (true) {

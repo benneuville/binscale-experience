@@ -19,7 +19,7 @@ public class PrometheusUtils {
     public static void initPrometheus() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-            server.createContext("/fr/unice/scale/latencyaware/common/prometheus", httpExchange -> {
+            server.createContext("/prometheus", httpExchange -> {
                 String response = prometheusRegistry.scrape();
                 httpExchange.sendResponseHeaders(200, response.getBytes().length);
                 try (OutputStream os = httpExchange.getResponseBody()) {

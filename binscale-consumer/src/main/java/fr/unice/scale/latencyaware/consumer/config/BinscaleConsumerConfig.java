@@ -4,6 +4,7 @@ import fr.unice.scale.latencyaware.common.config.KafkaConsumerConfig;
 import fr.unice.scale.latencyaware.common.utils.CustomerDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.StickyAssignor;
+import org.apache.kafka.clients.producer.ProducerConfig;
 
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -126,6 +127,6 @@ public class BinscaleConsumerConfig extends KafkaConsumerConfig {
                 ", clientRack='" + clientRack + '\'' +
                 ", messageCount=" + messageCount +
                 ", additionalConfig='" + additionalConfig + '\'' +
-                '}';
+                '}' ;
     }
 }

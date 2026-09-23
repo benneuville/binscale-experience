@@ -21,7 +21,6 @@ import java.util.Set;
 
 public class E2EAnalyzerEventIngestion {
     private final KafkaConsumer<String, EventCustomer> consumer;
-    private final KafkaOffsetRepository offsetRepository;
     private final String topic;
 
     private final Logger log = LoggerFactory.getLogger(E2EAnalyzerEventIngestion.class);
@@ -29,7 +28,6 @@ public class E2EAnalyzerEventIngestion {
     public E2EAnalyzerEventIngestion(BinscaleE2EIngestionConfig config, KafkaOffsetRepository offsetRepository) {
         Properties props = config.toProperties();
         this.topic = config.getTopic();
-        this.offsetRepository = offsetRepository;
         this.consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Collections.singletonList(config.getTopic()), new ConsumerRebalanceListener() {
             @Override
@@ -37,8 +35,8 @@ public class E2EAnalyzerEventIngestion {
                 for (TopicPartition tp : partitions) {
                     String partitionKey = topic + "-" + tp.partition();
 
-                    if (offsetRepository.existsById(partitionKey)) {
-                        KafkaOffset offset = offsetRepository.findById(partitionKey).get();
+                    if (offsetRepository.existsByTopicPartition(partitionKey)) {
+                        KafkaOffset offset = offsetRepository.findByTopicPartition(partitionKey).get();
                         consumer.seek(tp, offset.getOffset());
                         log.info("offset {} for partition {}", offset.getOffset(), partitionKey);
                     } else {
@@ -54,6 +52,7 @@ public class E2EAnalyzerEventIngestion {
                     long position = consumer.position(tp);
                     String partitionKey = topic + "-" + tp.partition();
                     offsetRepository.save(new KafkaOffset(partitionKey, position + 1));
+                    log.info("Partition {} from {} processed : offset {}", tp.partition(), topic, offsetRepository.findByTopicPartition(partitionKey).get().getOffset());
                 }
                 try {
                     consumer.commitSync(Duration.ofSeconds(5));

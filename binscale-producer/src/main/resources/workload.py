@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # 1. Charger le CSV (remplace 'data.csv' par ton fichier)
-data = pd.read_csv('2h.csv', header=None, names=['Temps', 'Flux'])
+data = pd.read_csv('spike-n-decrease.csv', header=None, names=['Temps', 'Flux'])
 
 # 2. Créer la figure
 plt.figure(figsize=(16, 6))

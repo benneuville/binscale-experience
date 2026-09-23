@@ -4,7 +4,6 @@ import fr.unice.scale.latencyaware.common.entity.EventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributedEventCustomer;
 import fr.unice.scale.latencyaware.consumer.entity.DistributionConfig;
 import fr.unice.scale.latencyaware.consumer.metrics.MetricsCollector;
-import org.apache.commons.math3.distribution.ParetoDistribution;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.slf4j.Logger;
@@ -17,7 +16,7 @@ import static fr.unice.scale.latencyaware.consumer.constant.Variables.CONSUMPTIO
 
 public abstract class ProcessStrategy {
 
-    private final Logger logger = LoggerFactory.getLogger(ProcessStrategy.class);
+    protected final Logger logger = LoggerFactory.getLogger(ProcessStrategy.class);
 
     public ProcessStrategy() {
     }

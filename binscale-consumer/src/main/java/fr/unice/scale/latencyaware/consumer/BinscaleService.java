@@ -73,6 +73,12 @@ public class BinscaleService implements Runnable {
             while (running) {
                 ConsumerRecords<String, EventCustomer> events = consumer.poll(Duration.ofMillis(TIME_TO_COMMIT.longValue()));
                 if (!events.isEmpty()) {
+                    events.forEach(e -> {
+                        if (e.headers().lastHeader(HEADER_GROUP_ID_KEY) == null)
+                            e.headers().add(HEADER_GROUP_ID_KEY, EXTERNAL_GROUP_NAME.getBytes());
+                        if (e.headers().lastHeader(HEADER_PREVIOUS_GROUP_ID_KEY) == null)
+                            e.headers().add(HEADER_PREVIOUS_GROUP_ID_KEY, EXTERNAL_GROUP_NAME.getBytes());
+                    });
                     List<DistributedEventCustomer> processed = distributor.distribute(events);
 
                     producer.publish(processed);

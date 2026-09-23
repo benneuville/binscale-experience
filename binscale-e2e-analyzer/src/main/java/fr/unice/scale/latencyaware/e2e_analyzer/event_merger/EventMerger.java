@@ -12,11 +12,10 @@ import fr.unice.scale.latencyaware.e2e_analyzer.repository.E2EEventRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static fr.unice.scale.latencyaware.common.constant.CommonVariables.EXTERNAL_GROUP_NAME;
 
 @Service
 public class EventMerger {
@@ -51,7 +50,9 @@ public class EventMerger {
 
             List<E2EEvent> events = null;
             try {
-                events = parseEventsFromJson(json);
+                events = buildEventLatency(new HashSet<>(parseEventsFromJson(json)));
+
+
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -68,5 +69,18 @@ public class EventMerger {
     private List<E2EEvent> parseEventsFromJson(String json) throws JsonProcessingException {
         return objectMapper.readValue(json, new TypeReference<List<E2EEvent>>() {
         });
+    }
+
+    private List<E2EEvent> buildEventLatency(Set<E2EEvent> e2EEventSet) {
+        e2EEventSet.forEach(no -> {
+            if (!no.getNodeOrigin().equals(EXTERNAL_GROUP_NAME))
+                for (E2EEvent pn : e2EEventSet) {
+                    if (pn.getNodeOrigin().equals(no.getPreviousNode())) {
+                        no.setLatency(pn.getTimestamp());
+                        break;
+                    }
+                }
+        });
+        return new ArrayList<>(e2EEventSet);
     }
 }
