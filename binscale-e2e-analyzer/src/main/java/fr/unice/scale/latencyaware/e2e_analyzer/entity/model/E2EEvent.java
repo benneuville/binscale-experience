@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.BatchSize;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public class E2EEvent {
 
     // Latency between previousNode and nodeOrigin
     @Transient
-    private int latency = 0;
+    private long latency = 0;
 
     public E2EEvent() {
     }
@@ -73,7 +74,7 @@ public class E2EEvent {
         this.previousNode = previousNode;
     }
 
-    public int getLatency() {
+    public long getLatency() {
         return this.latency;
     }
 
@@ -82,7 +83,7 @@ public class E2EEvent {
     }
 
     public void setLatency(Instant previousNodeInstant) {
-        this.latency = Math.abs(previousNodeInstant.compareTo(this.timestamp));
+        this.latency = Math.abs(Duration.between(previousNodeInstant, timestamp).toMillis());
     }
 
     public Instant getTimestamp() {

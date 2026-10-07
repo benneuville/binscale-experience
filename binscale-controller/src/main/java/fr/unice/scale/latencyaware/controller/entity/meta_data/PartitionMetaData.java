@@ -9,6 +9,7 @@ import static fr.unice.scale.latencyaware.common.constant.CommonVariables.EXTERN
 
 public class PartitionMetaData {
     private final double REBALANCING_TIME;
+    private final double TIME_TO_START_CONSUMER;
     private long lag;
     private Map<String, Double> arrivalRate;
     private double processingTime;
@@ -16,11 +17,12 @@ public class PartitionMetaData {
     private double latency;
     private Partition partition;
 
-    public PartitionMetaData(Partition partition, double rebalancingTime) {
+    public PartitionMetaData(Partition partition, double rebalancingTime, double ttsConsumer) {
         this.partition = partition;
         this.lag = 0;
         this.arrivalRate = new HashMap<>();
         this.REBALANCING_TIME = rebalancingTime;
+        this.TIME_TO_START_CONSUMER = ttsConsumer;
     }
 
     public double getProcessingTime() {
@@ -48,6 +50,10 @@ public class PartitionMetaData {
 
     public double getLagRebalancing() {
         return getProcessingRate() * REBALANCING_TIME;
+    }
+
+    public double getLagTTSConsumer() {
+        return getProcessingRate() * TIME_TO_START_CONSUMER;
     }
 
     public double getLatency() {

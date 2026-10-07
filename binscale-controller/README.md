@@ -62,4 +62,5 @@ In it running sequence, the controller is 3 phases built : data collection, deci
 | `SCALING_STRATEGY` | Scaling strategy selector between : 'naive' | ScalingStrategyMapping.BINPACK_NAIVE, ScalingStrategyMapping::getByName |
 | `NAMESPACE` | Namespace of the Kubernetes cluster | "default" |
 | `WAITING_INTERVAL` | Waiting interval (in ms) before checking consumers readiness after a scaling operation | 250L |
+| `TIME_TO_START_CONSUMER` | Waiting interval (in seconds) before starting the consumer after a scaling operation | 1.0 |
 

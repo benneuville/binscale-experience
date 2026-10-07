@@ -30,12 +30,13 @@ public class MetricCollectorTest {
         objectWriter = new ObjectMapper().writer();
         consumerGroupMetaDatas = new HashMap<>();
         cg = new MockConsumerGroup("test-topic", 10, 1);
-        cgMetaData = new CGMetaData(cg, 200);
+        cgMetaData = new CGMetaData(cg, 200, 0);
         consumerGroupMetaDatas.put(cg, cgMetaData);
     }
 
     @Test
     @SetEnvironmentVariable(key = "TOPIC", value = "test-topic")
+    @SetEnvironmentVariable(key = "TIME_TO_START_CONSUMER", value = "0")
     public void jacksonMapperTest() throws JsonProcessingException {
         cg.setNowLastUpScaleDecision();
         assertDoesNotThrow(() -> objectWriter.writeValueAsString(consumerGroupMetaDatas.values()));

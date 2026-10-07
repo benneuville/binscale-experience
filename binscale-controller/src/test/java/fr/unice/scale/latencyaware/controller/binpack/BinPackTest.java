@@ -58,10 +58,10 @@ public class BinPackTest {
 
         consumerGroup.setNowLastUpScaleDecision();
 
-        cgMetaData = new CGMetaData(consumerGroup, .5);
+        cgMetaData = new CGMetaData(consumerGroup, .5, 0);
 
         consumerGroup.getTopicPartitions().forEach((p) -> {
-                    cgMetaData.setPartitionMetaData(p, new PartitionMetaData(p, 0));
+                    cgMetaData.setPartitionMetaData(p, new PartitionMetaData(p, 0, 0));
                 }
         );
 

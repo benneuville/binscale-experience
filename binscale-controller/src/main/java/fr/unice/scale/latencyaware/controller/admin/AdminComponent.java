@@ -1,5 +1,6 @@
 package fr.unice.scale.latencyaware.controller.admin;
 
+import fr.unice.scale.latencyaware.common.config.KafkaAdminConfig;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import fr.unice.scale.latencyaware.controller.entity.graph.Vertex;
@@ -32,9 +33,8 @@ public class AdminComponent {
     public AdminClient admin;
 
     public AdminComponent(KubernetesClient kubernetesClient) {
-        Properties props = new Properties();
-        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        this.admin = AdminClient.create(props);
+        this.admin = AdminClient.create(
+                KafkaAdminConfig.createProperties(new KafkaAdminConfig(BOOTSTRAP_SERVERS)));
         this.kubernetesClient = kubernetesClient;
     }
 

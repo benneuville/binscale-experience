@@ -37,6 +37,7 @@ public class BinPack {
         if (upScaled.size() > group.getAssignment().size()) {
             log.info("Binpack (UP) from {} to {}", group.getAssignment().size(), upScaled.size());
             log.info("New assignment {}", upScaled.toString());
+
             return new ScaleDecision(upScaled, Action.UP);
         }
 

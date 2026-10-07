@@ -79,7 +79,8 @@ public class MetricsCollector {
         }
 
         // export data in logs for Filebeat
-        logger.info("latency is {}, insertion time is {}, processing time is {}, event come from partition {} and position {} time for process {} and it is from node {} ",
+        logger.info("{} latency is {}, insertion time is {}, processing time is {}, event come from partition {} and position {} time for process {} and it is from node {} ",
+                record.key(),
                 currentTimeMillis - record.timestamp(),
                 DATE_FORMAT.format(insertionDate),
                 DATE_FORMAT.format(currentDate),

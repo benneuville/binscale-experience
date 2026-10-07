@@ -66,6 +66,12 @@ public class Graph<T extends NamedEntity> {
         return childMap.getOrDefault(vertex, Collections.emptySet());
     }
 
+    public Optional<BranchingFactor<T>> getBranchingFactor(Vertex<T> parent, Vertex<T> child) {
+        if (!childMap.containsKey(parent))
+            return Optional.empty();
+        return childMap.get(parent).stream().filter(b -> b.getVertex().equals(child)).findFirst();
+    }
+
     public List<Vertex<T>> roots() {
         Set<Vertex<T>> children = childMap.values().stream().flatMap(Set::stream).map(BranchingFactor::getVertex).collect(Collectors.toSet());
         return vertices.values().stream().filter(v -> !children.contains(v)).collect(Collectors.toList());
@@ -116,8 +122,8 @@ public class Graph<T extends NamedEntity> {
         return null;
     }
 
-    public Vertex<T> getVertex(String name) {
-        return vertices.values().stream().filter(v -> v.getGroup().getGroupName().equals(name)).findFirst().orElseThrow(() -> new NotFoundException("ConsumerGroup with name " + name + " not found"));
+    public Vertex<T> getVertex(String groupName) {
+        return vertices.values().stream().filter(v -> v.getGroup().getGroupName().equals(groupName)).findFirst().orElseThrow(() -> new NotFoundException("ConsumerGroup with name " + groupName + " not found"));
     }
 
     public List<Vertex<T>> getVertices() {

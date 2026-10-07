@@ -32,6 +32,8 @@ public final class Variables extends CommonVariables {
     public static final String NAMESPACE = EnvUtils.envOrDefault("NAMESPACE", "default");
     @EnvVar(description = "Waiting interval (in ms) before checking consumers readiness after a scaling operation")
     public static final Long WAITING_INTERVAL = EnvUtils.envOrDefault("WAITING_INTERVAL", 250L);
+    @EnvVar(description = "Waiting interval (in seconds) before starting the consumer after a scaling operation")
+    public static final Double TIME_TO_START_CONSUMER = EnvUtils.envOrDefault("TIME_TO_START_CONSUMER", 1.);
 
     public static final String ARRIVAL_SERVICE = "arrivalservice";
 

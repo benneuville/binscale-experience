@@ -9,6 +9,7 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
     private final double lag;
     private final double arrivalRate;
     private final double lagRebalancing;
+    private final double lagTTSConsumer;
     private double maxLagCapacity; // upscale
     private double minLagCapacity; // downscale
     private double maxArrivalRate; // upscale
@@ -20,6 +21,7 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
         this.lag = metaData.getLag();
         this.arrivalRate = arrivalRate;
         this.lagRebalancing = metaData.getLagRebalancing();
+        this.lagTTSConsumer = metaData.getLagTTSConsumer();
     }
 
     public double getMaxArrivalRate() {
@@ -47,7 +49,7 @@ public class PartitionCalculation implements Comparable<PartitionCalculation> {
     }
 
     public double getIndexedLagCapacityUpScale() {
-        return Math.min(lag + lagRebalancing, maxLagCapacity);
+        return Math.min(lag + lagRebalancing + lagTTSConsumer, maxLagCapacity);
     }
 
     public double getIndexedLagCapacityDownScale() {

@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public abstract class ScalerProcessor {
-    private final Logger logger = LoggerFactory.getLogger(ClassicScalerProcessor.class);
+    protected final Logger logger = LoggerFactory.getLogger(ClassicScalerProcessor.class);
     private ObjectWriter objectWriter = new ObjectMapper().writer();
 
     public Map<Partition, PartitionCalculation> computeConsumer(CGMetaData cgdata) {
@@ -66,7 +66,14 @@ public abstract class ScalerProcessor {
         Map<ConsumerGroup, ScaleDecision> decisions = new HashMap<>();
 
         for (Map.Entry<ConsumerGroup, CGMetaData> entry : cgdatas.entrySet()) {
-            decisions.put(entry.getKey(), BinPack.scaleDecisionEventConsumerWithLag(entry.getKey(), entry.getValue(), computeConsumer(entry.getValue())));
+            ScaleDecision scaleDecision = BinPack.scaleDecisionEventConsumerWithLag(entry.getKey(), entry.getValue(), computeConsumer(entry.getValue()));
+            recomputeAfterScaleDecision(graph, cgdatas, entry.getValue(), scaleDecision);
+            decisions.put(entry.getKey(), scaleDecision);
+        }
+        try {
+            logger.info("Pulled data from Prometheus : {}", objectWriter.writeValueAsString(cgdatas.values()));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
         return decisions;
     }
@@ -80,11 +87,6 @@ public abstract class ScalerProcessor {
             data.resetParentalArrivalRate();
         }
         applyPropagationArrivalRate(roots, graph, cgdatas);
-        try {
-            logger.info("Pulled data from Prometheus : {}", objectWriter.writeValueAsString(cgdatas.values()));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void applyPropagationArrivalRate(List<Vertex<ConsumerGroup>> roots, Graph<ConsumerGroup> graph, Map<ConsumerGroup, CGMetaData> cgdatas) {
@@ -98,7 +100,8 @@ public abstract class ScalerProcessor {
             for (BranchingFactor<ConsumerGroup> child : graph.getChildBranchingFactors(root)) {
 
                 CGMetaData childData = cgdatas.get(child.getVertex().getGroup());
-                childData.addParentArrivalRate((totalAR /*+ laggingRate*/) * child.getFactor()); // (ArrivalRate(parent) + Lag(parent)) * BF(parent->child)
+                childData.setParentArrivalRate(root.getGroup(), totalAR * child.getFactor());
+//                childData.setPropagatedLag(root.getGroup(), currentData.getLag() * child.getFactor());
             }
         }
 
@@ -117,7 +120,8 @@ public abstract class ScalerProcessor {
 
         for (BranchingFactor<ConsumerGroup> child : graph.getChildBranchingFactors(vertex)) {
             CGMetaData childData = cgdatas.get(child.getVertex().getGroup());
-            childData.addParentArrivalRate((totalAR /*+ laggingRate*/) * child.getFactor()); // (ParentArrivalRate(parent) + Lag(parent)) * BF(parent->child)
+            childData.setParentArrivalRate(vertex.getGroup(), totalAR * child.getFactor());
+//            childData.setPropagatedLag(vertex.getGroup(), currentData.getLag() * child.getFactor());
         }
     }
 
@@ -126,4 +130,11 @@ public abstract class ScalerProcessor {
     protected abstract double getRootArrivalRate(CGMetaData data);
 
     protected abstract double getPropagatedParentalArrivalRate(CGMetaData data);
+
+    /**
+     * This method is used to recompute any datas after scale decision in the downstream nodes.
+     */
+    protected void recomputeAfterScaleDecision(Graph<ConsumerGroup> graph, Map<ConsumerGroup, CGMetaData> cgdatas, CGMetaData targetMetaDataNode, ScaleDecision targetDecision) {
+        // By default, do nothing. Override this method if you need to recompute any data after scale decision.
+    }
 }

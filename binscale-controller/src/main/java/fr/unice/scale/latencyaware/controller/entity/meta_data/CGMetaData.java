@@ -4,20 +4,23 @@ import fr.unice.scale.latencyaware.controller.entity.Consumer;
 import fr.unice.scale.latencyaware.controller.entity.ConsumerGroup;
 import fr.unice.scale.latencyaware.controller.entity.Partition;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
+import static fr.unice.scale.latencyaware.controller.entity.meta_data.PropagatedMetaData.DEFAULT_PROPAGATED_MD;
 
 public class CGMetaData {
     private ConsumerGroup consumerGroup;
 
     private Map<Partition, PartitionMetaData> partitionsMetaData = new HashMap<>();
     private Map<Consumer, ConsumerMetaData> consumersMetaData = new HashMap<>();
-    private double parentArrivalRate = 0.0;
+    private Map<ConsumerGroup, PropagatedMetaData> propagatedMetaData = new HashMap<>();
 
-    public CGMetaData(ConsumerGroup consumerGroup, double rebalancingTime) {
+    public CGMetaData(ConsumerGroup consumerGroup, double rebalancingTime, double ttsConsumer) {
         this.consumerGroup = consumerGroup;
         for (Partition p : consumerGroup.getTopicPartitions()) {
-            partitionsMetaData.put(p, new PartitionMetaData(p, rebalancingTime));
+            partitionsMetaData.put(p, new PartitionMetaData(p, rebalancingTime, ttsConsumer));
         }
 
         for (Consumer c : consumerGroup.getAssignment()) {
@@ -27,6 +30,10 @@ public class CGMetaData {
 
     public double getLag() { // lag requested by partition is the rate during DI
         return partitionsMetaData.values().stream().map(PartitionMetaData::getLag).reduce(0L, Long::sum);
+    }
+
+    public Map<ConsumerGroup, PropagatedMetaData> getPropagatedMetaData() {
+        return propagatedMetaData;
     }
 
     public double getAvgTotalInputArrivalRate() {
@@ -63,22 +70,30 @@ public class CGMetaData {
     }
 
     public double getParentArrivalRate() {
-        return parentArrivalRate;
-    }
-
-    public void setParentArrivalRate(double parentArrivalRate) {
-        this.parentArrivalRate = parentArrivalRate;
+        return this.propagatedMetaData.values().stream().reduce(0.0, (sum, md) -> sum + md.getArrivalRate(), Double::sum);
     }
 
     public double getAvgParentArrivalRate() {
         if (partitionsMetaData.values().isEmpty()) {
             return 0.0;
         }
-        return parentArrivalRate / partitionsMetaData.size();
+        return this.getParentArrivalRate() / partitionsMetaData.size();
     }
 
-    public void addParentArrivalRate(double arrivalRate) {
-        this.parentArrivalRate += arrivalRate;
+    public void setParentArrivalRate(ConsumerGroup cg, double arrivalRate) {
+        this.propagatedMetaData.put(cg, new PropagatedMetaData(cg, arrivalRate, this.propagatedMetaData.getOrDefault(cg, DEFAULT_PROPAGATED_MD).getLag()));
+    }
+
+    public double getTotalMaxPropagatedLag() {
+        return this.propagatedMetaData.values().stream().max(Comparator.comparingDouble(PropagatedMetaData::getLag)).orElse(DEFAULT_PROPAGATED_MD).getLag();
+    }
+
+    public double getAvgMaxPropagatedLag() {
+        return this.propagatedMetaData.values().stream().max(Comparator.comparingDouble(PropagatedMetaData::getLag)).orElse(DEFAULT_PROPAGATED_MD).getLag() / this.partitionsMetaData.size();
+    }
+    
+    public void setPropagatedLag(ConsumerGroup cg, double lag) {
+        this.propagatedMetaData.put(cg, new PropagatedMetaData(cg, this.propagatedMetaData.getOrDefault(cg, DEFAULT_PROPAGATED_MD).getArrivalRate(), lag));
     }
 
     public ConsumerGroup getConsumerGroup() {
@@ -123,7 +138,7 @@ public class CGMetaData {
     }
 
     public void resetParentalArrivalRate() {
-        this.parentArrivalRate = 0.0;
+        this.propagatedMetaData = new HashMap<>();
     }
 
     public double getFallBackMaxLagCapacity() {
@@ -177,7 +192,7 @@ public class CGMetaData {
                 "consumerGroup=" + consumerGroup.getGroupName() +
                 ", partitionsMetaData=" + partitionsMetaData +
                 ", consumersMetaData=" + consumersMetaData +
-                ", parentArrivalRate=" + parentArrivalRate +
+                ", parentArrivalRate=" + getParentArrivalRate() +
                 '}';
     }
 }

@@ -10,6 +10,7 @@ import fr.unice.scale.latencyaware.controller.entity.graph.Graph;
 import fr.unice.scale.latencyaware.controller.entity.meta_data.CGMetaData;
 import fr.unice.scale.latencyaware.controller.graph.GraphBuilder;
 import fr.unice.scale.latencyaware.controller.graph.GraphBuilderImpl;
+import fr.unice.scale.latencyaware.controller.metric.prometheus.AdminKafkaLagPrometheusMetricCollector;
 import fr.unice.scale.latencyaware.controller.metric.prometheus.PrometheusMetricCollector;
 import fr.unice.scale.latencyaware.controller.processing.ScalerProcessor;
 import fr.unice.scale.latencyaware.controller.server.AssignmentServer;
@@ -54,10 +55,12 @@ public class ControllerService implements Runnable {
         graph = graphBuilder.buildGraph(config);
         kubernetesClient = new KubernetesClientBuilder().build();
 
-        this.metricCollector = new PrometheusMetricCollector();
+//        this.metricCollector = new PrometheusMetricCollector();
+
         this.scalerProcessor = SCALING_STRATEGY.getProcessor();
         this.assignmentComponent = new AssignmentComponent(kubernetesClient);
         this.adminComponent = new AdminComponent(kubernetesClient);
+        this.metricCollector = new AdminKafkaLagPrometheusMetricCollector(this.adminComponent);
     }
 
     @Override

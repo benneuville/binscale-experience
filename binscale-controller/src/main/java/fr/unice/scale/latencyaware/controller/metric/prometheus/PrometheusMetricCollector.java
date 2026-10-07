@@ -166,7 +166,7 @@ public class PrometheusMetricCollector {
         try {
             Map<ConsumerGroup, CGMetaData> consumerGroupMetaDatas = new HashMap<>();
             for (ConsumerGroup cg : graph.topologicalSort().stream().map(Vertex::getGroup).collect(Collectors.toList())) {
-                CGMetaData metaData = new CGMetaData(cg, REB_TIME);
+                CGMetaData metaData = new CGMetaData(cg, REB_TIME, TIME_TO_START_CONSUMER);
                 Map<String, DoubleMetric> aRPerProvider = totalArrivalRatePerProvider(cg);
                 for (Map.Entry<String, DoubleMetric> ar : aRPerProvider.entrySet()) {
                     // AVG AR per Provider
