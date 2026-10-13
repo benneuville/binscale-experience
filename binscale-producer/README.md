@@ -7,7 +7,7 @@ scenarios.
 
 ## Features
 
-- **Workload Management**: Supports multiple workload strategies such as `Biased`, `Constant`, and `Non-Uniform`.
+- **Workload Management**: Supports `Biased`, `Constant`, `Non-Uniform`, and `Stream` workload strategies.
 - **Environment Configuration**: Easily configurable via environment variables.
 - **gRPC Service**: Provides a gRPC-based `ArrivalService` for managing arrival rates.
 
@@ -48,6 +48,7 @@ strategy :
   environment variable)*
 - `Constant` : The workload is evenly distributed across all partitions.
 - `Non-Uniform` : The workload follows a non-uniform distribution pattern. Same as `Biased`.
+- `Stream` : Events are spaced evenly across each `DELAY_MS` window, while retaining the configured partition weights.
 
 ### Workload Strategy Integration
 

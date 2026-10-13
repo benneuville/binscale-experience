@@ -5,13 +5,15 @@ import fr.unice.scale.latencyaware.producer.workload.AbstractWorkload;
 import fr.unice.scale.latencyaware.producer.workload.BiasedWorkload;
 import fr.unice.scale.latencyaware.producer.workload.ConstantWorkload;
 import fr.unice.scale.latencyaware.producer.workload.NonUniformWorkload;
+import fr.unice.scale.latencyaware.producer.workload.StreamWorkload;
 
 import java.util.Arrays;
 
 public enum WorkloadMapping {
     BIASED("biased", new BiasedWorkload()),
     CONSTANT("constant", new ConstantWorkload()),
-    NON_UNIFORM("non_uniform", new NonUniformWorkload());
+    NON_UNIFORM("non_uniform", new NonUniformWorkload()),
+    STREAM("stream", new StreamWorkload());
 
     public final static WorkloadMapping defaultWorkload = CONSTANT;
     private final String name;
